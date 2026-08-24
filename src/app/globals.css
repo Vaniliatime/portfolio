@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+/* next-themes writes .dark on <html>, so drive the variant off a class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens.
+   Light is the primary look: warm off-white paper, near-black ink, violet as
+   the single accent. Dark is a supported alternative, not the default mood.
+--------------------------------------------------------------------------- */
+:root {
+  --paper: #fafafc;
+  --surface: #ffffff;
+  --surface-2: #f4f2f9;
+  --ink: #16131f;
+  --ink-muted: #5c5670;
+  --ink-faint: #8b849e;
+  --line: #e7e3f0;
+  --line-strong: #d6d0e6;
+
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-soft: #a855f7;
+  --accent-wash: #f4efff;
+  --accent-ink: #ffffff;
+
+  --shadow-card: 0 1px 2px rgb(22 19 31 / 0.04), 0 8px 24px -12px rgb(22 19 31 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(124 58 237 / 0.06), 0 18px 40px -16px rgb(124 58 237 / 0.28);
+}
+
+.dark {
+  --paper: #0f0d16;
+  --surface: #17141f;
+  --surface-2: #1f1b2b;
+  --ink: #f5f3fa;
+  --ink-muted: #a9a2c0;
+  --ink-faint: #7d7595;
+  --line: #272233;
+  --line-strong: #383049;
+
+  --accent: #a78bfa;
+  --accent-hover: #c4b5fd;
+  --accent-soft: #c084fc;
+  --accent-wash: #221a35;
+  --accent-ink: #17141f;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.4), 0 18px 40px -16px rgb(167 139 250 / 0.25);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-wash: var(--accent-wash);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header clearance for in-page anchors. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Page gutters, shared by every section so columns line up down the page. */
+  .shell {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Soft violet aurora behind the hero. Purely decorative. */
+  .aurora {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .aurora::before,
+  .aurora::after {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.5;
+  }
+
+  .aurora::before {
+    width: 42rem;
+    height: 42rem;
+    top: -18rem;
+    right: -12rem;
+    background: radial-gradient(circle, var(--accent-soft), transparent 65%);
+  }
+
+  .aurora::after {
+    width: 34rem;
+    height: 34rem;
+    top: 6rem;
+    left: -14rem;
+    background: radial-gradient(circle, #60a5fa, transparent 65%);
+    opacity: 0.28;
+  }
+
+  .dark .aurora::before,
+  .dark .aurora::after {
+    opacity: 0.22;
+  }
+
+  /* Faint dotted field used as a texture under the hero. */
+  .dot-grid {
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+}
+
+/* Respect users who asked the OS for less movement. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
