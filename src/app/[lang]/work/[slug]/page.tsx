@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, ExternalLink, Github } from "lucide-react";
 import { localePath, locales, t, toLocale } from "@/lib/i18n";
+import { alternatesFor } from "@/lib/seo";
 import { categories, getProject, projects, statusLabels } from "@/content/projects";
 import { ui } from "@/content/site";
 import { ProjectCover } from "@/components/ProjectCover";
@@ -30,10 +31,7 @@ export async function generateMetadata({
   return {
     title: project.title,
     description: t(project.tagline, lang),
-    alternates: {
-      canonical: localePath(lang, `work/${slug}`),
-      languages: Object.fromEntries(locales.map((l) => [l, localePath(l, `work/${slug}`)])),
-    },
+    alternates: alternatesFor(lang, `work/${slug}`),
   };
 }
 

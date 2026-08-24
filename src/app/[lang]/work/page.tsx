@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { locales, t, toLocale } from "@/lib/i18n";
+import { alternatesFor } from "@/lib/seo";
 import { ui } from "@/content/site";
 import { WorkGrid } from "@/components/WorkGrid";
 import { ContactCta } from "@/components/ContactCta";
@@ -27,7 +28,11 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const lang = toLocale((await params).lang);
-  return { title: t(ui.allWork, lang), description: copy.lead[lang] };
+  return {
+    title: t(ui.allWork, lang),
+    description: copy.lead[lang],
+    alternates: alternatesFor(lang, "work"),
+  };
 }
 
 export default async function WorkPage({ params }: { params: Promise<{ lang: string }> }) {

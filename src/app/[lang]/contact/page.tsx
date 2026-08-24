@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Github, Mail, MapPin } from "lucide-react";
 import { locales, t, toLocale } from "@/lib/i18n";
+import { alternatesFor } from "@/lib/seo";
 import { contact, profile, services, ui } from "@/content/site";
 import { Reveal } from "@/components/Reveal";
 import { SectionEyebrow } from "@/components/Section";
@@ -22,7 +23,11 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const lang = toLocale((await params).lang);
-  return { title: copy.eyebrow[lang], description: t(contact.lead, lang) };
+  return {
+    title: copy.eyebrow[lang],
+    description: t(contact.lead, lang),
+    alternates: alternatesFor(lang, "contact"),
+  };
 }
 
 export default async function ContactPage({ params }: { params: Promise<{ lang: string }> }) {

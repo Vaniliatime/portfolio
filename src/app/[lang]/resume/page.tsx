@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Download, ExternalLink, Award, Dot } from "lucide-react";
 import { locales, t, toLocale, type Locale } from "@/lib/i18n";
+import { alternatesFor } from "@/lib/seo";
 import { profile, ui } from "@/content/site";
 import {
   certificates,
@@ -76,7 +77,11 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const lang = toLocale((await params).lang);
-  return { title: copy.heading[lang], description: copy.lead[lang] };
+  return {
+    title: copy.heading[lang],
+    description: copy.lead[lang],
+    alternates: alternatesFor(lang, "resume"),
+  };
 }
 
 export default async function ResumePage({ params }: { params: Promise<{ lang: string }> }) {
