@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { About } from "@/components/About";
 import { Reveal } from "@/components/Reveal";
 import { ButtonLink } from "@/components/Button";
+import { CountUp } from "@/components/CountUp";
 import { ContactCta } from "@/components/ContactCta";
 
 export function generateStaticParams() {
@@ -79,7 +80,13 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             <dl className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
               {stats.map((stat) => (
                 <div key={stat.value} className="flex items-baseline gap-4 px-5 py-4">
-                  <dt className="font-display text-2xl font-semibold text-accent">{stat.value}</dt>
+                  <dt>
+                    <CountUp
+                      value={stat.value}
+                      suffix={stat.suffix}
+                      className="font-display text-2xl font-semibold text-accent"
+                    />
+                  </dt>
                   <dd className="text-sm leading-snug text-ink-muted">{t(stat.label, lang)}</dd>
                 </div>
               ))}

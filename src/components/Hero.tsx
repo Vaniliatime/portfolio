@@ -6,6 +6,8 @@ import { ArrowRight, Github, Linkedin, Sparkles } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { hero, profile, stats } from "@/content/site";
 import { ButtonLink } from "./Button";
+import { CountUp } from "./CountUp";
+import { FloatingChips } from "./FloatingChips";
 import { cn } from "@/lib/utils";
 
 export function Hero({ lang }: { lang: Locale }) {
@@ -94,29 +96,41 @@ export function Hero({ lang }: { lang: Locale }) {
             >
               {stats.map((stat) => (
                 <div key={stat.value}>
-                  <dt className="font-display text-2xl font-semibold text-accent">{stat.value}</dt>
+                  <dt>
+                    <CountUp
+                      value={stat.value}
+                      suffix={stat.suffix}
+                      className="font-display text-2xl font-semibold text-accent"
+                    />
+                  </dt>
                   <dd className="mt-0.5 text-xs leading-snug text-ink-muted">{t(stat.label, lang)}</dd>
                 </div>
               ))}
             </motion.dl>
           </div>
 
-          {/* ---- Right: portrait, chips and what I'm on now ---------------- */}
+          {/* ---- Right: the portrait, with chips floating around it -------- */}
           <motion.div {...rise(2)} className="relative mx-auto w-full max-w-xs lg:max-w-none">
-            <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface p-2 shadow-lift">
-              <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-accent-wash to-surface-2">
-                <Image
-                  src={profile.avatar}
-                  alt={profile.name}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 360px, 80vw"
-                  className="object-cover object-top"
-                />
+            <div className="relative">
+              <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface p-2 shadow-lift">
+                <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-accent-wash to-surface-2">
+                  <Image
+                    src={profile.avatar}
+                    alt={profile.name}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 360px, 80vw"
+                    className="object-cover object-top"
+                  />
+                </div>
               </div>
+
+              <FloatingChips badges={badges} />
             </div>
 
-            <motion.ul {...rise(3)} className="mt-4 flex flex-wrap justify-center gap-1.5">
+            {/* Below lg the chips cannot float clear of the frame, so they
+                fall back to a plain row. */}
+            <ul className="mt-4 flex flex-wrap justify-center gap-1.5 lg:hidden">
               {badges.map((badge) => (
                 <li
                   key={badge}
@@ -125,17 +139,25 @@ export function Hero({ lang }: { lang: Locale }) {
                   {badge}
                 </li>
               ))}
-            </motion.ul>
-
-            <motion.div {...rise(4)} className="mt-4 rounded-2xl border border-line bg-surface/80 p-5 backdrop-blur">
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-                <Sparkles className="h-3.5 w-3.5" />
-                {t(hero.nowLabel, lang)}
-              </span>
-              <p className="mt-2 text-sm leading-relaxed text-ink-muted">{t(hero.nowValue, lang)}</p>
-            </motion.div>
+            </ul>
           </motion.div>
         </div>
+
+        {/* ---- What I am on right now, centred under both columns --------- */}
+        <motion.div
+          {...rise(6)}
+          className="mx-auto mt-14 flex max-w-3xl items-start gap-4 rounded-2xl border border-line bg-surface/80 p-6 backdrop-blur sm:items-center md:mt-16"
+        >
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-wash text-accent">
+            <Sparkles className="h-5 w-5" />
+          </span>
+          <div>
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+              {t(hero.nowLabel, lang)}
+            </span>
+            <p className="mt-1 leading-relaxed text-ink-muted">{t(hero.nowValue, lang)}</p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

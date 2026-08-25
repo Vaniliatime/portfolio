@@ -59,10 +59,11 @@ export const hero = {
 };
 
 
-export const stats: { value: string; label: Localized }[] = [
-  { value: "6+", label: { en: "Sites & apps shipped", pl: "Wdrożonych stron i aplikacji" } },
-  { value: "7", label: { en: "Years working in IT", pl: "Lat pracy w IT" } },
-  { value: "100%", label: { en: "Built and maintained solo", pl: "Zbudowane i utrzymywane solo" } },
+/** Value and suffix are separate so the number can be counted up on screen. */
+export const stats: { value: number; suffix?: string; label: Localized }[] = [
+  { value: 6, suffix: "+", label: { en: "Sites & apps shipped", pl: "Wdrożonych stron i aplikacji" } },
+  { value: 7, label: { en: "Years working in IT", pl: "Lat pracy w IT" } },
+  { value: 100, suffix: "%", label: { en: "Built and maintained solo", pl: "Zbudowane i utrzymywane solo" } },
 ];
 
 export interface Service {
