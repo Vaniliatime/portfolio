@@ -8,9 +8,13 @@ export const profile = {
   github: "https://github.com/Vaniliatime",
   linkedin: "https://www.linkedin.com/in/krzysztof-kaszuba/",
   /** Instagram profile URL. Empty hides the link everywhere. */
-  instagram: "",
-  /** Digits only, country code first, no plus. Empty hides the link. */
-  whatsapp: "",
+  instagram: "https://www.instagram.com/vaniliatime/",
+  /**
+   * Digits only, country code first, no plus. Empty hides the link.
+   * 791696637 came through without a country code; 48 is the Polish prefix
+   * that matches the format. Confirm before the site goes live.
+   */
+  whatsapp: "48791696637",
   avatar: "/images/avatar-3.webp",
   role: {
     en: "Web developer & IT support specialist",
