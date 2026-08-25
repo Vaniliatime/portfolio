@@ -145,20 +145,6 @@ export function Hero({ lang }: { lang: Locale }) {
           </motion.div>
         </div>
 
-        {/* ---- What I am on right now. A rule and a line, not a card, so it
-                closes the section instead of sitting on top of it. -------- */}
-        <motion.div {...rise(6)} className="mt-14 border-t border-line pt-6 md:mt-16">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-6">
-            <span className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-              </span>
-              {t(hero.nowLabel, lang)}
-            </span>
-            <p className="leading-relaxed text-ink-muted">{t(hero.nowValue, lang)}</p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

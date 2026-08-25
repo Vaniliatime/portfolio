@@ -45,7 +45,9 @@ export function FloatingChips({ badges }: { badges: string[] }) {
             transition={reduced ? undefined : { duration: 0.5, delay: 0.6 + i * 0.1 }}
           >
             <span
-              className="chip-float block whitespace-nowrap rounded-full border border-line bg-surface/95 px-3 py-1.5 text-xs font-medium text-ink shadow-card backdrop-blur"
+              // Solid background on purpose: backdrop-blur here forced every
+              // chip to re-sample the moving cursor light on each frame.
+              className="chip-float block whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-ink shadow-card"
               style={
                 {
                   "--float-distance": spot.distance,

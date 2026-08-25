@@ -51,11 +51,6 @@ export const hero = {
     en: ["Full-stack web", "IT support", "UI focused", "WordPress", "Problem solver"],
     pl: ["Full-stack web", "IT support", "Nacisk na UI", "WordPress", "Rozwiązywanie problemów"],
   } satisfies Localized<string[]>,
-  nowLabel: { en: "Currently building", pl: "Aktualnie buduję" } satisfies Localized,
-  nowValue: {
-    en: "An ITIL 5 exam prep app and a product around interactive wedding invitations.",
-    pl: "Aplikację do nauki przed egzaminem ITIL 5 i produkt wokół interaktywnych zaproszeń ślubnych.",
-  } satisfies Localized,
 };
 
 

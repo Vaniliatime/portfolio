@@ -226,22 +226,36 @@
     opacity: 0.26;
   }
 
+  /*
+   * Only as large as the lit patch, moved with a transform rather than
+   * repainting the whole viewport. An earlier version masked a full-screen
+   * layer at the cursor, which meant recomputing a gradient the size of the
+   * window on every pointer move.
+   *
+   * The element travels, so background-position cancels that travel out to
+   * keep the lattice locked to the viewport and aligned with the dots
+   * underneath; the extra pixel each way is the shadow-and-highlight offset.
+   */
   .cursor-light__emboss {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 30rem;
+    height: 30rem;
+    margin: -15rem 0 0 -15rem;
     opacity: var(--spot, 0);
     transition: opacity 0.4s ease;
+    transform: translate3d(var(--mx, 50vw), var(--my, 50vh), 0);
+    will-change: transform;
     background-image:
       radial-gradient(var(--emboss-shadow) 1.4px, transparent 1.5px),
       radial-gradient(var(--emboss-light) 1.4px, transparent 1.5px);
     background-size: var(--dot-gap) var(--dot-gap);
-    background-position: -1px -1px, 1px 1px;
-    -webkit-mask-image: radial-gradient(
-      circle 15rem at var(--mx, 50%) var(--my, 50%),
-      #000 10%,
-      transparent 70%
-    );
-    mask-image: radial-gradient(circle 15rem at var(--mx, 50%) var(--my, 50%), #000 10%, transparent 70%);
+    background-position:
+      calc(15rem - var(--mx, 50vw) - 1px) calc(15rem - var(--my, 50vh) - 1px),
+      calc(15rem - var(--mx, 50vw) + 1px) calc(15rem - var(--my, 50vh) + 1px);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 10%, transparent 68%);
+    mask-image: radial-gradient(circle at 50% 50%, #000 10%, transparent 68%);
   }
 }
 
