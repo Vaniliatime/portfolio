@@ -6,7 +6,7 @@ import { defaultLocale, locales } from "@/lib/i18n";
  * `output: "export"` rules out `redirect()` and next.config redirects, so the
  * hop happens in the document itself: a script picks the visitor's language,
  * and a meta refresh covers anyone without JavaScript. In production Apache
- * usually gets there first — this is the fallback, and it is what makes `/`
+ * usually gets there first. This is the fallback, and it is what makes `/`
  * work in `next dev`.
  */
 const redirectScript = `

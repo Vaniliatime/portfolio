@@ -26,6 +26,11 @@
 
   --shadow-card: 0 1px 2px rgb(22 19 31 / 0.04), 0 8px 24px -12px rgb(22 19 31 / 0.12);
   --shadow-lift: 0 2px 4px rgb(124 58 237 / 0.06), 0 18px 40px -16px rgb(124 58 237 / 0.28);
+
+  /* Hero dot lattice and the pressed-in look under the cursor light. */
+  --dot-gap: 28px;
+  --emboss-shadow: rgb(109 40 217 / 0.42);
+  --emboss-light: rgb(255 255 255 / 0.95);
 }
 
 .dark {
@@ -46,6 +51,9 @@
 
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
   --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.4), 0 18px 40px -16px rgb(167 139 250 / 0.25);
+
+  --emboss-shadow: rgb(0 0 0 / 0.6);
+  --emboss-light: rgb(196 181 253 / 0.3);
 }
 
 @theme inline {
@@ -130,7 +138,7 @@
     }
   }
 
-  /* Soft violet aurora behind the hero. Purely decorative. */
+  /* Soft violet wash behind page headers. Purely decorative. */
   .aurora {
     position: absolute;
     inset: 0;
@@ -139,42 +147,79 @@
     z-index: 0;
   }
 
-  .aurora::before,
-  .aurora::after {
+  .aurora::before {
     content: "";
     position: absolute;
-    border-radius: 9999px;
-    filter: blur(90px);
-    opacity: 0.5;
-  }
-
-  .aurora::before {
     width: 42rem;
     height: 42rem;
     top: -18rem;
     right: -12rem;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.5;
     background: radial-gradient(circle, var(--accent-soft), transparent 65%);
   }
 
-  .aurora::after {
-    width: 34rem;
-    height: 34rem;
-    top: 6rem;
-    left: -14rem;
-    background: radial-gradient(circle, #60a5fa, transparent 65%);
-    opacity: 0.28;
-  }
-
-  .dark .aurora::before,
-  .dark .aurora::after {
+  .dark .aurora::before {
     opacity: 0.22;
   }
 
   /* Faint dotted field used as a texture under the hero. */
   .dot-grid {
     background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
-    background-size: 28px 28px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    background-size: var(--dot-gap) var(--dot-gap);
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 10%, #000 45%, transparent 100%);
+  }
+
+  /* ---------------------------------------------------------------------
+     Hero cursor light.
+
+     Three layers driven by --mx / --my, which the hero sets from the
+     pointer. The blob eases toward the cursor while the emboss layer
+     tracks it exactly; that lag is what reads as depth. The emboss draws
+     the same dot lattice twice, shadow up-left and highlight down-right,
+     so the dots under the light look pressed into the page.
+  --------------------------------------------------------------------- */
+  .hero-blob {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40rem;
+    height: 40rem;
+    margin: -20rem 0 0 -20rem;
+    border-radius: 9999px;
+    filter: blur(90px);
+    background: radial-gradient(circle, var(--accent-soft), transparent 65%);
+    opacity: 0.42;
+    transform: translate3d(var(--mx, 72vw), var(--my, 14rem), 0);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .dark .hero-blob {
+    opacity: 0.26;
+  }
+
+  .hero-emboss {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--spot, 0);
+    transition: opacity 0.4s ease;
+    background-image:
+      radial-gradient(var(--emboss-shadow) 1.4px, transparent 1.5px),
+      radial-gradient(var(--emboss-light) 1.4px, transparent 1.5px);
+    background-size: var(--dot-gap) var(--dot-gap);
+    background-position: -1px -1px, 1px 1px;
+    -webkit-mask-image: radial-gradient(
+      circle 15rem at var(--mx, 50%) var(--my, 50%),
+      #000 10%,
+      transparent 70%
+    );
+    mask-image: radial-gradient(circle 15rem at var(--mx, 50%) var(--my, 50%), #000 10%, transparent 70%);
   }
 }
 

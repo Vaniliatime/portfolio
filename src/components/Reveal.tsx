@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 
 interface RevealProps {
   children: ReactNode;
-  /** Stagger helper — multiplied by 60ms. */
+  /** Stagger helper, multiplied by 60ms. */
   delay?: number;
   className?: string;
   as?: "div" | "li" | "section" | "article";

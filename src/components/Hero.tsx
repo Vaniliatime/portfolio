@@ -1,18 +1,50 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Github, Linkedin, Sparkles } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
-import { hero, heroStack, profile, stats } from "@/content/site";
+import { hero, profile, stats } from "@/content/site";
 import { ButtonLink } from "./Button";
 import { cn } from "@/lib/utils";
 
 export function Hero({ lang }: { lang: Locale }) {
   const reduced = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
   const lines = t(hero.headline, lang);
   const accentLine = t(hero.accentWord, lang);
   const badges = t(hero.badges, lang);
+
+  // Feed the pointer position to the CSS light layers. Written straight to the
+  // element rather than through state so it never re-renders on mouse move.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || reduced) return;
+
+    let frame = 0;
+
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        el.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+        el.style.setProperty("--my", `${event.clientY - rect.top}px`);
+        el.style.setProperty("--spot", "1");
+      });
+    };
+
+    const onLeave = () => el.style.setProperty("--spot", "0");
+
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+    };
+  }, [reduced]);
 
   const rise = (i: number) =>
     reduced
@@ -24,13 +56,14 @@ export function Hero({ lang }: { lang: Locale }) {
         };
 
   return (
-    <section className="relative overflow-hidden">
-      <div aria-hidden className="aurora" />
+    <section ref={sectionRef} className="relative overflow-hidden">
       <div aria-hidden className="dot-grid absolute inset-0 z-0" />
+      <div aria-hidden className="hero-blob" />
+      <div aria-hidden className="hero-emboss" />
 
-      <div className="shell relative z-10 pb-14 pt-12 md:pb-20 md:pt-16">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-24">
-          {/* ---- Left: the pitch ------------------------------------------ */}
+      <div className="shell relative z-10 pb-16 pt-12 md:pb-24 md:pt-16">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+          {/* ---- Left: the pitch, with the stats underneath ---------------- */}
           <div>
             <motion.div {...rise(0)}>
               <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-wash px-3.5 py-1.5 text-sm font-medium text-accent">
@@ -90,49 +123,47 @@ export function Hero({ lang }: { lang: Locale }) {
                 </a>
               </div>
             </motion.div>
+
+            <motion.dl
+              {...rise(lines.length + 3)}
+              className="mt-10 flex max-w-lg flex-wrap gap-x-8 gap-y-4 border-t border-line pt-6"
+            >
+              {stats.map((stat) => (
+                <div key={stat.value}>
+                  <dt className="font-display text-2xl font-semibold text-accent">{stat.value}</dt>
+                  <dd className="mt-0.5 text-xs leading-snug text-ink-muted">{t(stat.label, lang)}</dd>
+                </div>
+              ))}
+            </motion.dl>
           </div>
 
           {/* ---- Right: portrait, chips and what I'm on now ---------------- */}
-          <motion.div {...rise(2)} className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <div className="relative">
-              {/* Glow behind the frame. */}
-              <div
-                aria-hidden
-                className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-tr from-accent/25 via-accent-soft/20 to-transparent blur-2xl"
-              />
-
-              <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface p-2 shadow-lift">
-                <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-accent-wash to-surface-2">
-                  <Image
-                    src={profile.avatar}
-                    alt={profile.name}
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 420px, 90vw"
-                    className="object-cover object-top"
-                  />
-                </div>
+          <motion.div {...rise(2)} className="relative mx-auto w-full max-w-xs lg:max-w-none">
+            <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface p-2 shadow-lift">
+              <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-accent-wash to-surface-2">
+                <Image
+                  src={profile.avatar}
+                  alt={profile.name}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 360px, 80vw"
+                  className="object-cover object-top"
+                />
               </div>
-
             </div>
 
-            {/* Skill chips sit in a tidy row under the portrait. They used to
-                float around it, which crowded the middle of the page. */}
-            <motion.ul {...rise(3)} className="mt-5 flex flex-wrap justify-center gap-1.5">
+            <motion.ul {...rise(3)} className="mt-4 flex flex-wrap justify-center gap-1.5">
               {badges.map((badge) => (
                 <li
                   key={badge}
-                  className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-ink-muted"
+                  className="rounded-full border border-line bg-surface/80 px-3 py-1 text-xs font-medium text-ink-muted backdrop-blur"
                 >
                   {badge}
                 </li>
               ))}
             </motion.ul>
 
-            <motion.div
-              {...rise(4)}
-              className="mt-6 rounded-2xl border border-line bg-surface p-5 shadow-card"
-            >
+            <motion.div {...rise(4)} className="mt-4 rounded-2xl border border-line bg-surface/80 p-5 backdrop-blur">
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
                 <Sparkles className="h-3.5 w-3.5" />
                 {t(hero.nowLabel, lang)}
@@ -140,30 +171,6 @@ export function Hero({ lang }: { lang: Locale }) {
               <p className="mt-2 text-sm leading-relaxed text-ink-muted">{t(hero.nowValue, lang)}</p>
             </motion.div>
           </motion.div>
-        </div>
-
-        {/* ---- Stats ------------------------------------------------------ */}
-        <motion.dl
-          {...rise(5)}
-          className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3"
-        >
-          {stats.map((stat) => (
-            <div key={stat.value} className="bg-surface px-6 py-5">
-              <dt className="font-display text-3xl font-semibold text-accent">{stat.value}</dt>
-              <dd className="mt-1 text-sm leading-snug text-ink-muted">{t(stat.label, lang)}</dd>
-            </div>
-          ))}
-        </motion.dl>
-      </div>
-
-      {/* ---- Stack strip -------------------------------------------------- */}
-      <div className="relative z-10 border-y border-line bg-surface-2/50">
-        <div className="shell flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-5">
-          {heroStack.map((item) => (
-            <span key={item} className="text-sm font-medium text-ink-faint transition-colors hover:text-accent">
-              {item}
-            </span>
-          ))}
         </div>
       </div>
     </section>

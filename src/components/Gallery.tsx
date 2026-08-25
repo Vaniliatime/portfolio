@@ -54,7 +54,7 @@ export function Gallery({ images, title, closeLabel, aspect = "square" }: Galler
             >
               <Image
                 src={src}
-                alt={`${title} — ${i + 1}`}
+                alt={`${title} · ${i + 1}`}
                 fill
                 sizes={aspect === "wide" ? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw"}
                 className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
@@ -122,7 +122,7 @@ export function Gallery({ images, title, closeLabel, aspect = "square" }: Galler
             >
               <Image
                 src={images[openAt]}
-                alt={`${title} — ${openAt + 1}`}
+                alt={`${title} · ${openAt + 1}`}
                 fill
                 sizes="90vw"
                 className="object-contain"

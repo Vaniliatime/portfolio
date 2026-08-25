@@ -7,7 +7,7 @@ import { profile } from "@/content/site";
 
 /**
  * Posts to NEXT_PUBLIC_CONTACT_ENDPOINT when one is configured (Formspree,
- * Web3Forms, a PHP handler on SEOHOST — anything that accepts JSON). Without
+ * Web3Forms, a PHP handler on SEOHOST, anything that accepts JSON). Without
  * an endpoint the form falls back to opening the visitor's mail client, so it
  * still works on a purely static deploy.
  */
@@ -22,7 +22,7 @@ const copy = {
   message: { en: "Tell me about the project", pl: "Opowiedz o projekcie" },
   send: { en: "Send message", pl: "Wyślij wiadomość" },
   sending: { en: "Sending…", pl: "Wysyłam…" },
-  sent: { en: "Thanks — I'll get back to you shortly.", pl: "Dzięki — odezwę się wkrótce." },
+  sent: { en: "Thanks, I'll get back to you shortly.", pl: "Dzięki, odezwę się wkrótce." },
   error: {
     en: "That did not go through. Email me directly instead.",
     pl: "Nie udało się wysłać. Napisz proszę bezpośrednio na maila.",
@@ -38,7 +38,7 @@ export function ContactForm({ lang }: { lang: Locale }) {
     const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
 
     if (!endpoint) {
-      const body = `${data.message}\n\n— ${data.name} (${data.email})`;
+      const body = `${data.message}\n\n${data.name} (${data.email})`;
       window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(
         data.subject || "Project enquiry",
       )}&body=${encodeURIComponent(body)}`;

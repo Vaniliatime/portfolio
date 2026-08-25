@@ -47,7 +47,7 @@ export const statusLabels: Record<ProjectStatus, Localized> = {
 
 export const projects: Project[] = [
   /* ----------------------------------------------------------------------
-     Featured — the work that should sell side projects.
+     Featured: the work that should sell side projects.
   ---------------------------------------------------------------------- */
   {
     slug: "amtracker",
@@ -65,20 +65,20 @@ export const projects: Project[] = [
       pl: "Produkcyjna aplikacja webowa, w której użytkownicy śledzą, co oglądają i czytają, oceniają tytuły i oglądają swoje nawyki na wykresach. Zbudowana od zera: schemat bazy, autoryzacja, mailing, UI, wdrożenie.",
     },
     role: {
-      en: "Solo — design, front end, back end, database, hosting.",
-      pl: "Solo — projekt, front end, back end, baza danych, hosting.",
+      en: "Solo: design, front end, back end, database, hosting.",
+      pl: "Solo: projekt, front end, back end, baza danych, hosting.",
     },
     highlights: {
       en: [
         "Account system with credentials auth, email verification and TOTP two-factor login.",
-        "Relational data modelled in Prisma — titles, entries, ratings, progress and user settings.",
+        "Relational data modelled in Prisma: titles, entries, ratings, progress and user settings.",
         "Personal statistics dashboard built with Recharts: watch time, score spread, completion rate.",
         "Dark and light themes, fully responsive layout, animated route transitions.",
         "Deployed and maintained on my own server, including backups and updates.",
       ],
       pl: [
         "System kont z logowaniem, weryfikacją e-mail i dwuskładnikowym uwierzytelnianiem TOTP.",
-        "Model relacyjny w Prisma — tytuły, wpisy, oceny, postęp i ustawienia użytkownika.",
+        "Model relacyjny w Prisma: tytuły, wpisy, oceny, postęp i ustawienia użytkownika.",
         "Panel statystyk osobistych na Recharts: czas oglądania, rozkład ocen, wskaźnik ukończeń.",
         "Motyw jasny i ciemny, w pełni responsywny layout, animowane przejścia między widokami.",
         "Wdrożone i utrzymywane na własnym serwerze, razem z backupami i aktualizacjami.",
@@ -104,7 +104,7 @@ export const projects: Project[] = [
   {
     slug: "passenger-transport",
     title: "Licensed Passenger Transport",
-    year: "2024—2026",
+    year: "2024-2026",
     category: "client",
     status: "live",
     featured: true,
@@ -113,8 +113,8 @@ export const projects: Project[] = [
       pl: "Trzy powiązane strony dla jednej firmy przewozowej.",
     },
     summary: {
-      en: "A small network of sites covering the same operator from three angles — brand, city-level service and licensing — so each one can rank for what its own audience actually searches for.",
-      pl: "Sieć stron pokazujących tego samego przewoźnika z trzech stron — marka, usługa lokalna i licencjonowany przewóz — tak, aby każda z nich odpowiadała na inne zapytania klientów.",
+      en: "A small network of sites covering the same operator from three angles (brand, city-level service and licensing), so each one can rank for what its own audience actually searches for.",
+      pl: "Sieć stron pokazujących tego samego przewoźnika z trzech stron (marka, usługa lokalna, licencjonowany przewóz), tak aby każda z nich odpowiadała na inne zapytania klientów.",
     },
     role: {
       en: "Design, build, content structure, SEO and ongoing maintenance.",
@@ -124,13 +124,13 @@ export const projects: Project[] = [
       en: [
         "Three separate domains sharing a visual language but written for distinct search intent.",
         "Booking-focused layouts: pricing, routes, fleet and a contact path on every page.",
-        "Local SEO groundwork — structured headings, service pages per city, fast static delivery.",
+        "Local SEO groundwork: structured headings, service pages per city, fast static delivery.",
         "Built for a non-technical owner to update without breaking anything.",
       ],
       pl: [
         "Trzy osobne domeny o wspólnym języku wizualnym, pisane pod różne intencje wyszukiwania.",
         "Layout nastawiony na rezerwacje: cennik, trasy, flota i ścieżka kontaktu na każdej podstronie.",
-        "Fundament pod lokalne SEO — struktura nagłówków, podstrony usług dla miast, szybkie ładowanie.",
+        "Fundament pod lokalne SEO: struktura nagłówków, podstrony usług dla miast, szybkie ładowanie.",
         "Zbudowane tak, aby nietechniczny właściciel mógł je aktualizować bez ryzyka.",
       ],
     },
@@ -149,12 +149,12 @@ export const projects: Project[] = [
     status: "wip",
     featured: true,
     tagline: {
-      en: "A wedding invitation you open in a browser — with a mini game inside.",
-      pl: "Zaproszenie ślubne, które otwierasz w przeglądarce — z mini grą w środku.",
+      en: "A wedding invitation you open in a browser, with a mini game inside.",
+      pl: "Zaproszenie ślubne, które otwierasz w przeglądarce, z mini grą w środku.",
     },
     summary: {
-      en: "A paper invitation replaced by a personal web page: the story, the schedule, the venue, an RSVP form the couple actually receives — and a small playable game so guests share the link instead of filing it away.",
-      pl: "Papierowe zaproszenie zastąpione osobistą stroną: historia pary, harmonogram, miejsce, formularz RSVP, który naprawdę do nich trafia — i mała grywalna gra, dzięki której goście podają dalej link, zamiast odkładać zaproszenie do szuflady.",
+      en: "A paper invitation replaced by a personal web page: the story, the schedule, the venue, an RSVP form the couple actually receives, and a small playable game so guests share the link instead of filing it away.",
+      pl: "Papierowe zaproszenie zastąpione osobistą stroną: historia pary, harmonogram, miejsce, formularz RSVP, który naprawdę do nich trafia, i mała grywalna gra, dzięki której goście podają dalej link, zamiast odkładać zaproszenie do szuflady.",
     },
     role: {
       en: "Product idea, front end, API, image pipeline and mail delivery.",
@@ -195,8 +195,8 @@ export const projects: Project[] = [
       pl: "Aplikacja quizowa zbudowana na bazie mojej codziennej pracy w service management i własnego egzaminu ITIL 5: uporządkowana baza pytań, egzaminy próbne na czas i feedback tłumaczący, dlaczego odpowiedź była błędna, zamiast samego zaznaczenia.",
     },
     role: {
-      en: "Solo — question bank, app, tooling.",
-      pl: "Solo — baza pytań, aplikacja, narzędzia.",
+      en: "Solo: question bank, app, tooling.",
+      pl: "Solo: baza pytań, aplikacja, narzędzia.",
     },
     highlights: {
       en: [
@@ -208,7 +208,7 @@ export const projects: Project[] = [
       pl: [
         "Baza pytań pisana pod sylabus ITIL 5, z przypisanym poziomem trudności, trzymana jako uporządkowany JSON.",
         "Tryb egzaminu na czas obok spokojnego trybu nauki z natychmiastowym wyjaśnieniem.",
-        "Śledzenie postępów — słabsze obszary wracają częściej.",
+        "Śledzenie postępów: słabsze obszary wracają częściej.",
         "Zbudowane na aktualnym stacku React + Vite z typowaną warstwą danych.",
       ],
     },
@@ -221,7 +221,7 @@ export const projects: Project[] = [
   ---------------------------------------------------------------------- */
   {
     slug: "ksztalcenie-sluchu",
-    title: "Kształcenie Słuchu — eBook Store",
+    title: "Kształcenie Słuchu eBook Store",
     year: "2023",
     category: "client",
     status: "live",
@@ -230,8 +230,8 @@ export const projects: Project[] = [
       pl: "Sklep internetowy sprzedający i dostarczający eBook edukacyjny.",
     },
     summary: {
-      en: "A small commerce site for a music education eBook — product page, checkout, payment handling and automatic delivery of the file after purchase.",
-      pl: "Niewielki sklep dla eBooka o kształceniu słuchu — strona produktu, koszyk, obsługa płatności i automatyczne dostarczenie pliku po zakupie.",
+      en: "A small commerce site for a music education eBook: product page, checkout, payment handling and automatic delivery of the file after purchase.",
+      pl: "Niewielki sklep dla eBooka o kształceniu słuchu: strona produktu, koszyk, obsługa płatności i automatyczne dostarczenie pliku po zakupie.",
     },
     role: {
       en: "Build, store setup, hosting and payment integration.",
@@ -330,8 +330,8 @@ export const projects: Project[] = [
       pl: "Wczesny statyczny landing page dla trzech konfiguracji PC.",
     },
     summary: {
-      en: "One of my first layout projects — a single-page comparison of three builds, written by hand before any framework habits set in.",
-      pl: "Jeden z moich pierwszych projektów layoutu — jednostronicowe porównanie trzech zestawów, pisane ręcznie, zanim wyrobiłem sobie nawyki frameworkowe.",
+      en: "One of my first layout projects, a single-page comparison of three builds, written by hand before any framework habits set in.",
+      pl: "Jeden z moich pierwszych projektów layoutu: jednostronicowe porównanie trzech zestawów, pisane ręcznie, zanim wyrobiłem sobie nawyki frameworkowe.",
     },
     role: { en: "Solo build.", pl: "Wykonanie solo." },
     highlights: {
@@ -383,7 +383,7 @@ export const projects: Project[] = [
   },
 
   /* ----------------------------------------------------------------------
-     Games and level design — the Unity background.
+     Games and level design: the Unity background.
   ---------------------------------------------------------------------- */
   {
     slug: "vanilia-runner",
@@ -393,8 +393,8 @@ export const projects: Project[] = [
     status: "archived",
     tagline: { en: "An endless 3D runner built in Unity.", pl: "Nieskończony runner 3D zbudowany w Unity." },
     summary: {
-      en: "A complete endless runner with scoring, achievements and difficulty that scales as you survive — my main gameplay programming project.",
-      pl: "Kompletny endless runner z punktacją, osiągnięciami i trudnością rosnącą wraz z przetrwaniem — mój główny projekt z programowania rozgrywki.",
+      en: "A complete endless runner with scoring, achievements and difficulty that scales as you survive: my main gameplay programming project.",
+      pl: "Kompletny endless runner z punktacją, osiągnięciami i trudnością rosnącą wraz z przetrwaniem: mój główny projekt z programowania rozgrywki.",
     },
     role: { en: "Gameplay programming and design.", pl: "Programowanie rozgrywki i projekt." },
     highlights: {
@@ -428,8 +428,8 @@ export const projects: Project[] = [
     status: "archived",
     tagline: { en: "An arcade platformer built in Unity.", pl: "Zręcznościowa platformówka zbudowana w Unity." },
     summary: {
-      en: "An arcade platformer where jumping is automatic and the challenge is where you steer — a study in stripping controls down to one meaningful input.",
-      pl: "Zręcznościowa platformówka, w której skok jest automatyczny, a wyzwaniem jest kierunek — ćwiczenie ze sprowadzania sterowania do jednego istotnego wejścia.",
+      en: "An arcade platformer where jumping is automatic and the challenge is where you steer, a study in stripping controls down to one meaningful input.",
+      pl: "Zręcznościowa platformówka, w której skok jest automatyczny, a wyzwaniem jest kierunek: ćwiczenie ze sprowadzania sterowania do jednego istotnego wejścia.",
     },
     role: { en: "Gameplay programming and design.", pl: "Programowanie rozgrywki i projekt." },
     highlights: {
@@ -458,8 +458,8 @@ export const projects: Project[] = [
     status: "archived",
     tagline: { en: "A custom parkour level built around movement.", pl: "Autorski poziom parkourowy zbudowany wokół ruchu." },
     summary: {
-      en: "A level designed so that mastering the movement system opens shortcuts — the layout teaches its own mechanics through colour instead of tutorials.",
-      pl: "Poziom zaprojektowany tak, aby opanowanie systemu ruchu otwierało skróty — layout uczy własnych mechanik kolorem zamiast samouczkiem.",
+      en: "A level designed so that mastering the movement system opens shortcuts: the layout teaches its own mechanics through colour instead of tutorials.",
+      pl: "Poziom zaprojektowany tak, aby opanowanie systemu ruchu otwierało skróty: layout uczy własnych mechanik kolorem zamiast samouczkiem.",
     },
     role: { en: "Level design and mechanics.", pl: "Level design i mechaniki." },
     highlights: {
@@ -487,7 +487,7 @@ export const projects: Project[] = [
   {
     slug: "2d-arts",
     title: "2D Arts",
-    year: "2020—2023",
+    year: "2020-2023",
     category: "design",
     status: "archived",
     tagline: {
@@ -519,7 +519,7 @@ export const projects: Project[] = [
   {
     slug: "pc-builds",
     title: "PC Builds & Mining Rigs",
-    year: "2018—2024",
+    year: "2018-2024",
     category: "hardware",
     status: "archived",
     tagline: {

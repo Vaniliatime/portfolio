@@ -45,12 +45,12 @@ export const sectionLeads: Record<string, Localized> = {
 --------------------------------------------------------------------------- */
 export const employment: ResumeEntry[] = [
   {
-    org: "Venthone — European Commission project",
+    org: "Venthone (European Commission project)",
     location: { en: "Hybrid, Brussels", pl: "Hybrydowo, Bruksela" },
     roles: [
       {
         title: { en: "IT Application Support Agent", pl: "IT Application Support Agent" },
-        period: "Jul 2024 — present",
+        period: "Jul 2024 to present",
         points: {
           en: [
             "First line of defence for EU-wide systems used by 1,000+ internal and 50,000+ external users.",
@@ -73,11 +73,11 @@ export const employment: ResumeEntry[] = [
   {
     org: "Clickbus LTD",
     location: { en: "Birmingham, United Kingdom", pl: "Birmingham, Wielka Brytania" },
-    period: "Jun 2019 — Jun 2024 · 5 yrs 1 mo",
+    period: "Jun 2019 to Jun 2024 · 5 yrs 1 mo",
     roles: [
       {
         title: { en: "IT Specialist", pl: "IT Specialist" },
-        period: "Nov 2019 — Jun 2024 · Full-time, remote",
+        period: "Nov 2019 to Jun 2024 · Full-time, remote",
         points: {
           en: [
             "Sole remote IT support for the internal teams of a logistics company.",
@@ -97,7 +97,7 @@ export const employment: ResumeEntry[] = [
       },
       {
         title: { en: "IT Technician", pl: "Technik IT" },
-        period: "Jun 2019 — Nov 2019 · Internship, on-site",
+        period: "Jun 2019 to Nov 2019 · Internship, on-site",
         points: {
           en: [
             "Troubleshot hardware and software issues under supervision.",
@@ -144,21 +144,21 @@ export const employment: ResumeEntry[] = [
 --------------------------------------------------------------------------- */
 export const freelance: ResumeEntry[] = [
   {
-    org: "Licensed passenger transport — three sites",
+    org: "Licensed passenger transport (three sites)",
     location: { en: "Remote", pl: "Zdalnie" },
     link: { label: "klikbus.pl", href: "https://klikbus.pl/" },
     roles: [
       {
         title: { en: "Web developer", pl: "Web developer" },
-        period: "2024 — present",
+        period: "2024 to present",
         points: {
           en: [
-            "Built and maintain three domains covering one transport operator from three angles — brand, city service and licensing.",
+            "Built and maintain three domains covering one transport operator from three angles: brand, city service and licensing.",
             "Structured each site around booking intent: pricing, routes, fleet and a contact path on every page.",
             "Laid the local SEO groundwork and handle hosting and updates on an ongoing basis.",
           ],
           pl: [
-            "Zbudowanie i utrzymanie trzech domen pokazujących jednego przewoźnika z trzech stron — marka, usługa lokalna i licencjonowany przewóz.",
+            "Zbudowanie i utrzymanie trzech domen pokazujących jednego przewoźnika z trzech stron: marka, usługa lokalna i licencjonowany przewóz.",
             "Ułożenie każdej strony wokół intencji rezerwacji: cennik, trasy, flota i ścieżka kontaktu na każdej podstronie.",
             "Fundament pod lokalne SEO oraz bieżący hosting i aktualizacje.",
           ],
@@ -173,16 +173,16 @@ export const freelance: ResumeEntry[] = [
     roles: [
       {
         title: { en: "Full-stack developer", pl: "Full-stack developer" },
-        period: "2025 — present",
+        period: "2025 to present",
         points: {
           en: [
-            "Designed and shipped a production web app end to end — schema, authentication, email, UI and deployment.",
+            "Designed and shipped a production web app end to end: schema, authentication, email, UI and deployment.",
             "Built account handling with email verification and TOTP two-factor login.",
             "Modelled the domain in Prisma and surfaced it as a personal statistics dashboard.",
             "Run it on my own server, including backups and updates.",
           ],
           pl: [
-            "Zaprojektowanie i wdrożenie produkcyjnej aplikacji webowej od zera — schemat bazy, autoryzacja, mailing, UI i deployment.",
+            "Zaprojektowanie i wdrożenie produkcyjnej aplikacji webowej od zera: schemat bazy, autoryzacja, mailing, UI i deployment.",
             "Obsługa kont z weryfikacją e-mail i logowaniem dwuskładnikowym TOTP.",
             "Model domeny w Prisma wystawiony jako panel statystyk osobistych.",
             "Utrzymanie na własnym serwerze, razem z backupami i aktualizacjami.",
@@ -192,13 +192,13 @@ export const freelance: ResumeEntry[] = [
     ],
   },
   {
-    org: "Kształcenie Słuchu — auditory training eBook",
+    org: "Kształcenie Słuchu (auditory training eBook)",
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     link: { label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl" },
     roles: [
       {
         title: { en: "Co-author & content developer", pl: "Współautor i twórca treści" },
-        period: "Jan 2024 — Jan 2025 · 1 yr 1 mo",
+        period: "Jan 2024 to Jan 2025 · 1 yr 1 mo",
         points: {
           en: [
             "Co-authored and published a digital eBook combining auditory training with music theory.",
@@ -225,7 +225,7 @@ export const freelance: ResumeEntry[] = [
           en: "Multimedia & postproduction specialist",
           pl: "Specjalista ds. multimediów i postprodukcji",
         },
-        period: "Jan 2023 — Jan 2024 · 1 yr 1 mo",
+        period: "Jan 2023 to Jan 2024 · 1 yr 1 mo",
         points: {
           en: [
             "Edited and assembled the audio-visual material for a concert project.",
@@ -253,7 +253,7 @@ export const education: ResumeEntry[] = [
     roles: [
       {
         title: { en: "Engineer, Computer Science & Econometrics", pl: "Inżynier, informatyka i ekonometria" },
-        period: "10.2018 — 10.2022",
+        period: "10.2018 to 10.2022",
         points: {
           en: [
             "Engineering degree with a focus on game development.",
@@ -263,7 +263,7 @@ export const education: ResumeEntry[] = [
           pl: [
             "Tytuł inżyniera ze specjalizacją w game development.",
             "Specjalizacja w Unity i C# dla aplikacji interaktywnych i systemów rozgrywki.",
-            "Gra 3D w Unity jako projekt dyplomowy — mechaniki, osiągnięcia i logika UI.",
+            "Gra 3D w Unity jako projekt dyplomowy: mechaniki, osiągnięcia i logika UI.",
           ],
         },
       },
@@ -275,7 +275,7 @@ export const education: ResumeEntry[] = [
     roles: [
       {
         title: { en: "Graphic & multimedia design", pl: "Grafika i projektowanie multimediów" },
-        period: "09.2017 — 07.2018",
+        period: "09.2017 to 07.2018",
         points: {
           en: [
             "Post-secondary programme in graphic and multimedia design.",
@@ -297,7 +297,7 @@ export const education: ResumeEntry[] = [
     roles: [
       {
         title: { en: "IT technician", pl: "Technik informatyk" },
-        period: "09.2013 — 06.2017",
+        period: "09.2013 to 06.2017",
         points: {
           en: [
             "Graduated as an IT technician focused on computer systems and networking.",
@@ -316,7 +316,7 @@ export const education: ResumeEntry[] = [
 ];
 
 /* ---------------------------------------------------------------------------
-   Certificates. Taken from the PDFs in /certs — those are the exact titles,
+   Certificates. Taken from the PDFs in /certs: those are the exact titles,
    issuers and dates as printed.
 --------------------------------------------------------------------------- */
 export interface Certificate {
@@ -331,44 +331,44 @@ export const certificateGroups: { title: Localized; note?: Localized; items: Cer
   {
     title: { en: "Service management", pl: "Zarządzanie usługami" },
     items: [
-      { name: "ITIL Foundation, version 5", issuer: "PeopleCert", period: "Aug 2026 — Aug 2029" },
+      { name: "ITIL Foundation, version 5", issuer: "PeopleCert", period: "Aug 2026 to Aug 2029" },
     ],
   },
   {
     title: { en: "Security & AI training", pl: "Szkolenia z bezpieczeństwa i AI" },
     note: {
-      en: "Securitum / Sekurak.Academy — 155 hours of training in total.",
-      pl: "Securitum / Sekurak.Academy — łącznie 155 godzin szkoleń.",
+      en: "Securitum / Sekurak.Academy: 155 hours of training in total.",
+      pl: "Securitum / Sekurak.Academy, łącznie 155 godzin szkoleń.",
     },
     items: [
       {
         name: "Sekurak.Academy 2025, semester II",
         issuer: "Securitum",
-        period: "Jul 2025 — Jan 2026",
+        period: "Jul 2025 to Jan 2026",
         hours: "50 h",
       },
       {
-        name: "Practical Python — 12 step-by-step projects, extended edition",
+        name: "Practical Python: 12 step-by-step projects, extended edition",
         issuer: "Securitum / HexArcana",
-        period: "Nov 2025 — Feb 2026",
+        period: "Nov 2025 to Feb 2026",
         hours: "36 h",
       },
       {
         name: "AI Toolbox 2.0 Reloaded",
         issuer: "Securitum",
-        period: "Sep — Dec 2025",
+        period: "Sep to Dec 2025",
         hours: "26 h",
       },
       {
         name: "OSINT 2.0 Toolkit Reloaded",
         issuer: "Securitum",
-        period: "Oct — Dec 2025",
+        period: "Oct to Dec 2025",
         hours: "26 h",
       },
       {
-        name: "AI Toolbox — a practical review of AI tools, 2025 edition",
+        name: "AI Toolbox, a practical review of AI tools, 2025 edition",
         issuer: "Securitum",
-        period: "May — Jun 2025",
+        period: "May to Jun 2025",
         hours: "15 h",
       },
       { name: "Introduction to Wazuh (SIEM)", issuer: "Securitum", period: "Jun 2025", hours: "1.5 h" },

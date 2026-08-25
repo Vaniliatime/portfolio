@@ -52,7 +52,7 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
             {entry.roles.map((role) => (
               <div
                 key={role.period}
-                // A second role means a promotion — indent it so the path reads
+                // A second role means a promotion, so indent it so the path reads
                 // as one company rather than two unrelated jobs.
                 className={entry.roles.length > 1 ? "border-l-2 border-accent/25 pl-5" : undefined}
               >

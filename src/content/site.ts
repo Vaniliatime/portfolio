@@ -18,7 +18,7 @@ export const profile = {
  * Navigation shared by the header and the footer.
  *
  * Every entry is a real page. An earlier version mixed home-page anchors with
- * routes, which made the menu look like it was duplicating itself — the home
+ * routes, which made the menu look like it was duplicating itself: the home
  * page now only teases these sections and links onward.
  */
 export const nav: { href: string; label: Localized }[] = [
@@ -41,8 +41,8 @@ export const hero = {
   /** The word inside the headline that gets the accent treatment. */
   accentWord: { en: "actually ship.", pl: "które trafiają do ludzi." } satisfies Localized,
   intro: {
-    en: "I work in enterprise IT support by day and build for clients on the side — from a booking site for a transport company to a full-stack tracking app running on my own server. If you need something built properly and maintained after launch, that is the part I enjoy.",
-    pl: "Na co dzień pracuję w korporacyjnym IT support, a po godzinach buduję dla klientów — od strony rezerwacyjnej dla firmy przewozowej po full-stackową aplikację działającą na moim serwerze. Jeśli potrzebujesz czegoś zrobionego porządnie i utrzymywanego po starcie, to jest ta część, którą lubię najbardziej.",
+    en: "I work in enterprise IT support by day and build for clients on the side: from a booking site for a transport company to a full-stack tracking app running on my own server. If you need something built properly and maintained after launch, that is the part I enjoy.",
+    pl: "Na co dzień pracuję w korporacyjnym IT support, a po godzinach buduję dla klientów: od strony rezerwacyjnej dla firmy przewozowej po full-stackową aplikację działającą na moim serwerze. Jeśli potrzebujesz czegoś zrobionego porządnie i utrzymywanego po starcie, to jest ta część, którą lubię najbardziej.",
   } satisfies Localized,
   ctaPrimary: { en: "See the work", pl: "Zobacz projekty" } satisfies Localized,
   ctaSecondary: { en: "Start a project", pl: "Zacznijmy projekt" } satisfies Localized,
@@ -58,17 +58,6 @@ export const hero = {
   } satisfies Localized,
 };
 
-/** Logo strip under the hero — the tools shown on the site's own work. */
-export const heroStack = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Tailwind CSS",
-  "Node.js",
-  "Prisma",
-  "WordPress",
-  "Vite",
-];
 
 export const stats: { value: string; label: Localized }[] = [
   { value: "6+", label: { en: "Sites & apps shipped", pl: "Wdrożonych stron i aplikacji" } },
@@ -103,8 +92,8 @@ export const services: Service[] = [
     icon: "layers",
     title: { en: "Web applications", pl: "Aplikacje webowe" },
     body: {
-      en: "Something with accounts, data and logic behind it. I have built and shipped one end to end — schema, auth, two-factor, email, dashboards and deployment.",
-      pl: "Coś z kontami, danymi i logiką w tle. Zbudowałem i wdrożyłem taką od początku do końca — schemat bazy, logowanie, 2FA, maile, panele i deployment.",
+      en: "Something with accounts, data and logic behind it. I have built and shipped one end to end: schema, auth, two-factor, email, dashboards and deployment.",
+      pl: "Coś z kontami, danymi i logiką w tle. Zbudowałem i wdrożyłem taką od początku do końca: schemat bazy, logowanie, 2FA, maile, panele i deployment.",
     },
     bullets: {
       en: ["React and Next.js front ends", "Databases and REST APIs", "Authentication and user accounts", "Charts, dashboards and reporting"],
@@ -116,8 +105,8 @@ export const services: Service[] = [
     icon: "heart",
     title: { en: "Interactive invitations", pl: "Interaktywne zaproszenia" },
     body: {
-      en: "Weddings and events, as a web page instead of card stock: your story, the schedule, directions, RSVP straight to your inbox — and something playable if you want guests to remember it.",
-      pl: "Wesela i imprezy jako strona zamiast kartonika: wasza historia, harmonogram, dojazd, RSVP prosto na maila — i coś grywalnego, jeśli chcecie, żeby goście to zapamiętali.",
+      en: "Weddings and events, as a web page instead of card stock: your story, the schedule, directions, RSVP straight to your inbox, and something playable if you want guests to remember it.",
+      pl: "Wesela i imprezy jako strona zamiast kartonika: wasza historia, harmonogram, dojazd, RSVP prosto na maila oraz coś grywalnego, jeśli chcecie, żeby goście to zapamiętali.",
     },
     bullets: {
       en: ["Personalised one-page invitation", "RSVP form and guest list", "Photo uploads from guests", "Optional custom mini game"],
@@ -162,7 +151,7 @@ export const process: { step: string; title: Localized; body: Localized }[] = [
     title: { en: "You see it as it is built", pl: "Widzisz to w trakcie budowy" },
     body: {
       en: "Work goes up on a preview link you can open any time. Feedback along the way costs nothing; feedback after launch costs a rebuild.",
-      pl: "Praca ląduje pod linkiem podglądowym, który możesz otworzyć w każdej chwili. Uwagi w trakcie nic nie kosztują — uwagi po starcie kosztują przebudowę.",
+      pl: "Praca ląduje pod linkiem podglądowym, który możesz otworzyć w każdej chwili. Uwagi w trakcie nic nie kosztują, uwagi po starcie kosztują przebudowę.",
     },
   },
   {
@@ -179,18 +168,18 @@ export const about = {
   heading: { en: "About", pl: "O mnie" } satisfies Localized,
   lead: {
     en: "Support work taught me how software breaks. Building taught me how to stop it breaking.",
-    pl: "Praca w supporcie nauczyła mnie, jak oprogramowanie się psuje. Budowanie — jak temu zapobiegać.",
+    pl: "Praca w supporcie nauczyła mnie, jak oprogramowanie się psuje. Budowanie nauczyło, jak temu zapobiegać.",
   } satisfies Localized,
   paragraphs: {
     en: [
-      "I have worked in IT since 2019 — first as an administrator and then a support engineer at a logistics company, and since 2024 on enterprise systems at the European Commission, triaging incidents, reproducing bugs and working alongside developers in Jira, ServiceNow and Oracle SQL. It is unglamorous, and it is the best possible training for building things that other people have to rely on.",
-      "Outside work I build. Some of it is client work — a transport operator's three sites, an eBook store. Some of it is mine — a full-stack anime tracker running on my own server, a quiz app for ITIL certification, an interactive wedding invitation that is turning into a product.",
+      "I have worked in IT since 2019: first as an administrator and then a support engineer at a logistics company, and since 2024 on enterprise systems at the European Commission, triaging incidents, reproducing bugs and working alongside developers in Jira, ServiceNow and Oracle SQL. It is unglamorous, and it is the best possible training for building things that other people have to rely on.",
+      "Outside work I build. Some of it is client work: a transport operator's three sites, an eBook store. Some of it is mine: a full-stack anime tracker running on my own server, a quiz app for ITIL certification, an interactive wedding invitation that is turning into a product.",
       "I studied game development with C# and Unity. I no longer make games, but the habit of thinking in systems and states never left, and it shows up every time I model data or design an interface.",
       "Away from a screen you will find me building PCs, playing tennis, or out on a bike.",
     ],
     pl: [
-      "W IT pracuję od 2019 roku — najpierw jako administrator, potem support engineer w firmie logistycznej, a od 2024 przy systemach korporacyjnych w Komisji Europejskiej, gdzie zajmuję się zgłoszeniami, odtwarzaniem błędów i pracą ramię w ramię z deweloperami w Jirze, ServiceNow i Oracle SQL. Mało efektowne — i najlepszy możliwy trening przed budowaniem rzeczy, na których ktoś musi polegać.",
-      "Poza pracą buduję. Część to zlecenia — trzy strony przewoźnika, sklep z eBookiem. Część jest moja — full-stackowy tracker anime na własnym serwerze, aplikacja quizowa do certyfikacji ITIL, interaktywne zaproszenie ślubne, które zmienia się w produkt.",
+      "W IT pracuję od 2019 roku, najpierw jako administrator, potem support engineer w firmie logistycznej, a od 2024 przy systemach korporacyjnych w Komisji Europejskiej, gdzie zajmuję się zgłoszeniami, odtwarzaniem błędów i pracą ramię w ramię z deweloperami w Jirze, ServiceNow i Oracle SQL. Mało efektowne, a przy tym najlepszy możliwy trening przed budowaniem rzeczy, na których ktoś musi polegać.",
+      "Poza pracą buduję. Część to zlecenia: trzy strony przewoźnika, sklep z eBookiem. Część jest moja: full-stackowy tracker anime na własnym serwerze, aplikacja quizowa do certyfikacji ITIL, interaktywne zaproszenie ślubne, które zmienia się w produkt.",
       "Studiowałem game development w C# i Unity. Gier już nie robię, ale nawyk myślenia systemami i stanami został i wraca za każdym razem, gdy modeluję dane albo projektuję interfejs.",
       "Z dala od ekranu składam komputery, gram w tenisa albo jeżdżę na rowerze.",
     ],
@@ -220,7 +209,7 @@ export const contact = {
   heading: { en: "Let's build something", pl: "Zbudujmy coś razem" } satisfies Localized,
   lead: {
     en: "Tell me what you need and roughly when. I reply to everything, including a straight no if I am not the right fit.",
-    pl: "Napisz, czego potrzebujesz i mniej więcej na kiedy. Odpisuję na każdą wiadomość — łącznie ze szczerym „nie”, jeśli nie jestem właściwą osobą.",
+    pl: "Napisz, czego potrzebujesz i mniej więcej na kiedy. Odpisuję na każdą wiadomość, łącznie ze szczerym „nie”, jeśli nie jestem właściwą osobą.",
   } satisfies Localized,
   note: {
     en: "Working English and Polish. Based in Belgium, working remotely.",
@@ -249,7 +238,7 @@ export const ui = {
   processHeading: { en: "How working together looks", pl: "Jak wygląda współpraca" },
   processLead: {
     en: "No agency layers. You talk to the person writing the code, from the first message to the site being live.",
-    pl: "Bez agencyjnych warstw. Rozmawiasz z osobą, która pisze kod — od pierwszej wiadomości po uruchomienie strony.",
+    pl: "Bez agencyjnych warstw. Rozmawiasz z osobą, która pisze kod: od pierwszej wiadomości po uruchomienie strony.",
   },
   servicesEyebrow: { en: "Services", pl: "Usługi" },
   aboutEyebrow: { en: "About", pl: "O mnie" },
@@ -257,7 +246,7 @@ export const ui = {
   servicesHeading: { en: "What I can build for you", pl: "Co mogę dla Ciebie zbudować" },
   servicesLead: {
     en: "Four things I take on outside my day job. Anything adjacent, just ask.",
-    pl: "Cztery rzeczy, które biorę poza etatem. Coś pokrewnego — po prostu zapytaj.",
+    pl: "Cztery rzeczy, które biorę poza etatem. Coś pokrewnego? Po prostu zapytaj.",
   },
   role: { en: "Role", pl: "Rola" },
   stack: { en: "Stack", pl: "Technologie" },

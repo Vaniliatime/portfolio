@@ -14,8 +14,8 @@ const sora = Sora({ subsets: ["latin", "latin-ext"], variable: "--font-sora", di
 const siteUrl = `https://${profile.domain}`;
 
 const descriptions: Record<Locale, string> = {
-  en: "Krzysztof Kaszuba builds websites and web apps — business sites, full-stack applications, interactive invitations, and the maintenance that keeps them running.",
-  pl: "Krzysztof Kaszuba buduje strony i aplikacje webowe — strony firmowe, aplikacje full-stack, interaktywne zaproszenia oraz utrzymanie, dzięki któremu wszystko działa.",
+  en: "Krzysztof Kaszuba builds websites and web apps: business sites, full-stack applications, interactive invitations, and the maintenance that keeps them running.",
+  pl: "Krzysztof Kaszuba buduje strony i aplikacje webowe: strony firmowe, aplikacje full-stack, interaktywne zaproszenia oraz utrzymanie, dzięki któremu wszystko działa.",
 };
 
 export function generateStaticParams() {
@@ -35,8 +35,8 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(siteUrl),
     title: {
-      default: `${profile.name} — ${t(profile.role, lang)}`,
-      template: `%s — ${profile.name}`,
+      default: `${profile.name} · ${t(profile.role, lang)}`,
+      template: `%s · ${profile.name}`,
     },
     description: descriptions[lang],
     alternates: {
@@ -48,12 +48,12 @@ export async function generateMetadata({
       siteName: profile.name,
       locale: lang === "pl" ? "pl_PL" : "en_GB",
       url: `/${lang}/`,
-      title: `${profile.name} — ${t(profile.role, lang)}`,
+      title: `${profile.name} · ${t(profile.role, lang)}`,
       description: descriptions[lang],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${profile.name} — ${t(profile.role, lang)}`,
+      title: `${profile.name} · ${t(profile.role, lang)}`,
       description: descriptions[lang],
     },
     icons: { icon: "/favicon.svg" },
