@@ -1,3 +1,6 @@
+ponizej moje doswiadczenie z linkedina. 
+w fodlerze certs dodane wszystkie moje certyfiakty. 
+
 Computer Technician
 
 FafNet · Internship
@@ -63,3 +66,35 @@ Birmingham, England, United Kingdom
     - Gained hands-on experience with Windows-based environments and basic network diagnostics.
     - Helped maintain IT documentation and inventory records.
     - Collaborated with senior IT staff to ensure smooth onboarding for new employees.
+
+
+
+    Co-Author & Content Developer
+
+Kształcenie Słuchu · Freelance
+
+Jan 2024 - Jan 2025 · 1 yr 1 mo
+
+Remote
+
+• Co-authored an educational eBook on auditory training and music theory
+• Processed and corrected 500+ scanned music sheets
+• Designed the PDF layout and handled final formatting
+• Built a responsive website using HTML, CSS, JavaScript, and Bootstrap
+• Implemented a working download/purchase flow and managed publishing
+
+
+
+IT Application Support Agent Project for the European Commission
+
+VENTHONE · Full-time
+
+Jul 2024 - Present · 2 yrs 2 mos
+
+Brussels, Brussels Region, Belgium · Hybrid
+
+• Providing technical support to 1,000+ internal and 50,000+ external users
+• Handling incidents and requests via Jira and ServiceNow, meeting SLA targets
+• Reproducing bugs and reporting findings to development teams
+• Using Oracle SQL to diagnose data-related issues
+• Communicating updates clearly in a hybrid, multilingual support environment

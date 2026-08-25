@@ -182,16 +182,17 @@ export default async function ResumePage({ params }: { params: Promise<{ lang: s
                 <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-faint">
                   {t(group.title, lang)}
                 </h3>
+                {group.note && <p className="mt-1.5 text-sm text-ink-muted">{t(group.note, lang)}</p>}
                 <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                   {group.items.map((cert, i) => (
                     <Reveal key={cert.name} delay={i} as="li">
-                      <div className="flex items-start gap-3 rounded-xl border border-line bg-surface px-5 py-4">
+                      <div className="flex h-full items-start gap-3 rounded-xl border border-line bg-surface px-5 py-4">
                         <Award className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                        <span className="text-[0.9375rem]">
+                        <span className="text-[0.9375rem] leading-snug">
                           {cert.name}
-                          {(cert.issuer || cert.year) && (
-                            <span className="mt-0.5 block text-xs text-ink-faint">
-                              {[cert.issuer, cert.year].filter(Boolean).join(" · ")}
+                          {(cert.issuer || cert.period || cert.hours) && (
+                            <span className="mt-1 block text-xs text-ink-faint">
+                              {[cert.issuer, cert.period, cert.hours].filter(Boolean).join(" · ")}
                             </span>
                           )}
                         </span>

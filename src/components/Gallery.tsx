@@ -4,14 +4,17 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface GalleryProps {
   images: string[];
   title: string;
   closeLabel: string;
+  /** Screenshots need a landscape thumbnail; artwork suits a square one. */
+  aspect?: "square" | "wide";
 }
 
-export function Gallery({ images, title, closeLabel }: GalleryProps) {
+export function Gallery({ images, title, closeLabel, aspect = "square" }: GalleryProps) {
   const [openAt, setOpenAt] = useState<number | null>(null);
 
   const step = useCallback(
@@ -38,20 +41,23 @@ export function Gallery({ images, title, closeLabel }: GalleryProps) {
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <ul className={cn("grid gap-4", aspect === "wide" ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-2 md:grid-cols-4")}>
         {images.map((src, i) => (
           <li key={src}>
             <button
               type="button"
               onClick={() => setOpenAt(i)}
-              className="group relative block aspect-square w-full overflow-hidden rounded-xl border border-line bg-surface-2"
+              className={cn(
+                "group relative block w-full overflow-hidden rounded-xl border border-line bg-surface-2",
+                aspect === "wide" ? "aspect-[16/11]" : "aspect-square",
+              )}
             >
               <Image
                 src={src}
                 alt={`${title} — ${i + 1}`}
                 fill
-                sizes="(min-width: 768px) 25vw, 50vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes={aspect === "wide" ? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw"}
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
               />
             </button>
           </li>

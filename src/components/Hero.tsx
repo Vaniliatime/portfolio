@@ -29,7 +29,7 @@ export function Hero({ lang }: { lang: Locale }) {
       <div aria-hidden className="dot-grid absolute inset-0 z-0" />
 
       <div className="shell relative z-10 pb-14 pt-12 md:pb-20 md:pt-16">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-24">
           {/* ---- Left: the pitch ------------------------------------------ */}
           <div>
             <motion.div {...rise(0)}>
@@ -114,32 +114,20 @@ export function Hero({ lang }: { lang: Locale }) {
                 </div>
               </div>
 
-              {/* Floating chips — hidden on small screens where they'd collide. */}
-              <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-                {badges.slice(0, 4).map((badge, i) => {
-                  const spots = [
-                    "left-0 top-6 -translate-x-1/3",
-                    "right-0 top-1/3 translate-x-1/3",
-                    "left-0 bottom-24 -translate-x-1/4",
-                    "right-2 bottom-10 translate-x-1/4",
-                  ];
-                  return (
-                    <motion.span
-                      key={badge}
-                      initial={reduced ? undefined : { opacity: 0, scale: 0.85 }}
-                      animate={reduced ? undefined : { opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.45, delay: 0.7 + i * 0.12 }}
-                      className={cn(
-                        "absolute rounded-full border border-line bg-surface/95 px-3 py-1.5 text-xs font-medium text-ink shadow-card backdrop-blur",
-                        spots[i],
-                      )}
-                    >
-                      {badge}
-                    </motion.span>
-                  );
-                })}
-              </div>
             </div>
+
+            {/* Skill chips sit in a tidy row under the portrait. They used to
+                float around it, which crowded the middle of the page. */}
+            <motion.ul {...rise(3)} className="mt-5 flex flex-wrap justify-center gap-1.5">
+              {badges.map((badge) => (
+                <li
+                  key={badge}
+                  className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-ink-muted"
+                >
+                  {badge}
+                </li>
+              ))}
+            </motion.ul>
 
             <motion.div
               {...rise(4)}

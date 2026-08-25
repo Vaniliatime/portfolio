@@ -157,7 +157,12 @@ export default async function ProjectPage({
 
           {project.gallery && project.gallery.length > 0 && (
             <Reveal className="mt-16">
-              <Gallery images={project.gallery} title={project.title} closeLabel={t(ui.close, lang)} />
+              <Gallery
+                images={project.gallery}
+                title={project.title}
+                closeLabel={t(ui.close, lang)}
+                aspect={project.galleryAspect}
+              />
             </Reveal>
           )}
         </div>

@@ -8,6 +8,10 @@ next-env.d.ts
 .env.local
 .env*.local
 
+# Certificate PDFs carry certificate and candidate numbers — keep them out of
+# a public repo. Their contents are transcribed into src/content/resume.ts.
+/certs/
+
 .DS_Store
 Thumbs.db
 .vscode/

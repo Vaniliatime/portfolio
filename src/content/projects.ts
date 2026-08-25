@@ -27,6 +27,8 @@ export interface Project {
   links: ProjectLink[];
   cover?: string;
   gallery?: string[];
+  /** Screenshots read better in a landscape grid than a square one. */
+  galleryAspect?: "square" | "wide";
 }
 
 export const categories: { id: Category; label: Localized }[] = [
@@ -84,6 +86,20 @@ export const projects: Project[] = [
     },
     tech: ["Next.js", "React 19", "TypeScript", "Prisma", "NextAuth", "Recharts", "Tailwind CSS", "Nodemailer"],
     links: [{ label: "amtracker.eu", href: "https://amtracker.eu/", kind: "site" }],
+    cover: "/images/amtracker/library.webp",
+    gallery: [
+      "/images/amtracker/library.webp",
+      "/images/amtracker/dashboard.webp",
+      "/images/amtracker/currently-airing.webp",
+      "/images/amtracker/season-browser.webp",
+      "/images/amtracker/latest-releases.webp",
+      "/images/amtracker/achievements.webp",
+      "/images/amtracker/add-entry.webp",
+      "/images/amtracker/settings-2fa.webp",
+      "/images/amtracker/notifications.webp",
+      "/images/amtracker/friends.webp",
+    ],
+    galleryAspect: "wide",
   },
   {
     slug: "passenger-transport",

@@ -41,11 +41,7 @@ export const sectionLeads: Record<string, Localized> = {
 };
 
 /* ---------------------------------------------------------------------------
-   Permanent employment.
-
-   TODO: the Clickbus entry needs the real promotion history — the IT
-   administrator role that came first, the exact titles and the dates of both
-   promotions. The single role below is what the previous site listed.
+   Permanent employment, newest first.
 --------------------------------------------------------------------------- */
 export const employment: ResumeEntry[] = [
   {
@@ -54,7 +50,7 @@ export const employment: ResumeEntry[] = [
     roles: [
       {
         title: { en: "IT Application Support Agent", pl: "IT Application Support Agent" },
-        period: "07.2024 — present",
+        period: "Jul 2024 — present",
         points: {
           en: [
             "First line of defence for EU-wide systems used by 1,000+ internal and 50,000+ external users.",
@@ -76,28 +72,66 @@ export const employment: ResumeEntry[] = [
   },
   {
     org: "Clickbus LTD",
-    location: { en: "Hybrid, Birmingham", pl: "Hybrydowo, Birmingham" },
-    period: "07.2019 — 06.2024",
+    location: { en: "Birmingham, United Kingdom", pl: "Birmingham, Wielka Brytania" },
+    period: "Jun 2019 — Jun 2024 · 5 yrs 1 mo",
     roles: [
       {
-        title: { en: "IT Support Engineer", pl: "IT Support Engineer" },
-        period: "07.2019 — 06.2024",
+        title: { en: "IT Specialist", pl: "IT Specialist" },
+        period: "Nov 2019 — Jun 2024 · Full-time, remote",
         points: {
           en: [
-            "Joined as an onsite intern and grew into a full-time remote support engineer.",
-            "Sole IT contact for logistics, operations and back-office teams.",
-            "Ran Windows Server and every user workstation — uptime, patching and data integrity.",
-            "Owned onboarding and offboarding: hardware, accounts and access from day one to last day.",
+            "Sole remote IT support for the internal teams of a logistics company.",
+            "Ran Windows Server systems and configured every user workstation.",
+            "Owned onboarding, account provisioning and hardware troubleshooting end to end.",
             "Kept the company WordPress site current, from content through to plugin updates.",
-            "Cut resolution times by writing the internal documentation that did not exist, and standardised how IT equipment was set up.",
+            "Cut resolution times by writing the internal documentation that did not exist.",
           ],
           pl: [
-            "Start jako stażysta on-site, rozwój do pełnoetatowego zdalnego support engineera.",
-            "Jedyny punkt kontaktu IT dla zespołów logistyki, operacji i back office.",
-            "Utrzymanie Windows Server i wszystkich stacji roboczych — dostępność, aktualizacje i spójność danych.",
-            "Pełna odpowiedzialność za onboarding i offboarding: sprzęt, konta i dostępy od pierwszego do ostatniego dnia.",
+            "Jedyne zdalne wsparcie IT dla zespołów wewnętrznych firmy logistycznej.",
+            "Utrzymanie systemów Windows Server i konfiguracja wszystkich stacji roboczych.",
+            "Pełna odpowiedzialność za onboarding, zakładanie kont i diagnostykę sprzętu.",
             "Bieżące utrzymanie firmowej strony na WordPressie, od treści po aktualizacje wtyczek.",
-            "Skrócenie czasu rozwiązywania zgłoszeń przez napisanie nieistniejącej wcześniej dokumentacji i standaryzację konfiguracji sprzętu.",
+            "Skrócenie czasu rozwiązywania zgłoszeń przez napisanie nieistniejącej wcześniej dokumentacji.",
+          ],
+        },
+      },
+      {
+        title: { en: "IT Technician", pl: "Technik IT" },
+        period: "Jun 2019 — Nov 2019 · Internship, on-site",
+        points: {
+          en: [
+            "Troubleshot hardware and software issues under supervision.",
+            "Supported daily IT operations, user account management and device configuration.",
+            "Worked hands-on with Windows environments and basic network diagnostics.",
+            "Maintained IT documentation and inventory records.",
+            "Helped senior IT staff smooth out onboarding for new employees.",
+          ],
+          pl: [
+            "Diagnozowanie problemów sprzętowych i programowych pod nadzorem.",
+            "Wsparcie codziennych operacji IT, zarządzania kontami i konfiguracji urządzeń.",
+            "Praktyczna praca ze środowiskami Windows i podstawową diagnostyką sieci.",
+            "Utrzymanie dokumentacji IT i ewidencji sprzętu.",
+            "Wsparcie starszych specjalistów IT przy onboardingu nowych pracowników.",
+          ],
+        },
+      },
+    ],
+  },
+  {
+    org: "FafNet",
+    location: { en: "Katowice Metropolitan Area, on-site", pl: "Aglomeracja katowicka, stacjonarnie" },
+    roles: [
+      {
+        title: { en: "Computer Technician", pl: "Technik komputerowy" },
+        period: "2016 · Internship",
+        points: {
+          en: [
+            "Installed and repaired computer hardware.",
+            "Assisted in managing network infrastructure.",
+          ],
+          pl: [
+            "Instalacja i naprawa sprzętu komputerowego.",
+            "Wsparcie przy zarządzaniu infrastrukturą sieciową.",
           ],
         },
       },
@@ -158,13 +192,13 @@ export const freelance: ResumeEntry[] = [
     ],
   },
   {
-    org: "Auditory Training eBook",
-    location: { en: "Remote", pl: "Zdalnie" },
+    org: "Kształcenie Słuchu — auditory training eBook",
+    location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     link: { label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl" },
     roles: [
       {
-        title: { en: "Co-author & web developer", pl: "Współautor i web developer" },
-        period: "01.2024 — 01.2025",
+        title: { en: "Co-author & content developer", pl: "Współautor i twórca treści" },
+        period: "Jan 2024 — Jan 2025 · 1 yr 1 mo",
         points: {
           en: [
             "Co-authored and published a digital eBook combining auditory training with music theory.",
@@ -183,12 +217,15 @@ export const freelance: ResumeEntry[] = [
     ],
   },
   {
-    org: "DIMK cultural project",
-    location: { en: "Remote", pl: "Zdalnie" },
+    org: "Diecezjalny Instytut Muzyki Kościelnej",
+    location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     roles: [
       {
-        title: { en: "Postproduction editor", pl: "Montażysta postprodukcji" },
-        period: "01.2023 — 01.2024",
+        title: {
+          en: "Multimedia & postproduction specialist",
+          pl: "Specjalista ds. multimediów i postprodukcji",
+        },
+        period: "Jan 2023 — Jan 2024 · 1 yr 1 mo",
         points: {
           en: [
             "Edited and assembled the audio-visual material for a concert project.",
@@ -279,20 +316,63 @@ export const education: ResumeEntry[] = [
 ];
 
 /* ---------------------------------------------------------------------------
-   Certificates.
-
-   TODO: add the AI certificates — names, issuers and years still needed.
+   Certificates. Taken from the PDFs in /certs — those are the exact titles,
+   issuers and dates as printed.
 --------------------------------------------------------------------------- */
 export interface Certificate {
   name: string;
   issuer?: string;
-  year?: string;
+  period?: string;
+  /** Training hours, where the certificate states them. */
+  hours?: string;
 }
 
-export const certificateGroups: { title: Localized; items: Certificate[] }[] = [
+export const certificateGroups: { title: Localized; note?: Localized; items: Certificate[] }[] = [
   {
     title: { en: "Service management", pl: "Zarządzanie usługami" },
-    items: [{ name: "ITIL 5 Foundation", issuer: "PeopleCert", year: "2026" }],
+    items: [
+      { name: "ITIL Foundation, version 5", issuer: "PeopleCert", period: "Aug 2026 — Aug 2029" },
+    ],
+  },
+  {
+    title: { en: "Security & AI training", pl: "Szkolenia z bezpieczeństwa i AI" },
+    note: {
+      en: "Securitum / Sekurak.Academy — 155 hours of training in total.",
+      pl: "Securitum / Sekurak.Academy — łącznie 155 godzin szkoleń.",
+    },
+    items: [
+      {
+        name: "Sekurak.Academy 2025, semester II",
+        issuer: "Securitum",
+        period: "Jul 2025 — Jan 2026",
+        hours: "50 h",
+      },
+      {
+        name: "Practical Python — 12 step-by-step projects, extended edition",
+        issuer: "Securitum / HexArcana",
+        period: "Nov 2025 — Feb 2026",
+        hours: "36 h",
+      },
+      {
+        name: "AI Toolbox 2.0 Reloaded",
+        issuer: "Securitum",
+        period: "Sep — Dec 2025",
+        hours: "26 h",
+      },
+      {
+        name: "OSINT 2.0 Toolkit Reloaded",
+        issuer: "Securitum",
+        period: "Oct — Dec 2025",
+        hours: "26 h",
+      },
+      {
+        name: "AI Toolbox — a practical review of AI tools, 2025 edition",
+        issuer: "Securitum",
+        period: "May — Jun 2025",
+        hours: "15 h",
+      },
+      { name: "Introduction to Wazuh (SIEM)", issuer: "Securitum", period: "Jun 2025", hours: "1.5 h" },
+    ],
   },
   {
     title: { en: "Microsoft", pl: "Microsoft" },
