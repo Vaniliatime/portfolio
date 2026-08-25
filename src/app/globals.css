@@ -31,6 +31,8 @@
   --dot-gap: 28px;
   --emboss-shadow: rgb(109 40 217 / 0.42);
   --emboss-light: rgb(255 255 255 / 0.95);
+  --blob-core: rgb(168 85 247 / 0.3);
+  --blob-mid: rgb(168 85 247 / 0.12);
 }
 
 .dark {
@@ -54,6 +56,8 @@
 
   --emboss-shadow: rgb(0 0 0 / 0.6);
   --emboss-light: rgb(196 181 253 / 0.3);
+  --blob-core: rgb(167 139 250 / 0.2);
+  --blob-mid: rgb(167 139 250 / 0.07);
 }
 
 @theme inline {
@@ -155,20 +159,52 @@
     top: -18rem;
     right: -12rem;
     border-radius: 9999px;
-    filter: blur(90px);
-    opacity: 0.5;
-    background: radial-gradient(circle, var(--accent-soft), transparent 65%);
-  }
-
-  .dark .aurora::before {
-    opacity: 0.22;
+    /* Gradient stops instead of a blur filter, for the same reason as the
+       cursor light: Firefox pays dearly for a large blur. */
+    background: radial-gradient(
+      circle closest-side,
+      var(--blob-core),
+      var(--blob-mid) 50%,
+      transparent 75%
+    );
   }
 
   /* Slow drift for the chips around the portrait. Kept in CSS so it runs on
      the compositor and never fights a transform written from JavaScript. */
   .chip-float {
     animation: chip-float var(--float-duration, 6s) ease-in-out var(--float-delay, 0s) infinite;
-    will-change: transform;
+  }
+
+  /*
+   * Light travelling around the showcase frame.
+   *
+   * A conic gradient spun with `transform: rotate`, which every engine can
+   * run on the compositor. Animating a custom angle through @property would
+   * be tidier but Firefox support is newer than the browsers this has to
+   * cover. The opaque card sitting on top leaves only the 1px rim showing.
+   */
+  .beam {
+    position: relative;
+    padding: 1px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .beam::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    aspect-ratio: 1;
+    margin: -100% 0 0 -100%;
+    background: conic-gradient(
+      transparent 0deg,
+      var(--accent) 25deg,
+      var(--accent-soft) 45deg,
+      transparent 80deg
+    );
+    animation: beam-spin 6s linear infinite;
   }
 
   /* ---------------------------------------------------------------------
@@ -199,56 +235,59 @@
     opacity: 0.5;
   }
 
+  /* Soft edges come from gradient stops, not a blur filter. A 90px blur on an
+     element this size is cheap in Chrome and punishing in Firefox, where it
+     dropped enough frames to stall every other animation on the page. */
   .cursor-light__blob {
     position: absolute;
     top: 0;
     left: 0;
-    width: 40rem;
-    height: 40rem;
-    margin: -20rem 0 0 -20rem;
+    width: 44rem;
+    height: 44rem;
+    margin: -22rem 0 0 -22rem;
     border-radius: 9999px;
-    filter: blur(90px);
-    background: radial-gradient(circle, var(--accent-soft), transparent 65%);
-    opacity: 0.42;
+    background: radial-gradient(
+      circle closest-side,
+      var(--blob-core),
+      var(--blob-mid) 45%,
+      transparent 72%
+    );
     transform: translate3d(var(--mx, 72vw), var(--my, 30vh), 0);
     transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform;
   }
 
-  .dark .cursor-light__blob {
-    opacity: 0.26;
-  }
-
   /*
-   * Only as large as the lit patch, moved with a transform rather than
-   * repainting the whole viewport. An earlier version masked a full-screen
-   * layer at the cursor, which meant recomputing a gradient the size of the
-   * window on every pointer move.
-   *
-   * The element travels, so background-position cancels that travel out to
-   * keep the lattice locked to the viewport and aligned with the dots
-   * underneath; the extra pixel each way is the shadow-and-highlight offset.
+   * The dot lattice here never moves and never repaints: it is painted once,
+   * offset a pixel each way to read as a shadow and a highlight. Only the
+   * mask travels, and only by position, so nothing is recomputed per frame.
+   * Earlier versions redrew either a window-sized gradient or the tiles
+   * themselves on every pointer move, which Firefox could not keep up with.
    */
   .cursor-light__emboss {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 30rem;
-    height: 30rem;
-    margin: -15rem 0 0 -15rem;
+    inset: 0;
     opacity: var(--spot, 0);
     transition: opacity 0.4s ease;
-    transform: translate3d(var(--mx, 50vw), var(--my, 50vh), 0);
-    will-change: transform;
     background-image:
       radial-gradient(var(--emboss-shadow) 1.4px, transparent 1.5px),
       radial-gradient(var(--emboss-light) 1.4px, transparent 1.5px);
     background-size: var(--dot-gap) var(--dot-gap);
-    background-position:
-      calc(15rem - var(--mx, 50vw) - 1px) calc(15rem - var(--my, 50vh) - 1px),
-      calc(15rem - var(--mx, 50vw) + 1px) calc(15rem - var(--my, 50vh) + 1px);
-    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 10%, transparent 68%);
-    mask-image: radial-gradient(circle at 50% 50%, #000 10%, transparent 68%);
+    background-position: -1px -1px, 1px 1px;
+    -webkit-mask-image: radial-gradient(circle closest-side, #000 10%, transparent 68%);
+    mask-image: radial-gradient(circle closest-side, #000 10%, transparent 68%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 30rem 30rem;
+    mask-size: 30rem 30rem;
+    -webkit-mask-position: calc(var(--mx, 50vw) - 15rem) calc(var(--my, 50vh) - 15rem);
+    mask-position: calc(var(--mx, 50vw) - 15rem) calc(var(--my, 50vh) - 15rem);
+  }
+}
+
+@keyframes beam-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 

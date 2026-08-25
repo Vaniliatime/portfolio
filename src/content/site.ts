@@ -48,10 +48,10 @@ export const hero = {
   ctaSecondary: { en: "Start a project", pl: "Zacznijmy projekt" } satisfies Localized,
   /** Project put on screen in the hero. Needs a cover image to look right. */
   showcaseSlug: "amtracker",
-  /** Chips that float around the showcase. */
+  /** Chips floating around the showcase: the stack behind what is on screen. */
   badges: {
-    en: ["Full-stack web", "IT support", "UI focused", "WordPress", "Problem solver"],
-    pl: ["Full-stack web", "IT support", "Nacisk na UI", "WordPress", "Rozwiązywanie problemów"],
+    en: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma"],
+    pl: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma"],
   } satisfies Localized<string[]>,
 };
 

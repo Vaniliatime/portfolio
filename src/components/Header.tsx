@@ -46,7 +46,9 @@ export function Header({ lang }: { lang: Locale }) {
     <header
       className={cn(
         "sticky top-0 z-50 transition-all duration-300",
-        scrolled ? "border-b border-line bg-paper/80 backdrop-blur-xl" : "border-b border-transparent",
+        // Near-opaque rather than blurred: a backdrop filter here would
+        // re-sample the moving cursor light on every pointer move.
+        scrolled ? "border-b border-line bg-paper/95" : "border-b border-transparent",
       )}
     >
       <div className="shell flex h-16 items-center justify-between gap-4 md:h-20">

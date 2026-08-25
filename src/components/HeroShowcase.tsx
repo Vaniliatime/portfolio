@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Lock, RotateCw } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { statusLabels, type Project } from "@/content/projects";
 
@@ -13,36 +13,54 @@ export function HeroShowcase({ project, lang }: { project: Project; lang: Locale
 
   return (
     <div className="relative">
-      {/* Violet pool behind the screen, catching the page light. */}
-      <div aria-hidden className="absolute inset-[8%] rounded-full bg-accent/25 blur-3xl" />
+      {/* Violet pool behind the screen. Gradient stops rather than a blur
+          filter, which Firefox renders far more cheaply. */}
+      <div
+        aria-hidden
+        className="absolute -inset-8 rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle closest-side, var(--blob-core), var(--blob-mid) 50%, transparent 75%)",
+        }}
+      />
 
       <Link
         href={localePath(lang, `work/${project.slug}`)}
         className="group relative block [perspective:1400px]"
         aria-label={project.title}
       >
-        <div className="overflow-hidden rounded-xl border border-line bg-surface shadow-lift transition-transform duration-500 ease-out [transform:rotateY(-7deg)_rotateX(3deg)] group-hover:[transform:rotateY(-2deg)_rotateX(1deg)]">
-          {/* Chrome */}
-          <div className="flex items-center gap-2 border-b border-line bg-surface-2 px-3 py-2">
-            <span aria-hidden className="flex gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
-            </span>
-            <span className="mx-auto rounded-md bg-surface px-3 py-0.5 text-[0.7rem] text-ink-faint">
-              {host}
-            </span>
-          </div>
+        <div className="beam rounded-2xl shadow-lift transition-transform duration-500 ease-out [transform:rotateY(-7deg)_rotateX(3deg)] group-hover:[transform:rotateY(-2deg)_rotateX(1deg)]">
+          <div className="relative z-10 overflow-hidden rounded-[calc(1rem-1px)] bg-surface">
+            {/* Browser chrome, spelled out enough to read as a window. */}
+            <div className="flex items-center gap-2.5 border-b border-line bg-surface-2 px-3 py-2.5">
+              <span aria-hidden className="flex gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+              </span>
 
-          <div className="relative aspect-[16/11] bg-surface-2">
-            <Image
-              src={project.cover ?? ""}
-              alt={project.title}
-              fill
-              priority
-              sizes="(min-width: 1024px) 460px, 90vw"
-              className="object-cover object-top"
-            />
+              <span aria-hidden className="flex items-center gap-1 text-ink-faint">
+                <ChevronLeft className="h-3.5 w-3.5" />
+                <ChevronRight className="h-3.5 w-3.5" />
+                <RotateCw className="ml-0.5 h-3 w-3" />
+              </span>
+
+              <span className="flex min-w-0 flex-1 items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1 text-[0.7rem] text-ink-faint">
+                <Lock className="h-2.5 w-2.5 shrink-0 text-emerald-500" />
+                <span className="truncate">{host}</span>
+              </span>
+            </div>
+
+            <div className="relative aspect-[16/11] bg-surface-2">
+              <Image
+                src={project.cover ?? ""}
+                alt={project.title}
+                fill
+                priority
+                sizes="(min-width: 1024px) 460px, 90vw"
+                className="object-cover object-top"
+              />
+            </div>
           </div>
         </div>
 
