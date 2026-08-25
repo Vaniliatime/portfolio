@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Download, ExternalLink, Award, Dot } from "lucide-react";
+import { Download, ExternalLink, Award, Linkedin } from "lucide-react";
 import { locales, t, toLocale, type Locale } from "@/lib/i18n";
 import { alternatesFor } from "@/lib/seo";
 import { profile, ui } from "@/content/site";
 import {
-  certificates,
+  certificateGroups,
   education,
-  experience,
+  employment,
+  freelance,
   languages,
   resumeMeta,
   resumeSections,
+  sectionLeads,
   type ResumeEntry,
 } from "@/content/resume";
 import { Reveal } from "@/components/Reveal";
-import { SectionEyebrow } from "@/components/Section";
+import { PageHeader } from "@/components/PageHeader";
 import { ContactCta } from "@/components/ContactCta";
 
 export function generateStaticParams() {
@@ -23,8 +25,8 @@ export function generateStaticParams() {
 const copy = {
   heading: { en: "Résumé", pl: "CV" },
   lead: {
-    en: "Six years in IT support, an engineering degree in game development, and a steady habit of building things on the side.",
-    pl: "Sześć lat w IT support, dyplom inżyniera z game development i stały nawyk budowania rzeczy po godzinach.",
+    en: "Seven years in IT, an engineering degree in game development, and a steady habit of building things on the side.",
+    pl: "Siedem lat w IT, dyplom inżyniera z game development i stały nawyk budowania rzeczy po godzinach.",
   },
 } as const;
 
@@ -34,26 +36,45 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
   return (
     <ol className="relative space-y-10 border-l border-line pl-7">
       {entries.map((entry, i) => (
-        <Reveal key={`${entry.org}-${entry.period}`} delay={i} as="li">
+        <Reveal key={entry.org} delay={i} as="li">
           <span
             aria-hidden
             className="absolute -left-1.5 mt-2 h-3 w-3 rounded-full border-2 border-paper bg-accent"
           />
+
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-            <h3 className="text-lg font-semibold">{t(entry.title, lang)}</h3>
-            <span className="text-sm text-ink-faint">{entry.period}</span>
+            <h3 className="font-display text-lg font-semibold">{entry.org}</h3>
+            {entry.period && <span className="text-sm text-ink-faint">{entry.period}</span>}
           </div>
-          <p className="mt-1 text-sm text-ink-muted">
-            {entry.org} <Dot className="inline h-4 w-4 align-middle text-ink-faint" /> {t(entry.location, lang)}
-          </p>
-          <ul className="mt-4 space-y-2">
-            {t(entry.points, lang).map((point) => (
-              <li key={point} className="flex items-start gap-2.5 text-[0.9375rem] leading-relaxed text-ink-muted">
-                <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                {point}
-              </li>
+          <p className="mt-1 text-sm text-ink-muted">{t(entry.location, lang)}</p>
+
+          <div className="mt-5 space-y-6">
+            {entry.roles.map((role) => (
+              <div
+                key={role.period}
+                // A second role means a promotion — indent it so the path reads
+                // as one company rather than two unrelated jobs.
+                className={entry.roles.length > 1 ? "border-l-2 border-accent/25 pl-5" : undefined}
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h4 className="font-medium text-accent">{t(role.title, lang)}</h4>
+                  <span className="text-sm text-ink-faint">{role.period}</span>
+                </div>
+                <ul className="mt-3 space-y-2">
+                  {t(role.points, lang).map((point) => (
+                    <li
+                      key={point}
+                      className="flex items-start gap-2.5 text-[0.9375rem] leading-relaxed text-ink-muted"
+                    >
+                      <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
+
           {entry.link && (
             <a
               href={entry.link.href}
@@ -68,6 +89,18 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
         </Reveal>
       ))}
     </ol>
+  );
+}
+
+function SectionHeading({ index, lang }: { index: number; lang: Locale }) {
+  const section = resumeSections[index];
+  const lead = sectionLeads[section.id];
+
+  return (
+    <div className="mb-8">
+      <h2 className="font-display text-2xl font-semibold md:text-3xl">{t(section.label, lang)}</h2>
+      {lead && <p className="mt-2 text-ink-muted">{t(lead, lang)}</p>}
+    </div>
   );
 }
 
@@ -89,28 +122,29 @@ export default async function ResumePage({ params }: { params: Promise<{ lang: s
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line">
-        <div aria-hidden className="aurora opacity-60" />
-        <div className="shell relative z-10 py-16 md:py-24">
-          <Reveal className="max-w-2xl">
-            <SectionEyebrow>{profile.name}</SectionEyebrow>
-            <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.08] md:text-6xl">
-              {copy.heading[lang]}
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-ink-muted">{copy.lead[lang]}</p>
-            <a
-              href={resumeMeta.pdf}
-              download
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-ink transition-colors hover:bg-accent-hover"
-            >
-              <Download className="h-4 w-4" />
-              {t(ui.downloadCv, lang)}
-            </a>
-          </Reveal>
+      <PageHeader eyebrow={profile.name} title={copy.heading[lang]} lead={copy.lead[lang]}>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <a
+            href={resumeMeta.pdf}
+            download
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-ink transition-colors hover:bg-accent-hover"
+          >
+            <Download className="h-4 w-4" />
+            {t(ui.downloadCv, lang)}
+          </a>
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-medium transition-colors hover:border-accent/50 hover:bg-accent-wash hover:text-accent"
+          >
+            <Linkedin className="h-4 w-4" />
+            LinkedIn
+          </a>
         </div>
-      </section>
+      </PageHeader>
 
-      <div className="shell py-12">
+      <div className="shell py-10">
         <nav aria-label="Sections" className="flex flex-wrap gap-2">
           {resumeSections.map((section) => (
             <a
@@ -124,41 +158,54 @@ export default async function ResumePage({ params }: { params: Promise<{ lang: s
         </nav>
       </div>
 
-      <div className="shell space-y-20 pb-20 md:space-y-24">
-        <section id="experience">
-          <h2 className="mb-8 font-display text-2xl font-semibold md:text-3xl">
-            {t(resumeSections[0].label, lang)}
-          </h2>
-          <Timeline entries={experience} lang={lang} />
+      <div className="shell space-y-16 pb-16 md:space-y-20">
+        <section id="employment">
+          <SectionHeading index={0} lang={lang} />
+          <Timeline entries={employment} lang={lang} />
+        </section>
+
+        <section id="freelance">
+          <SectionHeading index={1} lang={lang} />
+          <Timeline entries={freelance} lang={lang} />
         </section>
 
         <section id="education">
-          <h2 className="mb-8 font-display text-2xl font-semibold md:text-3xl">
-            {t(resumeSections[1].label, lang)}
-          </h2>
+          <SectionHeading index={2} lang={lang} />
           <Timeline entries={education} lang={lang} />
         </section>
 
         <section id="certificates">
-          <h2 className="mb-8 font-display text-2xl font-semibold md:text-3xl">
-            {t(resumeSections[2].label, lang)}
-          </h2>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {certificates.map((cert, i) => (
-              <Reveal key={cert} delay={i} as="li">
-                <div className="flex items-center gap-3 rounded-xl border border-line bg-surface px-5 py-4">
-                  <Award className="h-4 w-4 shrink-0 text-accent" />
-                  <span className="text-[0.9375rem]">{cert}</span>
-                </div>
-              </Reveal>
+          <SectionHeading index={3} lang={lang} />
+          <div className="space-y-8">
+            {certificateGroups.map((group) => (
+              <div key={group.items.map((c) => c.name).join()}>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-faint">
+                  {t(group.title, lang)}
+                </h3>
+                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {group.items.map((cert, i) => (
+                    <Reveal key={cert.name} delay={i} as="li">
+                      <div className="flex items-start gap-3 rounded-xl border border-line bg-surface px-5 py-4">
+                        <Award className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                        <span className="text-[0.9375rem]">
+                          {cert.name}
+                          {(cert.issuer || cert.year) && (
+                            <span className="mt-0.5 block text-xs text-ink-faint">
+                              {[cert.issuer, cert.year].filter(Boolean).join(" · ")}
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    </Reveal>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </section>
 
         <section id="languages">
-          <h2 className="mb-8 font-display text-2xl font-semibold md:text-3xl">
-            {t(resumeSections[3].label, lang)}
-          </h2>
+          <SectionHeading index={4} lang={lang} />
           <ul className="flex flex-wrap gap-3">
             {languages.map((language) => (
               <li

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { nav, profile, ui } from "@/content/site";
 
@@ -32,14 +32,23 @@ export function Footer({ lang }: { lang: Locale }) {
               >
                 <Github className="h-4 w-4" />
               </a>
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="grid h-9 w-9 place-items-center rounded-full border border-line text-ink-muted transition-colors hover:border-accent/50 hover:bg-accent-wash hover:text-accent"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
             </div>
           </div>
 
           <nav aria-label="Footer" className="flex flex-col gap-2.5 text-sm">
             {nav.map((item) => (
               <Link
-                key={item.href}
-                href={item.type === "anchor" ? `${home}#${item.href}` : localePath(lang, item.href)}
+                key={item.href || "home"}
+                href={localePath(lang, item.href)}
                 className="text-ink-muted transition-colors hover:text-accent"
               >
                 {t(item.label, lang)}

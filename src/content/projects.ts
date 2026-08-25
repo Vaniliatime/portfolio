@@ -165,20 +165,18 @@ export const projects: Project[] = [
   },
   {
     slug: "itil-quiz",
-    // NOTE: confirm the exact framework version before publishing — the label is
-    // deliberately generic here rather than naming a version that may not exist.
-    title: "ITIL Exam Prep Quiz",
+    title: "ITIL 5 Exam Prep Quiz",
     year: "2026",
     category: "product",
     status: "wip",
     featured: true,
     tagline: {
-      en: "A practice app for the ITIL service management certification.",
-      pl: "Aplikacja do nauki przed certyfikacją ITIL z zarządzania usługami IT.",
+      en: "A practice app for the ITIL 5 service management certification.",
+      pl: "Aplikacja do nauki przed certyfikacją ITIL 5 z zarządzania usługami IT.",
     },
     summary: {
-      en: "A quiz app built from my own day-to-day service management work: a structured question bank, timed mock exams, and feedback that explains why an answer was wrong instead of just marking it.",
-      pl: "Aplikacja quizowa zbudowana na bazie mojej codziennej pracy w service management: uporządkowana baza pytań, egzaminy próbne na czas i feedback tłumaczący, dlaczego odpowiedź była błędna, zamiast samego zaznaczenia.",
+      en: "A quiz app built from my own day-to-day service management work and my own ITIL 5 exam: a structured question bank, timed mock exams, and feedback that explains why an answer was wrong instead of just marking it.",
+      pl: "Aplikacja quizowa zbudowana na bazie mojej codziennej pracy w service management i własnego egzaminu ITIL 5: uporządkowana baza pytań, egzaminy próbne na czas i feedback tłumaczący, dlaczego odpowiedź była błędna, zamiast samego zaznaczenia.",
     },
     role: {
       en: "Solo — question bank, app, tooling.",
@@ -186,13 +184,13 @@ export const projects: Project[] = [
     },
     highlights: {
       en: [
-        "Curated question bank authored and graded by difficulty, kept as structured JSON.",
+        "Question bank written against the ITIL 5 syllabus and graded by difficulty, kept as structured JSON.",
         "Timed exam mode alongside a relaxed practice mode with instant explanations.",
         "Progress tracking so weak areas resurface more often.",
         "Built on the current React and Vite toolchain with a typed data layer.",
       ],
       pl: [
-        "Autorska baza pytań z przypisanym poziomem trudności, trzymana jako uporządkowany JSON.",
+        "Baza pytań pisana pod sylabus ITIL 5, z przypisanym poziomem trudności, trzymana jako uporządkowany JSON.",
         "Tryb egzaminu na czas obok spokojnego trybu nauki z natychmiastowym wyjaśnieniem.",
         "Śledzenie postępów — słabsze obszary wracają częściej.",
         "Zbudowane na aktualnym stacku React + Vite z typowaną warstwą danych.",
@@ -239,7 +237,7 @@ export const projects: Project[] = [
     },
     tech: ["WordPress", "WooCommerce", "PHP", "Bootstrap"],
     links: [{ label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl", kind: "site" }],
-    cover: "/images/ksztalcenie-sluchu.png",
+    cover: "/images/ksztalcenie-sluchu.webp",
   },
   {
     slug: "lineup-ev",
@@ -272,7 +270,7 @@ export const projects: Project[] = [
     },
     tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
     links: [{ label: "vaniliatime.eu", href: "https://vaniliatime.eu/", kind: "site" }],
-    cover: "/images/lineup-ev.png",
+    cover: "/images/lineup-ev.webp",
   },
   {
     slug: "old-portfolio",
@@ -303,7 +301,7 @@ export const projects: Project[] = [
     },
     tech: ["Bootstrap", "PHP", "JavaScript"],
     links: [{ label: "View site", href: "https://kkaszuba.eu/old_portfolio", kind: "site" }],
-    cover: "/images/old_portfolio.png",
+    cover: "/images/old_portfolio.webp",
   },
   {
     slug: "pc-builds-landing",
@@ -334,7 +332,7 @@ export const projects: Project[] = [
     },
     tech: ["HTML", "CSS", "Bootstrap"],
     links: [{ label: "View site", href: "https://vaniliatime.github.io/", kind: "site" }],
-    cover: "/images/bootstrap1.png",
+    cover: "/images/bootstrap1.webp",
   },
   {
     slug: "anime-heaven",
@@ -365,7 +363,7 @@ export const projects: Project[] = [
     },
     tech: ["HTML", "CSS", "Bootstrap"],
     links: [{ label: "View site", href: "https://vaniliatime.github.io/", kind: "site" }],
-    cover: "/images/anime1.png",
+    cover: "/images/anime1.webp",
   },
 
   /* ----------------------------------------------------------------------
@@ -404,7 +402,7 @@ export const projects: Project[] = [
       { label: "Play on itch.io", href: "https://vaniliatime.itch.io/vanilliarunner", kind: "site" },
       { label: "Source", href: "https://github.com/Vaniliatime/Vanilla-Runner", kind: "repo" },
     ],
-    cover: "/images/runner1.png",
+    cover: "/images/runner1.webp",
   },
   {
     slug: "jumping-jesus",
@@ -434,7 +432,7 @@ export const projects: Project[] = [
     },
     tech: ["Unity", "C#"],
     links: [{ label: "Source", href: "https://github.com/Vaniliatime/Jumping-Jesus", kind: "repo" }],
-    cover: "/images/jesus1.png",
+    cover: "/images/jesus1.webp",
   },
   {
     slug: "surf-level",
@@ -464,7 +462,7 @@ export const projects: Project[] = [
     },
     tech: ["Unity", "C#"],
     links: [{ label: "Source", href: "https://github.com/Vaniliatime/Jumping-Jesus", kind: "repo" }],
-    cover: "/images/surf1.png",
+    cover: "/images/surf1.webp",
   },
 
   /* ----------------------------------------------------------------------
@@ -499,8 +497,8 @@ export const projects: Project[] = [
     },
     tech: ["Illustrator", "Photoshop"],
     links: [],
-    cover: "/images/2d-art/02.jpg",
-    gallery: ["/images/2d-art/02.jpg", "/images/2d-art/01.jpg", "/images/2d-art/03.png", "/images/2d-art/04.jpg"],
+    cover: "/images/2d-art/02.webp",
+    gallery: ["/images/2d-art/02.webp", "/images/2d-art/01.webp", "/images/2d-art/03.webp", "/images/2d-art/04.webp"],
   },
   {
     slug: "pc-builds",
@@ -531,8 +529,8 @@ export const projects: Project[] = [
     },
     tech: ["Hardware", "Diagnostics", "Thermals"],
     links: [],
-    cover: "/images/rigs/pc01.jpg",
-    gallery: ["/images/rigs/pc01.jpg", "/images/rigs/pc02.png", "/images/rigs/pc03.jpg", "/images/rigs/pc04.png"],
+    cover: "/images/rigs/pc01.webp",
+    gallery: ["/images/rigs/pc01.webp", "/images/rigs/pc02.webp", "/images/rigs/pc03.webp", "/images/rigs/pc04.webp"],
   },
 ];
 

@@ -12,8 +12,8 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
     <>
       <Hero lang={lang} />
       <FeaturedWork lang={lang} />
-      <Services lang={lang} />
-      <About lang={lang} />
+      <Services lang={lang} teaser />
+      <About lang={lang} teaser />
       <ContactCta lang={lang} />
     </>
   );

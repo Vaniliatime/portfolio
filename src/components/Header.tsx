@@ -36,8 +36,11 @@ export function Header({ lang }: { lang: Locale }) {
 
   const home = localePath(lang);
 
-  const hrefFor = (item: (typeof nav)[number]) =>
-    item.type === "anchor" ? `${home}#${item.href}` : localePath(lang, item.href);
+  // Home must match exactly, or it would stay highlighted on every page.
+  const isActive = (href: string) => {
+    const target = localePath(lang, href);
+    return href === "" ? pathname === target : pathname.startsWith(target);
+  };
 
   return (
     <header
@@ -59,15 +62,15 @@ export function Header({ lang }: { lang: Locale }) {
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
           {nav.map((item) => {
-            const href = hrefFor(item);
-            const active = item.type === "route" && pathname.startsWith(localePath(lang, item.href));
+            const active = isActive(item.href);
             return (
               <Link
-                key={item.href}
-                href={href}
+                key={item.href || "home"}
+                href={localePath(lang, item.href)}
+                aria-current={active ? "page" : undefined}
                 className={cn(
                   "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
-                  active ? "text-accent" : "text-ink-muted hover:bg-surface-2 hover:text-ink",
+                  active ? "bg-accent-wash text-accent" : "text-ink-muted hover:bg-surface-2 hover:text-ink",
                 )}
               >
                 {t(item.label, lang)}
@@ -99,10 +102,14 @@ export function Header({ lang }: { lang: Locale }) {
           <nav aria-label="Mobile" className="flex flex-col gap-1">
             {nav.map((item) => (
               <Link
-                key={item.href}
-                href={hrefFor(item)}
+                key={item.href || "home"}
+                href={localePath(lang, item.href)}
                 onClick={() => setOpen(false)}
-                className="rounded-xl px-4 py-3.5 font-display text-xl font-medium transition-colors hover:bg-surface-2 hover:text-accent"
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={cn(
+                  "rounded-xl px-4 py-3.5 font-display text-xl font-medium transition-colors hover:bg-surface-2 hover:text-accent",
+                  isActive(item.href) && "text-accent",
+                )}
               >
                 {t(item.label, lang)}
               </Link>

@@ -1,9 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Sparkles } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
-import { hero, profile, stats } from "@/content/site";
+import { hero, heroStack, profile, stats } from "@/content/site";
 import { ButtonLink } from "./Button";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,7 @@ export function Hero({ lang }: { lang: Locale }) {
   const reduced = useReducedMotion();
   const lines = t(hero.headline, lang);
   const accentLine = t(hero.accentWord, lang);
+  const badges = t(hero.badges, lang);
 
   const rise = (i: number) =>
     reduced
@@ -18,7 +20,7 @@ export function Hero({ lang }: { lang: Locale }) {
       : {
           initial: { opacity: 0, y: 24 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] as const },
+          transition: { duration: 0.7, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as const },
         };
 
   return (
@@ -26,63 +28,136 @@ export function Hero({ lang }: { lang: Locale }) {
       <div aria-hidden className="aurora" />
       <div aria-hidden className="dot-grid absolute inset-0 z-0" />
 
-      <div className="shell relative z-10 pb-20 pt-16 md:pb-28 md:pt-24">
-        <div className="max-w-4xl">
-          <motion.div {...rise(0)}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-wash px-3.5 py-1.5 text-sm font-medium text-accent">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              {t(hero.availability, lang)}
-            </span>
-          </motion.div>
-
-          <h1 className="mt-7 font-display text-[2.6rem] font-semibold leading-[1.06] tracking-tight sm:text-6xl lg:text-7xl">
-            {lines.map((line, i) => (
-              <motion.span key={line} {...rise(i + 1)} className="block">
-                <span
-                  className={cn(
-                    line === accentLine &&
-                      "bg-gradient-to-r from-accent via-accent-soft to-accent bg-clip-text text-transparent",
-                  )}
-                >
-                  {line}
+      <div className="shell relative z-10 pb-14 pt-12 md:pb-20 md:pt-16">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          {/* ---- Left: the pitch ------------------------------------------ */}
+          <div>
+            <motion.div {...rise(0)}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-wash px-3.5 py-1.5 text-sm font-medium text-accent">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
                 </span>
-              </motion.span>
-            ))}
-          </h1>
+                {t(hero.availability, lang)}
+              </span>
+            </motion.div>
 
-          <motion.p
-            {...rise(lines.length + 1)}
-            className="mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl"
-          >
-            {t(hero.intro, lang)}
-          </motion.p>
+            <h1 className="mt-6 font-display text-[2.5rem] font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+              {lines.map((line, i) => (
+                <motion.span key={line} {...rise(i + 1)} className="block">
+                  <span
+                    className={cn(
+                      line === accentLine &&
+                        "bg-gradient-to-r from-accent via-accent-soft to-accent bg-clip-text text-transparent",
+                    )}
+                  >
+                    {line}
+                  </span>
+                </motion.span>
+              ))}
+            </h1>
 
-          <motion.div {...rise(lines.length + 2)} className="mt-9 flex flex-wrap items-center gap-3">
-            <ButtonLink href={localePath(lang, "work")}>
-              {t(hero.ctaPrimary, lang)}
-              <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-            <ButtonLink href={localePath(lang, "contact")} variant="secondary">
-              {t(hero.ctaSecondary, lang)}
-            </ButtonLink>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-1 inline-flex items-center gap-1 text-sm font-medium text-ink-muted transition-colors hover:text-accent"
+            <motion.p {...rise(lines.length + 1)} className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
+              {t(hero.intro, lang)}
+            </motion.p>
+
+            <motion.div {...rise(lines.length + 2)} className="mt-8 flex flex-wrap items-center gap-3">
+              <ButtonLink href={localePath(lang, "work")}>
+                {t(hero.ctaPrimary, lang)}
+                <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+              <ButtonLink href={localePath(lang, "contact")} variant="secondary">
+                {t(hero.ctaSecondary, lang)}
+              </ButtonLink>
+              <div className="ml-1 flex items-center gap-1">
+                <a
+                  href={profile.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  className="grid h-10 w-10 place-items-center rounded-full text-ink-muted transition-colors hover:bg-surface-2 hover:text-accent"
+                >
+                  <Github className="h-[1.15rem] w-[1.15rem]" />
+                </a>
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="grid h-10 w-10 place-items-center rounded-full text-ink-muted transition-colors hover:bg-surface-2 hover:text-accent"
+                >
+                  <Linkedin className="h-[1.15rem] w-[1.15rem]" />
+                </a>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* ---- Right: portrait, chips and what I'm on now ---------------- */}
+          <motion.div {...rise(2)} className="relative mx-auto w-full max-w-sm lg:max-w-none">
+            <div className="relative">
+              {/* Glow behind the frame. */}
+              <div
+                aria-hidden
+                className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-tr from-accent/25 via-accent-soft/20 to-transparent blur-2xl"
+              />
+
+              <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface p-2 shadow-lift">
+                <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-accent-wash to-surface-2">
+                  <Image
+                    src={profile.avatar}
+                    alt={profile.name}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 420px, 90vw"
+                    className="object-cover object-top"
+                  />
+                </div>
+              </div>
+
+              {/* Floating chips — hidden on small screens where they'd collide. */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+                {badges.slice(0, 4).map((badge, i) => {
+                  const spots = [
+                    "left-0 top-6 -translate-x-1/3",
+                    "right-0 top-1/3 translate-x-1/3",
+                    "left-0 bottom-24 -translate-x-1/4",
+                    "right-2 bottom-10 translate-x-1/4",
+                  ];
+                  return (
+                    <motion.span
+                      key={badge}
+                      initial={reduced ? undefined : { opacity: 0, scale: 0.85 }}
+                      animate={reduced ? undefined : { opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.45, delay: 0.7 + i * 0.12 }}
+                      className={cn(
+                        "absolute rounded-full border border-line bg-surface/95 px-3 py-1.5 text-xs font-medium text-ink shadow-card backdrop-blur",
+                        spots[i],
+                      )}
+                    >
+                      {badge}
+                    </motion.span>
+                  );
+                })}
+              </div>
+            </div>
+
+            <motion.div
+              {...rise(4)}
+              className="mt-6 rounded-2xl border border-line bg-surface p-5 shadow-card"
             >
-              GitHub
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </a>
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+                <Sparkles className="h-3.5 w-3.5" />
+                {t(hero.nowLabel, lang)}
+              </span>
+              <p className="mt-2 text-sm leading-relaxed text-ink-muted">{t(hero.nowValue, lang)}</p>
+            </motion.div>
           </motion.div>
         </div>
 
+        {/* ---- Stats ------------------------------------------------------ */}
         <motion.dl
-          {...rise(lines.length + 3)}
-          className="mt-16 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3"
+          {...rise(5)}
+          className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3"
         >
           {stats.map((stat) => (
             <div key={stat.value} className="bg-surface px-6 py-5">
@@ -91,6 +166,17 @@ export function Hero({ lang }: { lang: Locale }) {
             </div>
           ))}
         </motion.dl>
+      </div>
+
+      {/* ---- Stack strip -------------------------------------------------- */}
+      <div className="relative z-10 border-y border-line bg-surface-2/50">
+        <div className="shell flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-5">
+          {heroStack.map((item) => (
+            <span key={item} className="text-sm font-medium text-ink-faint transition-colors hover:text-accent">
+              {item}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );

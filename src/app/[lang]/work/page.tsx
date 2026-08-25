@@ -4,8 +4,7 @@ import { alternatesFor } from "@/lib/seo";
 import { ui } from "@/content/site";
 import { WorkGrid } from "@/components/WorkGrid";
 import { ContactCta } from "@/components/ContactCta";
-import { SectionEyebrow } from "@/components/Section";
-import { Reveal } from "@/components/Reveal";
+import { PageHeader } from "@/components/PageHeader";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -40,20 +39,9 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line">
-        <div aria-hidden className="aurora opacity-60" />
-        <div className="shell relative z-10 py-16 md:py-24">
-          <Reveal className="max-w-2xl">
-            <SectionEyebrow>{t(ui.featured, lang)}</SectionEyebrow>
-            <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.08] md:text-6xl">
-              {copy.heading[lang]}
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-ink-muted">{copy.lead[lang]}</p>
-          </Reveal>
-        </div>
-      </section>
+      <PageHeader eyebrow={t(ui.featured, lang)} title={copy.heading[lang]} lead={copy.lead[lang]} />
 
-      <div className="shell py-14 md:py-20">
+      <div className="shell py-12 md:py-16">
         <WorkGrid lang={lang} />
       </div>
 

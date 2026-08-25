@@ -4,7 +4,7 @@ import { projects } from "@/content/projects";
 import { profile } from "@/content/site";
 
 const base = `https://${profile.domain}`;
-const staticPaths = ["", "work", "resume", "contact"];
+const staticPaths = ["", "work", "services", "about", "resume", "contact"];
 
 export const dynamic = "force-static";
 

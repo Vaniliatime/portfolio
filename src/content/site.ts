@@ -6,6 +6,8 @@ export const profile = {
   email: "kaszubakrzysiek@gmail.com",
   domain: "kkaszuba.eu",
   github: "https://github.com/Vaniliatime",
+  linkedin: "https://www.linkedin.com/in/krzysztof-kaszuba/",
+  avatar: "/images/avatar-3.webp",
   role: {
     en: "Web developer & IT support specialist",
     pl: "Web developer i specjalista IT support",
@@ -13,14 +15,18 @@ export const profile = {
 };
 
 /**
- * Navigation shared by the header and the footer. "anchor" entries scroll to a
- * section on the home page; "route" entries are their own pages.
+ * Navigation shared by the header and the footer.
+ *
+ * Every entry is a real page. An earlier version mixed home-page anchors with
+ * routes, which made the menu look like it was duplicating itself — the home
+ * page now only teases these sections and links onward.
  */
-export const nav: { href: string; label: Localized; type: "route" | "anchor" }[] = [
-  { href: "work", type: "route", label: { en: "Work", pl: "Projekty" } },
-  { href: "services", type: "anchor", label: { en: "Services", pl: "Usługi" } },
-  { href: "about", type: "anchor", label: { en: "About", pl: "O mnie" } },
-  { href: "resume", type: "route", label: { en: "Résumé", pl: "CV" } },
+export const nav: { href: string; label: Localized }[] = [
+  { href: "", label: { en: "Home", pl: "Start" } },
+  { href: "work", label: { en: "Work", pl: "Projekty" } },
+  { href: "services", label: { en: "Services", pl: "Usługi" } },
+  { href: "about", label: { en: "About", pl: "O mnie" } },
+  { href: "resume", label: { en: "Résumé", pl: "CV" } },
 ];
 
 export const hero = {
@@ -40,11 +46,33 @@ export const hero = {
   } satisfies Localized,
   ctaPrimary: { en: "See the work", pl: "Zobacz projekty" } satisfies Localized,
   ctaSecondary: { en: "Start a project", pl: "Zacznijmy projekt" } satisfies Localized,
+  /** Chips that float around the portrait. */
+  badges: {
+    en: ["Full-stack web", "IT support", "UI focused", "WordPress", "Problem solver"],
+    pl: ["Full-stack web", "IT support", "Nacisk na UI", "WordPress", "Rozwiązywanie problemów"],
+  } satisfies Localized<string[]>,
+  nowLabel: { en: "Currently building", pl: "Aktualnie buduję" } satisfies Localized,
+  nowValue: {
+    en: "An ITIL 5 exam prep app and a product around interactive wedding invitations.",
+    pl: "Aplikację do nauki przed egzaminem ITIL 5 i produkt wokół interaktywnych zaproszeń ślubnych.",
+  } satisfies Localized,
 };
+
+/** Logo strip under the hero — the tools shown on the site's own work. */
+export const heroStack = [
+  "React",
+  "Next.js",
+  "TypeScript",
+  "Tailwind CSS",
+  "Node.js",
+  "Prisma",
+  "WordPress",
+  "Vite",
+];
 
 export const stats: { value: string; label: Localized }[] = [
   { value: "6+", label: { en: "Sites & apps shipped", pl: "Wdrożonych stron i aplikacji" } },
-  { value: "2+", label: { en: "Years in enterprise IT support", pl: "Lata w korporacyjnym IT support" } },
+  { value: "7", label: { en: "Years working in IT", pl: "Lat pracy w IT" } },
   { value: "100%", label: { en: "Built and maintained solo", pl: "Zbudowane i utrzymywane solo" } },
 ];
 
@@ -111,6 +139,42 @@ export const services: Service[] = [
   },
 ];
 
+/** Steps shown on the services page. */
+export const process: { step: string; title: Localized; body: Localized }[] = [
+  {
+    step: "01",
+    title: { en: "You tell me what you need", pl: "Mówisz, czego potrzebujesz" },
+    body: {
+      en: "One email is enough to start. What the thing has to do, roughly when you need it, and whether there is a budget in mind.",
+      pl: "Wystarczy jeden mail. Co ma robić, mniej więcej na kiedy i czy masz założony budżet.",
+    },
+  },
+  {
+    step: "02",
+    title: { en: "I come back with a plan and a price", pl: "Wracam z planem i wyceną" },
+    body: {
+      en: "Scope, what is in and what is out, a timeline and a fixed price. If I am not the right fit, I say so at this point rather than later.",
+      pl: "Zakres, co wchodzi i co nie, harmonogram i stała cena. Jeśli nie jestem właściwą osobą, mówię to na tym etapie, a nie później.",
+    },
+  },
+  {
+    step: "03",
+    title: { en: "You see it as it is built", pl: "Widzisz to w trakcie budowy" },
+    body: {
+      en: "Work goes up on a preview link you can open any time. Feedback along the way costs nothing; feedback after launch costs a rebuild.",
+      pl: "Praca ląduje pod linkiem podglądowym, który możesz otworzyć w każdej chwili. Uwagi w trakcie nic nie kosztują — uwagi po starcie kosztują przebudowę.",
+    },
+  },
+  {
+    step: "04",
+    title: { en: "It goes live, and stays live", pl: "Trafia online i tam zostaje" },
+    body: {
+      en: "Domain, hosting and deployment handled. Afterwards you can keep me on for updates and fixes, or take the keys and run it yourself.",
+      pl: "Domena, hosting i wdrożenie po mojej stronie. Potem możesz zostawić mnie do aktualizacji i poprawek albo przejąć klucze i prowadzić to sam.",
+    },
+  },
+];
+
 export const about = {
   heading: { en: "About", pl: "O mnie" } satisfies Localized,
   lead: {
@@ -119,13 +183,13 @@ export const about = {
   } satisfies Localized,
   paragraphs: {
     en: [
-      "I am an IT support specialist working on enterprise systems at the European Commission, where I have spent over two years triaging incidents, reproducing bugs and working alongside developers in Jira, ServiceNow and Oracle SQL. It is unglamorous, and it is the best possible training for building things that other people have to rely on.",
+      "I have worked in IT since 2019 — first as an administrator and then a support engineer at a logistics company, and since 2024 on enterprise systems at the European Commission, triaging incidents, reproducing bugs and working alongside developers in Jira, ServiceNow and Oracle SQL. It is unglamorous, and it is the best possible training for building things that other people have to rely on.",
       "Outside work I build. Some of it is client work — a transport operator's three sites, an eBook store. Some of it is mine — a full-stack anime tracker running on my own server, a quiz app for ITIL certification, an interactive wedding invitation that is turning into a product.",
       "I studied game development with C# and Unity. I no longer make games, but the habit of thinking in systems and states never left, and it shows up every time I model data or design an interface.",
       "Away from a screen you will find me building PCs, playing tennis, or out on a bike.",
     ],
     pl: [
-      "Jestem specjalistą IT support przy systemach korporacyjnych w Komisji Europejskiej, gdzie od ponad dwóch lat zajmuję się zgłoszeniami, odtwarzaniem błędów i pracą ramię w ramię z deweloperami w Jirze, ServiceNow i Oracle SQL. Mało efektowne — i najlepszy możliwy trening przed budowaniem rzeczy, na których ktoś musi polegać.",
+      "W IT pracuję od 2019 roku — najpierw jako administrator, potem support engineer w firmie logistycznej, a od 2024 przy systemach korporacyjnych w Komisji Europejskiej, gdzie zajmuję się zgłoszeniami, odtwarzaniem błędów i pracą ramię w ramię z deweloperami w Jirze, ServiceNow i Oracle SQL. Mało efektowne — i najlepszy możliwy trening przed budowaniem rzeczy, na których ktoś musi polegać.",
       "Poza pracą buduję. Część to zlecenia — trzy strony przewoźnika, sklep z eBookiem. Część jest moja — full-stackowy tracker anime na własnym serwerze, aplikacja quizowa do certyfikacji ITIL, interaktywne zaproszenie ślubne, które zmienia się w produkt.",
       "Studiowałem game development w C# i Unity. Gier już nie robię, ale nawyk myślenia systemami i stanami został i wraca za każdym razem, gdy modeluję dane albo projektuję interfejs.",
       "Z dala od ekranu składam komputery, gram w tenisa albo jeżdżę na rowerze.",
@@ -177,6 +241,15 @@ export const ui = {
   featuredLead: {
     en: "Four projects that show the range: a product, a client engagement, and two things still being built.",
     pl: "Cztery projekty pokazujące zakres: produkt, zlecenie komercyjne i dwie rzeczy wciąż w budowie.",
+  },
+  readMore: { en: "Read more", pl: "Czytaj więcej" },
+  viewResume: { en: "View my résumé", pl: "Zobacz moje CV" },
+  servicesCta: { en: "See what each one includes", pl: "Zobacz, co obejmuje każda z nich" },
+  aboutCta: { en: "More about me", pl: "Więcej o mnie" },
+  processHeading: { en: "How working together looks", pl: "Jak wygląda współpraca" },
+  processLead: {
+    en: "No agency layers. You talk to the person writing the code, from the first message to the site being live.",
+    pl: "Bez agencyjnych warstw. Rozmawiasz z osobą, która pisze kod — od pierwszej wiadomości po uruchomienie strony.",
   },
   servicesEyebrow: { en: "Services", pl: "Usługi" },
   aboutEyebrow: { en: "About", pl: "O mnie" },

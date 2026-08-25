@@ -1,4 +1,4 @@
-import { ArrowUpRight, Github, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { t, type Locale } from "@/lib/i18n";
 import { contact, profile, ui } from "@/content/site";
 import { Reveal } from "./Reveal";
@@ -7,10 +7,10 @@ import { CopyEmail } from "./CopyEmail";
 
 export function ContactCta({ lang }: { lang: Locale }) {
   return (
-    <section id="contact" className="py-20 md:py-28">
+    <section id="contact" className="py-16 md:py-24">
       <div className="shell">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-line bg-surface px-7 py-14 text-center shadow-card md:px-16 md:py-20">
+          <div className="relative overflow-hidden rounded-3xl border border-line bg-surface px-7 py-12 text-center shadow-card md:px-16 md:py-16">
             <div aria-hidden className="aurora opacity-70" />
 
             <div className="relative z-10 mx-auto max-w-2xl">
@@ -44,6 +44,16 @@ export function ContactCta({ lang }: { lang: Locale }) {
                 >
                   <Github className="h-3.5 w-3.5" />
                   GitHub
+                  <ArrowUpRight className="h-3 w-3" />
+                </a>
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+                >
+                  <Linkedin className="h-3.5 w-3.5" />
+                  LinkedIn
                   <ArrowUpRight className="h-3 w-3" />
                 </a>
               </div>

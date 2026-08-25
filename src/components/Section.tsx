@@ -15,10 +15,10 @@ interface SectionProps {
 
 export function Section({ id, eyebrow, heading, lead, children, className, tinted }: SectionProps) {
   return (
-    <section id={id} className={cn("py-20 md:py-28", tinted && "bg-surface-2/60", className)}>
+    <section id={id} className={cn("py-16 md:py-24", tinted && "bg-surface-2/60", className)}>
       <div className="shell">
         {(eyebrow || heading || lead) && (
-          <Reveal className="mb-12 max-w-2xl md:mb-16">
+          <Reveal className="mb-10 max-w-2xl md:mb-14">
             {eyebrow && <SectionEyebrow>{eyebrow}</SectionEyebrow>}
             {heading && (
               <h2 className="mt-4 text-3xl font-semibold leading-[1.1] md:text-4xl lg:text-5xl">{heading}</h2>
