@@ -54,10 +54,7 @@ export function Header({ lang }: { lang: Locale }) {
     >
       <div className="shell flex h-16 items-center justify-between gap-4 md:h-20">
         <Link href={home} className="group flex items-center gap-2.5 font-display font-semibold tracking-tight">
-          <LogoMark
-            id="header-logo"
-            className="h-9 w-9 transition-transform duration-300 group-hover:rotate-6"
-          />
+          <LogoMark className="h-9 transition-transform duration-300 group-hover:scale-105" />
           <span className="hidden sm:inline">{profile.name}</span>
         </Link>
 

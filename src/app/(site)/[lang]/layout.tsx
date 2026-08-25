@@ -58,7 +58,7 @@ export async function generateMetadata({
       title: `${profile.name} · ${t(profile.role, lang)}`,
       description: descriptions[lang],
     },
-    icons: { icon: "/favicon.svg" },
+    icons: { icon: [{ url: "/icon.png", type: "image/png" }, { url: "/favicon.ico" }] },
   };
 }
 
