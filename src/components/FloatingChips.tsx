@@ -1,29 +1,31 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { cn } from "@/lib/utils";
+import type { CSSProperties } from "react";
 
 /**
- * Skill chips parked around the portrait, each drifting on its own slow loop
- * so they read as floating rather than pinned. Hidden below lg, where the
- * column is too narrow to hold them clear of the frame; the hero renders a
- * plain row underneath at those sizes instead.
+ * Skill chips parked around the portrait.
+ *
+ * The drift is a CSS keyframe on an inner span while the entrance fade is a
+ * motion transform on the outer one. Splitting them across two elements is
+ * what keeps it smooth: both animate `transform`, and running them on the
+ * same node made JavaScript overwrite the CSS transform every frame.
+ *
+ * Only floats from lg up, where the column is wide enough to keep the chips
+ * clear of the frame. The hero renders a plain row underneath below that.
  */
-const spots = [
-  "left-0 top-10 -translate-x-1/3",
-  "right-0 top-1/3 translate-x-1/3",
-  "left-0 bottom-1/4 -translate-x-1/4",
-  "right-1 bottom-8 translate-x-1/3",
-  "left-1/4 -top-5",
-];
+interface Spot {
+  style: CSSProperties;
+  distance: string;
+  duration: string;
+}
 
-/** Distinct drift timings, so the chips never bob in unison. */
-const drift = [
-  { y: [0, -9, 0], duration: 5.2 },
-  { y: [0, 8, 0], duration: 6.1 },
-  { y: [0, -7, 0], duration: 5.8 },
-  { y: [0, 9, 0], duration: 6.6 },
-  { y: [0, -6, 0], duration: 4.9 },
+const spots: Spot[] = [
+  { style: { left: "-14%", top: "10%" }, distance: "-11px", duration: "5.4s" },
+  { style: { right: "-15%", top: "32%" }, distance: "10px", duration: "6.3s" },
+  { style: { left: "-10%", bottom: "26%" }, distance: "-9px", duration: "5.9s" },
+  { style: { right: "-7%", bottom: "9%" }, distance: "12px", duration: "6.8s" },
+  { style: { left: "26%", top: "-7%" }, distance: "-8px", duration: "5.1s" },
 ];
 
 export function FloatingChips({ badges }: { badges: string[] }) {
@@ -31,37 +33,32 @@ export function FloatingChips({ badges }: { badges: string[] }) {
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-      {badges.slice(0, spots.length).map((badge, i) => (
-        <motion.span
-          key={badge}
-          initial={reduced ? undefined : { opacity: 0, scale: 0.85 }}
-          animate={
-            reduced
-              ? undefined
-              : { opacity: 1, scale: 1, y: drift[i].y }
-          }
-          transition={
-            reduced
-              ? undefined
-              : {
-                  opacity: { duration: 0.45, delay: 0.6 + i * 0.1 },
-                  scale: { duration: 0.45, delay: 0.6 + i * 0.1 },
-                  y: {
-                    duration: drift[i].duration,
-                    delay: 0.6 + i * 0.1,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                }
-          }
-          className={cn(
-            "absolute whitespace-nowrap rounded-full border border-line bg-surface/95 px-3 py-1.5 text-xs font-medium text-ink shadow-card backdrop-blur",
-            spots[i],
-          )}
-        >
-          {badge}
-        </motion.span>
-      ))}
+      {badges.slice(0, spots.length).map((badge, i) => {
+        const spot = spots[i];
+
+        return (
+          <motion.span
+            key={badge}
+            style={{ position: "absolute", ...spot.style }}
+            initial={reduced ? undefined : { opacity: 0, scale: 0.85 }}
+            animate={reduced ? undefined : { opacity: 1, scale: 1 }}
+            transition={reduced ? undefined : { duration: 0.5, delay: 0.6 + i * 0.1 }}
+          >
+            <span
+              className="chip-float block whitespace-nowrap rounded-full border border-line bg-surface/95 px-3 py-1.5 text-xs font-medium text-ink shadow-card backdrop-blur"
+              style={
+                {
+                  "--float-distance": spot.distance,
+                  "--float-duration": spot.duration,
+                  "--float-delay": `${i * 0.4}s`,
+                } as CSSProperties
+              }
+            >
+              {badge}
+            </span>
+          </motion.span>
+        );
+      })}
     </div>
   );
 }

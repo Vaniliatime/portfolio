@@ -11,6 +11,8 @@ interface CountUpProps {
   suffix?: string;
   className?: string;
   duration?: number;
+  /** Hold off so the count does not finish while the page is still settling. */
+  delay?: number;
 }
 
 /**
@@ -21,7 +23,7 @@ interface CountUpProps {
  * The client resets it to zero in a layout effect, before the browser paints,
  * so the handover is invisible. Reduced motion keeps the number still.
  */
-export function CountUp({ value, suffix = "", className, duration = 1.4 }: CountUpProps) {
+export function CountUp({ value, suffix = "", className, duration = 2.4, delay = 0.9 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const reduced = useReducedMotion();
@@ -36,12 +38,14 @@ export function CountUp({ value, suffix = "", className, duration = 1.4 }: Count
 
     const controls = animate(0, value, {
       duration,
-      ease: [0.16, 1, 0.3, 1],
+      delay,
+      // Slow, decelerating finish, so the last digits are the ones you notice.
+      ease: [0.12, 0.7, 0.15, 1],
       onUpdate: (latest) => setDisplay(Math.round(latest)),
     });
 
     return () => controls.stop();
-  }, [inView, value, duration, reduced]);
+  }, [inView, value, duration, delay, reduced]);
 
   return (
     <span ref={ref} className={className}>

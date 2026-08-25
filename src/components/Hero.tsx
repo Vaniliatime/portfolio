@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, Github, Linkedin, Sparkles } from "lucide-react";
+import { ArrowRight, Github, Linkedin } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { hero, profile, stats } from "@/content/site";
 import { ButtonLink } from "./Button";
@@ -112,17 +112,19 @@ export function Hero({ lang }: { lang: Locale }) {
           {/* ---- Right: the portrait, with chips floating around it -------- */}
           <motion.div {...rise(2)} className="relative mx-auto w-full max-w-xs lg:max-w-none">
             <div className="relative">
-              <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface p-2 shadow-lift">
-                <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-accent-wash to-surface-2">
-                  <Image
-                    src={profile.avatar}
-                    alt={profile.name}
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 360px, 80vw"
-                    className="object-cover object-top"
-                  />
-                </div>
+              {/* Violet pool sitting behind the portrait, picking up the
+                  page light rather than a hard frame. */}
+              <div aria-hidden className="absolute inset-[12%] rounded-full bg-accent/25 blur-3xl" />
+
+              <div className="portrait-soft relative aspect-square">
+                <Image
+                  src={profile.avatar}
+                  alt={profile.name}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 380px, 80vw"
+                  className="object-cover object-top"
+                />
               </div>
 
               <FloatingChips badges={badges} />
@@ -143,19 +145,18 @@ export function Hero({ lang }: { lang: Locale }) {
           </motion.div>
         </div>
 
-        {/* ---- What I am on right now, centred under both columns --------- */}
-        <motion.div
-          {...rise(6)}
-          className="mx-auto mt-14 flex max-w-3xl items-start gap-4 rounded-2xl border border-line bg-surface/80 p-6 backdrop-blur sm:items-center md:mt-16"
-        >
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-wash text-accent">
-            <Sparkles className="h-5 w-5" />
-          </span>
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+        {/* ---- What I am on right now. A rule and a line, not a card, so it
+                closes the section instead of sitting on top of it. -------- */}
+        <motion.div {...rise(6)} className="mt-14 border-t border-line pt-6 md:mt-16">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-6">
+            <span className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+              </span>
               {t(hero.nowLabel, lang)}
             </span>
-            <p className="mt-1 leading-relaxed text-ink-muted">{t(hero.nowValue, lang)}</p>
+            <p className="leading-relaxed text-ink-muted">{t(hero.nowValue, lang)}</p>
           </div>
         </motion.div>
       </div>
