@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { nav, profile, ui } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { LogoMark } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LocaleToggle } from "./LocaleToggle";
 import { ButtonLink } from "./Button";
@@ -53,12 +54,10 @@ export function Header({ lang }: { lang: Locale }) {
     >
       <div className="shell flex h-16 items-center justify-between gap-4 md:h-20">
         <Link href={home} className="group flex items-center gap-2.5 font-display font-semibold tracking-tight">
-          <span
-            aria-hidden
-            className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-sm text-accent-ink transition-transform duration-300 group-hover:rotate-6"
-          >
-            KK
-          </span>
+          <LogoMark
+            id="header-logo"
+            className="h-9 w-9 transition-transform duration-300 group-hover:rotate-6"
+          />
           <span className="hidden sm:inline">{profile.name}</span>
         </Link>
 
@@ -85,7 +84,7 @@ export function Header({ lang }: { lang: Locale }) {
           <LocaleToggle current={lang} />
           <ThemeToggle label={t(ui.toggleTheme, lang)} />
           <ButtonLink href={localePath(lang, "contact")} size="sm" className="hidden md:inline-flex">
-            {t(ui.emailMe, lang)}
+            {t(ui.contactMe, lang)}
           </ButtonLink>
           <button
             type="button"
@@ -122,7 +121,7 @@ export function Header({ lang }: { lang: Locale }) {
             className="mt-6 w-full"
             onClick={() => setOpen(false)}
           >
-            {t(ui.emailMe, lang)}
+            {t(ui.contactMe, lang)}
           </ButtonLink>
         </div>
       )}

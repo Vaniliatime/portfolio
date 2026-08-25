@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Github, Linkedin, Mail, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { locales, t, toLocale } from "@/lib/i18n";
 import { alternatesFor } from "@/lib/seo";
 import { contact, profile, services, ui } from "@/content/site";
@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { PageHeader } from "@/components/PageHeader";
 import { ContactForm } from "@/components/ContactForm";
 import { CopyEmail } from "@/components/CopyEmail";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -15,6 +16,7 @@ export function generateStaticParams() {
 const copy = {
   eyebrow: { en: "Contact", pl: "Kontakt" },
   what: { en: "What I take on", pl: "Co przyjmuję" },
+  elsewhere: { en: "Find me elsewhere", pl: "Znajdziesz mnie też tutaj" },
 } as const;
 
 export async function generateMetadata({
@@ -78,22 +80,14 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               </ul>
             </div>
 
-            <div className="space-y-2.5 border-t border-line pt-8 text-sm text-ink-muted">
-              <p className="flex items-start gap-2">
+            <div className="border-t border-line pt-8">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-faint">
+                {copy.elsewhere[lang]}
+              </h2>
+              <SocialLinks className="mt-4" />
+              <p className="mt-6 flex items-start gap-2 text-sm text-ink-muted">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                 {t(contact.note, lang)}
-              </p>
-              <p className="flex items-start gap-2">
-                <Github className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
-                  github.com/Vaniliatime
-                </a>
-              </p>
-              <p className="flex items-start gap-2">
-                <Linkedin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
-                  linkedin.com/in/krzysztof-kaszuba
-                </a>
               </p>
             </div>
           </Reveal>

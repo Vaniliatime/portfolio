@@ -3,10 +3,11 @@ import { Inter, Sora } from "next/font/google";
 import type { ReactNode } from "react";
 import "../../globals.css";
 import { locales, t, toLocale, type Locale } from "@/lib/i18n";
-import { profile } from "@/content/site";
+import { profile, ui } from "@/content/site";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { BackToTop } from "@/components/BackToTop";
 import { CursorLight } from "@/components/CursorLight";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter", display: "swap" });
@@ -86,6 +87,7 @@ export default async function RootLayout({
             {children}
           </main>
           <Footer lang={lang} />
+          <BackToTop label={t(ui.backToTop, lang)} />
         </Providers>
       </body>
     </html>

@@ -1,9 +1,9 @@
-import { ArrowUpRight, Github, Linkedin, Mail, MapPin } from "lucide-react";
-import { t, type Locale } from "@/lib/i18n";
-import { contact, profile, ui } from "@/content/site";
+import { ArrowRight, MapPin } from "lucide-react";
+import { localePath, t, type Locale } from "@/lib/i18n";
+import { contact, ui } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { ButtonLink } from "./Button";
-import { CopyEmail } from "./CopyEmail";
+import { SocialLinks } from "./SocialLinks";
 
 export function ContactCta({ lang }: { lang: Locale }) {
   return (
@@ -19,43 +19,21 @@ export function ContactCta({ lang }: { lang: Locale }) {
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-muted">{t(contact.lead, lang)}</p>
 
-              <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-                <ButtonLink href={`mailto:${profile.email}`} external>
-                  <Mail className="h-4 w-4" />
-                  {profile.email}
+              {/* One route through to the contact page, rather than an address
+                  to copy and a mailto that may not open anything. */}
+              <div className="mt-9 flex justify-center">
+                <ButtonLink href={localePath(lang, "contact")}>
+                  {t(ui.contactMe, lang)}
+                  <ArrowRight className="h-4 w-4" />
                 </ButtonLink>
-                <CopyEmail
-                  email={profile.email}
-                  label={t(ui.copyEmail, lang)}
-                  copiedLabel={t(ui.copied, lang)}
-                />
               </div>
 
-              <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ink-faint">
-                <span className="inline-flex items-center gap-1.5">
+              <div className="mt-9 flex flex-col items-center gap-5">
+                <SocialLinks />
+                <span className="inline-flex items-center gap-1.5 text-sm text-ink-faint">
                   <MapPin className="h-3.5 w-3.5" />
                   {t(contact.note, lang)}
                 </span>
-                <a
-                  href={profile.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
-                >
-                  <Github className="h-3.5 w-3.5" />
-                  GitHub
-                  <ArrowUpRight className="h-3 w-3" />
-                </a>
-                <a
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
-                >
-                  <Linkedin className="h-3.5 w-3.5" />
-                  LinkedIn
-                  <ArrowUpRight className="h-3 w-3" />
-                </a>
               </div>
             </div>
           </div>

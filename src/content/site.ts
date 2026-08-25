@@ -7,6 +7,10 @@ export const profile = {
   domain: "kkaszuba.eu",
   github: "https://github.com/Vaniliatime",
   linkedin: "https://www.linkedin.com/in/krzysztof-kaszuba/",
+  /** Instagram profile URL. Empty hides the link everywhere. */
+  instagram: "",
+  /** Digits only, country code first, no plus. Empty hides the link. */
+  whatsapp: "",
   avatar: "/images/avatar-3.webp",
   role: {
     en: "Web developer & IT support specialist",
@@ -210,10 +214,32 @@ export const contact = {
     pl: "Napisz, czego potrzebujesz i mniej więcej na kiedy. Odpisuję na każdą wiadomość, łącznie ze szczerym „nie”, jeśli nie jestem właściwą osobą.",
   } satisfies Localized,
   note: {
-    en: "Working English and Polish. Based in Belgium, working remotely.",
-    pl: "Pracuję po angielsku i po polsku. Mieszkam w Belgii, pracuję zdalnie.",
+    en: "Based in Belgium, working remotely with clients in English and Polish.",
+    pl: "Mieszkam w Belgii, pracuję zdalnie z klientami po polsku i po angielsku.",
   } satisfies Localized,
 };
+
+/** Social links, in the order they appear. Entries without a value drop out. */
+export type SocialId = "github" | "linkedin" | "instagram" | "whatsapp";
+
+interface Social {
+  id: SocialId;
+  label: string;
+  href: string;
+}
+
+export const socials: Social[] = (
+  [
+    { id: "github", label: "GitHub", href: profile.github },
+    { id: "linkedin", label: "LinkedIn", href: profile.linkedin },
+    { id: "instagram", label: "Instagram", href: profile.instagram },
+    {
+      id: "whatsapp",
+      label: "WhatsApp",
+      href: profile.whatsapp ? `https://wa.me/${profile.whatsapp}` : "",
+    },
+  ] satisfies Social[]
+).filter((social) => social.href.length > 0);
 
 export const ui = {
   allWork: { en: "All work", pl: "Wszystkie" },
@@ -252,6 +278,8 @@ export const ui = {
   backToWork: { en: "Back to all work", pl: "Wróć do projektów" },
   nextProject: { en: "Next project", pl: "Następny projekt" },
   emailMe: { en: "Email me", pl: "Napisz maila" },
+  contactMe: { en: "Contact me", pl: "Skontaktuj się ze mną" },
+  backToTop: { en: "Back to top", pl: "Wróć na górę" },
   copyEmail: { en: "Copy address", pl: "Skopiuj adres" },
   copied: { en: "Copied", pl: "Skopiowano" },
   toggleTheme: { en: "Toggle theme", pl: "Przełącz motyw" },
