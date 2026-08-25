@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
-import { useReducedMotion } from "motion/react";
-import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 /** Appears once the page has scrolled, and returns to the top smoothly. */
 export function BackToTop({ label }: { label: string }) {
@@ -18,24 +17,43 @@ export function BackToTop({ label }: { label: string }) {
   }, []);
 
   return (
-    <button
-      type="button"
-      aria-label={label}
-      title={label}
-      // Hidden from the tab order while off screen, so it is not a stop on
-      // the way through the page.
-      tabIndex={visible ? 0 : -1}
-      aria-hidden={!visible}
-      onClick={() =>
-        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" })
-      }
-      className={cn(
-        "fixed bottom-6 right-6 z-40 grid h-11 w-11 place-items-center rounded-full border border-line bg-surface text-ink-muted shadow-card transition-all duration-300",
-        "hover:border-accent/50 hover:bg-accent hover:text-accent-ink hover:shadow-lift",
-        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          type="button"
+          aria-label={label}
+          title={label}
+          onClick={() => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" })}
+          initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.5, y: 16 }}
+          animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+          exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.5, y: 16 }}
+          transition={
+            reduced ? { duration: 0.15 } : { type: "spring", stiffness: 430, damping: 26 }
+          }
+          whileHover={reduced ? undefined : { y: -4, scale: 1.06 }}
+          whileTap={reduced ? undefined : { scale: 0.92 }}
+          className="group fixed bottom-6 right-6 z-40 grid h-12 w-12 place-items-center rounded-full bg-accent text-accent-ink shadow-[0_2px_6px_rgb(124_58_237/0.35),0_14px_30px_-10px_rgb(124_58_237/0.6)] hover:bg-accent-hover"
+        >
+          {/* Halo that keeps pulsing, so the button reads as live. */}
+          {!reduced && (
+            <motion.span
+              aria-hidden
+              className="absolute inset-0 rounded-full bg-accent"
+              animate={{ scale: [1, 1.35], opacity: [0.45, 0] }}
+              transition={{ duration: 1.9, repeat: Infinity, ease: "easeOut" }}
+            />
+          )}
+
+          <motion.span
+            aria-hidden
+            className="relative"
+            animate={reduced ? undefined : { y: [0, -3, 0] }}
+            transition={reduced ? undefined : { duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ArrowUp className="h-5 w-5" />
+          </motion.span>
+        </motion.button>
       )}
-    >
-      <ArrowUp className="h-5 w-5" />
-    </button>
+    </AnimatePresence>
   );
 }

@@ -6,8 +6,12 @@
     </linearGradient>
   </defs>
   <rect width="32" height="32" rx="9" fill="url(#g)"/>
-  <g stroke="#fff" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M11 8.5 V23.5"/>
-    <path d="M21.5 8.5 L13.5 16 L21.5 23.5"/>
+  <g stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M8.5 8 V24"/>
+    <path d="M15 9.5 L8.5 16 L15 22.5"/>
+    <g opacity="0.72">
+      <path d="M23.5 8 V24"/>
+      <path d="M17 9.5 L23.5 16 L17 22.5"/>
+    </g>
   </g>
 </svg>

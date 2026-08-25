@@ -5,8 +5,11 @@ interface LogoProps {
 }
 
 /**
- * Monogram mark: a geometric K whose arms meet the stem as a chevron, so it
- * reads as both an initial and the angle brackets of markup.
+ * KK monogram.
+ *
+ * Two K forms mirrored across the centre, so their arms run at each other and
+ * close into a symmetrical mark. Reads as the initials without being a plain
+ * pair of letters, and the converging arms keep the nod to angle brackets.
  */
 export function LogoMark({ className, id = "logo" }: LogoProps) {
   const gradientId = `${id}-gradient`;
@@ -19,16 +22,19 @@ export function LogoMark({ className, id = "logo" }: LogoProps) {
           <stop offset="1" stopColor="#6d28d9" />
         </linearGradient>
       </defs>
+
       <rect width="32" height="32" rx="9" fill={`url(#${gradientId})`} />
-      <g
-        stroke="#fff"
-        strokeWidth="2.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      >
-        <path d="M11 8.5 V23.5" />
-        <path d="M21.5 8.5 L13.5 16 L21.5 23.5" />
+
+      <g stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        {/* Left K */}
+        <path d="M8.5 8 V24" />
+        <path d="M15 9.5 L8.5 16 L15 22.5" />
+
+        {/* Right K, mirrored */}
+        <g opacity="0.72">
+          <path d="M23.5 8 V24" />
+          <path d="M17 9.5 L23.5 16 L17 22.5" />
+        </g>
       </g>
     </svg>
   );
