@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
 import type { ReactNode } from "react";
-import "../globals.css";
+import "../../globals.css";
 import { locales, t, toLocale, type Locale } from "@/lib/i18n";
 import { profile } from "@/content/site";
 import { Providers } from "@/components/Providers";
