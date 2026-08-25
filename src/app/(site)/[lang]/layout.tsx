@@ -7,6 +7,7 @@ import { profile } from "@/content/site";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CursorLight } from "@/components/CursorLight";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter", display: "swap" });
 const sora = Sora({ subsets: ["latin", "latin-ext"], variable: "--font-sora", display: "swap" });
@@ -79,8 +80,11 @@ export default async function RootLayout({
           >
             Skip to content
           </a>
+          <CursorLight />
           <Header lang={lang} />
-          <main id="main">{children}</main>
+          <main id="main" className="relative z-10">
+            {children}
+          </main>
           <Footer lang={lang} />
         </Providers>
       </body>

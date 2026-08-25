@@ -13,7 +13,6 @@ interface PageHeaderProps {
 export function PageHeader({ eyebrow, title, lead, children }: PageHeaderProps) {
   return (
     <section className="relative overflow-hidden border-b border-line">
-      <div aria-hidden className="aurora opacity-60" />
       <div className="shell relative z-10 py-14 md:py-20">
         <Reveal className="max-w-2xl">
           <SectionEyebrow>{eyebrow}</SectionEyebrow>

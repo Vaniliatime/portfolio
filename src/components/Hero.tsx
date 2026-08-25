@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Github, Linkedin, Sparkles } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
@@ -11,40 +10,9 @@ import { cn } from "@/lib/utils";
 
 export function Hero({ lang }: { lang: Locale }) {
   const reduced = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
   const lines = t(hero.headline, lang);
   const accentLine = t(hero.accentWord, lang);
   const badges = t(hero.badges, lang);
-
-  // Feed the pointer position to the CSS light layers. Written straight to the
-  // element rather than through state so it never re-renders on mouse move.
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || reduced) return;
-
-    let frame = 0;
-
-    const onMove = (event: PointerEvent) => {
-      if (event.pointerType === "touch") return;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty("--mx", `${event.clientX - rect.left}px`);
-        el.style.setProperty("--my", `${event.clientY - rect.top}px`);
-        el.style.setProperty("--spot", "1");
-      });
-    };
-
-    const onLeave = () => el.style.setProperty("--spot", "0");
-
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerleave", onLeave);
-    return () => {
-      cancelAnimationFrame(frame);
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerleave", onLeave);
-    };
-  }, [reduced]);
 
   const rise = (i: number) =>
     reduced
@@ -56,11 +24,7 @@ export function Hero({ lang }: { lang: Locale }) {
         };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden">
-      <div aria-hidden className="dot-grid absolute inset-0 z-0" />
-      <div aria-hidden className="hero-blob" />
-      <div aria-hidden className="hero-emboss" />
-
+    <section className="relative overflow-hidden">
       <div className="shell relative z-10 pb-16 pt-12 md:pb-24 md:pt-16">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
           {/* ---- Left: the pitch, with the stats underneath ---------------- */}

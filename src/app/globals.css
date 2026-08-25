@@ -164,23 +164,35 @@
     opacity: 0.22;
   }
 
-  /* Faint dotted field used as a texture under the hero. */
-  .dot-grid {
-    background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
-    background-size: var(--dot-gap) var(--dot-gap);
-    mask-image: radial-gradient(ellipse 90% 70% at 50% 10%, #000 45%, transparent 100%);
-  }
-
   /* ---------------------------------------------------------------------
-     Hero cursor light.
+     Page-wide cursor light.
 
-     Three layers driven by --mx / --my, which the hero sets from the
+     Layers are driven by --mx / --my, set on the root element from the
      pointer. The blob eases toward the cursor while the emboss layer
      tracks it exactly; that lag is what reads as depth. The emboss draws
      the same dot lattice twice, shadow up-left and highlight down-right,
      so the dots under the light look pressed into the page.
+
+     Everything is fixed to the viewport, which keeps the three lattices
+     aligned at any scroll position and lets the effect run on every page.
   --------------------------------------------------------------------- */
-  .hero-blob {
+  .cursor-light {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .cursor-light__dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+    background-size: var(--dot-gap) var(--dot-gap);
+    opacity: 0.5;
+  }
+
+  .cursor-light__blob {
     position: absolute;
     top: 0;
     left: 0;
@@ -191,22 +203,18 @@
     filter: blur(90px);
     background: radial-gradient(circle, var(--accent-soft), transparent 65%);
     opacity: 0.42;
-    transform: translate3d(var(--mx, 72vw), var(--my, 14rem), 0);
+    transform: translate3d(var(--mx, 72vw), var(--my, 30vh), 0);
     transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform;
-    pointer-events: none;
-    z-index: 0;
   }
 
-  .dark .hero-blob {
+  .dark .cursor-light__blob {
     opacity: 0.26;
   }
 
-  .hero-emboss {
+  .cursor-light__emboss {
     position: absolute;
     inset: 0;
-    pointer-events: none;
-    z-index: 0;
     opacity: var(--spot, 0);
     transition: opacity 0.4s ease;
     background-image:

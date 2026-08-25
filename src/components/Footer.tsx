@@ -7,7 +7,7 @@ export function Footer({ lang }: { lang: Locale }) {
   const home = localePath(lang);
 
   return (
-    <footer className="border-t border-line bg-surface-2/50">
+    <footer className="relative z-10 border-t border-line bg-surface-2/50">
       <div className="shell py-14">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
