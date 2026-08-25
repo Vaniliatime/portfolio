@@ -164,13 +164,6 @@
     opacity: 0.22;
   }
 
-  /* Portrait with no frame: the edges fade out so it sits in the light
-     instead of looking like a photo pasted into a card. */
-  .portrait-soft {
-    -webkit-mask-image: radial-gradient(ellipse 70% 72% at 50% 44%, #000 50%, transparent 80%);
-    mask-image: radial-gradient(ellipse 70% 72% at 50% 44%, #000 50%, transparent 80%);
-  }
-
   /* Slow drift for the chips around the portrait. Kept in CSS so it runs on
      the compositor and never fights a transform written from JavaScript. */
   .chip-float {

@@ -46,7 +46,9 @@ export const hero = {
   } satisfies Localized,
   ctaPrimary: { en: "See the work", pl: "Zobacz projekty" } satisfies Localized,
   ctaSecondary: { en: "Start a project", pl: "Zacznijmy projekt" } satisfies Localized,
-  /** Chips that float around the portrait. */
+  /** Project put on screen in the hero. Needs a cover image to look right. */
+  showcaseSlug: "amtracker",
+  /** Chips that float around the showcase. */
   badges: {
     en: ["Full-stack web", "IT support", "UI focused", "WordPress", "Problem solver"],
     pl: ["Full-stack web", "IT support", "Nacisk na UI", "WordPress", "Rozwiązywanie problemów"],

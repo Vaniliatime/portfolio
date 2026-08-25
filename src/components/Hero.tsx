@@ -5,9 +5,11 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Github, Linkedin } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { hero, profile, stats } from "@/content/site";
+import { getProject } from "@/content/projects";
 import { ButtonLink } from "./Button";
 import { CountUp } from "./CountUp";
 import { FloatingChips } from "./FloatingChips";
+import { HeroShowcase } from "./HeroShowcase";
 import { cn } from "@/lib/utils";
 
 export function Hero({ lang }: { lang: Locale }) {
@@ -15,6 +17,7 @@ export function Hero({ lang }: { lang: Locale }) {
   const lines = t(hero.headline, lang);
   const accentLine = t(hero.accentWord, lang);
   const badges = t(hero.badges, lang);
+  const showcase = getProject(hero.showcaseSlug);
 
   const rise = (i: number) =>
     reduced
@@ -31,7 +34,16 @@ export function Hero({ lang }: { lang: Locale }) {
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
           {/* ---- Left: the pitch, with the stats underneath ---------------- */}
           <div>
-            <motion.div {...rise(0)}>
+            <motion.div {...rise(0)} className="flex items-center gap-3">
+              <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-line bg-surface-2">
+                <Image
+                  src={profile.avatar}
+                  alt={profile.name}
+                  fill
+                  sizes="40px"
+                  className="object-cover object-top"
+                />
+              </span>
               <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-wash px-3.5 py-1.5 text-sm font-medium text-accent">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
@@ -109,24 +121,10 @@ export function Hero({ lang }: { lang: Locale }) {
             </motion.dl>
           </div>
 
-          {/* ---- Right: the portrait, with chips floating around it -------- */}
-          <motion.div {...rise(2)} className="relative mx-auto w-full max-w-xs lg:max-w-none">
+          {/* ---- Right: the featured project, with chips floating around -- */}
+          <motion.div {...rise(2)} className="relative mx-auto w-full max-w-sm lg:max-w-none">
             <div className="relative">
-              {/* Violet pool sitting behind the portrait, picking up the
-                  page light rather than a hard frame. */}
-              <div aria-hidden className="absolute inset-[12%] rounded-full bg-accent/25 blur-3xl" />
-
-              <div className="portrait-soft relative aspect-square">
-                <Image
-                  src={profile.avatar}
-                  alt={profile.name}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 380px, 80vw"
-                  className="object-cover object-top"
-                />
-              </div>
-
+              {showcase && <HeroShowcase project={showcase} lang={lang} />}
               <FloatingChips badges={badges} />
             </div>
 
