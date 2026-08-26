@@ -4,17 +4,26 @@ import Link from "next/link";
 import {
   Activity,
   Award,
+  BookOpen,
   Briefcase,
+  Bus,
   ChevronsUp,
+  Clapperboard,
+  ClipboardCheck,
   Code2,
+  Cpu,
   Download,
   ExternalLink,
   GraduationCap,
+  Heart,
+  Landmark,
+  Library,
   Linkedin,
   Palette,
   Radar,
   ShieldCheck,
   Sparkles,
+  Truck,
   Workflow,
   Wrench,
 } from "lucide-react";
@@ -58,9 +67,18 @@ const copy = {
 
 const entryIcons: Record<NonNullable<ResumeEntry["icon"]>, LucideIcon> = {
   work: Briefcase,
+  institution: Landmark,
+  logistics: Truck,
+  transport: Bus,
+  product: Library,
+  book: BookOpen,
+  media: Clapperboard,
   school: GraduationCap,
   design: Palette,
   tools: Wrench,
+  hardware: Cpu,
+  learning: ClipboardCheck,
+  event: Heart,
 };
 
 const certificateIcons: Record<CertificateIcon, LucideIcon> = {

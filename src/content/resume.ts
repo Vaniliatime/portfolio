@@ -20,7 +20,20 @@ export interface ResumeEntry {
   /** Logo file in /public. Falls back to a themed icon when absent. */
   logo?: string;
   /** Fallback glyph, keyed in the resume page. */
-  icon?: "work" | "school" | "design" | "tools";
+  icon?:
+    | "work"
+    | "institution"
+    | "logistics"
+    | "transport"
+    | "product"
+    | "book"
+    | "media"
+    | "school"
+    | "design"
+    | "tools"
+    | "hardware"
+    | "learning"
+    | "event";
   /** Drawn panel for entries with nothing to screenshot. */
   visual?: "editing";
   roles: ResumeRole[];
@@ -63,7 +76,7 @@ export const employment: ResumeEntry[] = [
     org: "Venthone (European Commission project)",
     location: { en: "Hybrid, Brussels", pl: "Hybrydowo, Bruksela" },
     period: "Jul 2024 to present",
-    icon: "work",
+    icon: "institution",
     roles: [
       {
         title: { en: "IT Application Support Agent", pl: "IT Application Support Agent" },
@@ -111,7 +124,7 @@ export const employment: ResumeEntry[] = [
     org: "Clickbus LTD",
     location: { en: "Birmingham, United Kingdom", pl: "Birmingham, Wielka Brytania" },
     period: "Jun 2019 to Jun 2024 · 5 yrs 1 mo",
-    icon: "work",
+    icon: "logistics",
     roles: [
       {
         title: { en: "IT Specialist", pl: "IT Specialist" },
@@ -161,7 +174,7 @@ export const employment: ResumeEntry[] = [
     org: "FafNet",
     location: { en: "Katowice Metropolitan Area, on-site", pl: "Aglomeracja katowicka, stacjonarnie" },
     period: "2016",
-    icon: "tools",
+    icon: "hardware",
     roles: [
       {
         title: { en: "Computer Technician", pl: "Technik komputerowy" },
@@ -190,6 +203,7 @@ export const freelance: ResumeEntry[] = [
     org: "Klikbus",
     location: { en: "Remote", pl: "Zdalnie" },
     period: "2024 to present",
+    icon: "transport",
     projectSlug: "passenger-transport",
     roles: [
       {
@@ -216,6 +230,7 @@ export const freelance: ResumeEntry[] = [
     org: "Kształcenie Słuchu (auditory training eBook)",
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     period: "Jan 2024 to Jan 2025",
+    icon: "book",
     projectSlug: "ksztalcenie-sluchu",
     roles: [
       {
@@ -242,7 +257,7 @@ export const freelance: ResumeEntry[] = [
     org: "Diecezjalny Instytut Muzyki Kościelnej",
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     period: "Jan 2023 to Jan 2024",
-    icon: "design",
+    icon: "media",
     visual: "editing",
     roles: [
       {
@@ -278,6 +293,7 @@ export const ownProjects: ResumeEntry[] = [
     org: "AM Tracker",
     location: { en: "Own product", pl: "Produkt własny" },
     period: "2025 to present",
+    icon: "product",
     projectSlug: "amtracker",
     roles: [
       {
@@ -295,6 +311,60 @@ export const ownProjects: ResumeEntry[] = [
             "Obsługa kont z weryfikacją e-mail i logowaniem dwuskładnikowym TOTP.",
             "Model domeny w Prisma wystawiony jako panel statystyk osobistych.",
             "Utrzymanie na własnym serwerze, razem z backupami i aktualizacjami.",
+          ],
+        },
+      },
+    ],
+  },
+  {
+    org: "ITIL 5 Exam Prep Quiz",
+    location: { en: "Own product", pl: "Produkt własny" },
+    period: "2026 to present",
+    icon: "learning",
+    projectSlug: "itil-quiz",
+    roles: [
+      {
+        title: { en: "Solo build", pl: "Wykonanie solo" },
+        period: "2026 to present",
+        points: {
+          en: [
+            "Writing the question bank against the ITIL 5 syllabus, graded by difficulty and kept as structured JSON.",
+            "Timed exam mode alongside a practice mode that explains why an answer was wrong.",
+            "Progress tracking that brings weak areas back more often.",
+            "Built on React 19 and Vite with a typed data layer.",
+          ],
+          pl: [
+            "Pisanie bazy pytań pod sylabus ITIL 5, z poziomem trudności, trzymanej jako uporządkowany JSON.",
+            "Tryb egzaminu na czas obok trybu nauki, który tłumaczy, dlaczego odpowiedź była błędna.",
+            "Śledzenie postępów, które częściej przywraca słabsze obszary.",
+            "Zbudowane na React 19 i Vite z typowaną warstwą danych.",
+          ],
+        },
+      },
+    ],
+  },
+  {
+    org: "Interactive Wedding Invitations",
+    location: { en: "Own product", pl: "Produkt własny" },
+    period: "2026 to present",
+    icon: "event",
+    projectSlug: "wedding-invitations",
+    roles: [
+      {
+        title: { en: "Product and build", pl: "Produkt i wykonanie" },
+        period: "2026 to present",
+        points: {
+          en: [
+            "Started as the invitation for my own wedding, built to find out whether the idea holds up.",
+            "Animated one-page invitation with scroll-driven scenes, a countdown and a custom mini game.",
+            "RSVP form writing to SQLite, with email notifications and guest photo uploads resized server-side.",
+            "Groundwork for a separate company site selling these as a service.",
+          ],
+          pl: [
+            "Zaczęło się jako zaproszenie na mój własny ślub, zbudowane po to, żeby sprawdzić, czy pomysł się broni.",
+            "Animowane zaproszenie one-page ze scenami sterowanymi scrollem, odliczaniem i autorską mini grą.",
+            "Formularz RSVP zapisujący do SQLite, z powiadomieniami e-mail i zdjęciami gości skalowanymi po stronie serwera.",
+            "Podstawa pod osobną stronę firmową sprzedającą to jako usługę.",
           ],
         },
       },
