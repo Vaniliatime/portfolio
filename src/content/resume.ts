@@ -36,6 +36,8 @@ export interface ResumeEntry {
     | "event";
   /** Drawn panel for entries with nothing to screenshot. */
   visual?: "editing";
+  /** Aside under the header: renamings, mergers, anything worth a footnote. */
+  note?: Localized;
   roles: ResumeRole[];
 }
 
@@ -374,12 +376,16 @@ export const ownProjects: ResumeEntry[] = [
 
 export const education: ResumeEntry[] = [
   {
-    // NOTE: WSEI has since been absorbed by another institution. Update the
-    // name here if the degree should carry the successor's.
-    org: "WSEI, University of Economics and Computer Science",
+    // The diploma carries the original name, so that is what is shown; the
+    // note points at what the institution is called today.
+    org: "WSEI Kraków",
     location: { en: "Specialisation: game development", pl: "Specjalizacja: game development" },
     period: "10.2018 to 10.2022",
     icon: "school",
+    note: {
+      en: "Wyższa Szkoła Ekonomii i Informatyki w Krakowie. Part of Uniwersytet DSW Ideis since April 2026; the diploma carries the original name.",
+      pl: "Wyższa Szkoła Ekonomii i Informatyki w Krakowie. Od kwietnia 2026 część Uniwersytetu DSW Ideis; dyplom nosi pierwotną nazwę.",
+    },
     link: { label: "Thesis project: Vanilia Runner", href: "https://github.com/Vaniliatime/Vanilla-Runner" },
     roles: [
       {

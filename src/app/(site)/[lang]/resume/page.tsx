@@ -143,6 +143,12 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
                   {t(entry.location, lang)}
                 </p>
 
+                {entry.note && (
+                  <p className="mt-2 border-l-2 border-line pl-3 text-[0.8125rem] leading-relaxed text-ink-faint">
+                    {t(entry.note, lang)}
+                  </p>
+                )}
+
                 {/*
                  * Several roles means a promotion inside one company, so they
                  * hang off a single accent rule. One role needs no rule at all.
