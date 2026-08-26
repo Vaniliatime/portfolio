@@ -383,8 +383,8 @@ export const education: ResumeEntry[] = [
     period: "10.2018 to 10.2022",
     icon: "school",
     note: {
-      en: "Wyższa Szkoła Ekonomii i Informatyki w Krakowie. Part of Uniwersytet DSW Ideis since April 2026; the diploma carries the original name.",
-      pl: "Wyższa Szkoła Ekonomii i Informatyki w Krakowie. Od kwietnia 2026 część Uniwersytetu DSW Ideis; dyplom nosi pierwotną nazwę.",
+      en: "Wyższa Szkoła Ekonomii i Informatyki (WSEI) w Krakowie. Merged with Uniwersytet Dolnośląski DSW in April 2026 and now operates as Uniwersytet DSW Ideis Kraków; the diploma carries the original name.",
+      pl: "Wyższa Szkoła Ekonomii i Informatyki (WSEI) w Krakowie. W kwietniu 2026 połączyła się z Uniwersytetem Dolnośląskim DSW i obecnie funkcjonuje jako Uniwersytet DSW Ideis Kraków; dyplom nosi pierwotną nazwę.",
     },
     link: { label: "Thesis project: Vanilia Runner", href: "https://github.com/Vaniliatime/Vanilla-Runner" },
     roles: [
