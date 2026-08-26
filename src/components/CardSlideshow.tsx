@@ -25,14 +25,18 @@ interface CardSlideshowProps {
  * halfway through, neither is opaque and the card's own background shows
  * through as a flash.
  *
- * Only the outgoing and incoming frames are ever in the DOM, and the timer runs
- * only while the card is on screen, so a full gallery costs one image per card
- * up front and the rest arrive one at a time as the loop reaches them.
+ * The loop starts when the card is scrolled to, not before, and rewinds to the
+ * cover once it leaves, so every arrival begins on the same frame.
+ *
+ * Only the outgoing and incoming frames are ever in the DOM, so a full gallery
+ * costs one image per card up front and the rest arrive one at a time as the
+ * loop reaches them.
  */
 export function CardSlideshow({ images, alt, sizes, priority, className }: CardSlideshowProps) {
   const frames = images;
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { margin: "200px" });
+  // No head start: the card has to be properly in view, not merely approaching.
+  const inView = useInView(ref, { margin: "-15% 0px -15% 0px" });
   const reduced = useReducedMotion();
 
   const [index, setIndex] = useState(0);
@@ -50,6 +54,15 @@ export function CardSlideshow({ images, alt, sizes, priority, className }: CardS
 
     return () => clearInterval(timer);
   }, [frames.length, inView, reduced]);
+
+  // Back to the cover whenever the card leaves the screen, so arriving at it
+  // always starts on the shot the project leads with rather than wherever the
+  // loop happened to stop.
+  useEffect(() => {
+    if (inView) return;
+    setIndex(0);
+    setPrevious(null);
+  }, [inView]);
 
   // Drop the outgoing frame once it is fully covered, so only two images are
   // ever in the DOM at a time.

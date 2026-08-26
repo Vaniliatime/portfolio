@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { statusLabels, type Project } from "@/content/projects";
@@ -24,14 +24,18 @@ const MAX_CHIPS = 5;
  */
 export function HeroShowcase({ projects, lang }: { projects: Project[]; lang: Locale }) {
   const reduced = useReducedMotion();
+  const frameRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(frameRef, { margin: "-15% 0px -15% 0px" });
   const [index, setIndex] = useState(0);
 
+  // Stops advancing once scrolled past, so nobody comes back to the hero and
+  // finds it on a slide they never saw change.
   useEffect(() => {
-    if (projects.length < 2) return;
+    if (projects.length < 2 || !inView) return;
 
     const timer = setInterval(() => setIndex((i) => (i + 1) % projects.length), INTERVAL_MS);
     return () => clearInterval(timer);
-  }, [projects.length]);
+  }, [projects.length, inView]);
 
   const project = projects[index];
   if (!project) return null;
@@ -40,7 +44,7 @@ export function HeroShowcase({ projects, lang }: { projects: Project[]; lang: Lo
   const chips = project.tech.slice(0, MAX_CHIPS);
 
   return (
-    <div className="relative">
+    <div ref={frameRef} className="relative">
       {/* Violet pool behind the screen. Gradient stops rather than a blur
           filter, which Firefox renders far more cheaply. */}
       <div
