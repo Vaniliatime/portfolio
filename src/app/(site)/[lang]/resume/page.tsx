@@ -52,6 +52,7 @@ import { BrowserFrame } from "@/components/BrowserFrame";
 import { EditorPanel } from "@/components/EditorPanel";
 import { ContactCta } from "@/components/ContactCta";
 import { FlagGB, FlagPL } from "@/components/icons/Flags";
+import { cn } from "@/lib/utils";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -101,9 +102,16 @@ function EntryBadge({ entry }: { entry: ResumeEntry }) {
   const Icon = entryIcons[entry.icon ?? "work"];
 
   return (
-    <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl border border-line bg-surface shadow-card">
+    <span
+      className={cn(
+        "grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl border border-line shadow-card",
+        // Brand logos come with a white background baked in, so the tile
+        // stays white in both themes rather than showing a pale block.
+        entry.logo ? "bg-white" : "bg-surface",
+      )}
+    >
       {entry.logo ? (
-        <Image src={entry.logo} alt="" width={48} height={48} className="h-full w-full object-contain p-1.5" />
+        <Image src={entry.logo} alt="" width={48} height={48} className="h-full w-full object-contain p-1" />
       ) : (
         <Icon className="h-5 w-5 text-accent" />
       )}
