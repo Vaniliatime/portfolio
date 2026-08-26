@@ -201,6 +201,18 @@ export const projects: Project[] = [
     },
     tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Express", "SQLite", "Sharp", "Nodemailer"],
     links: [],
+    cover: "/images/wedding/invitation.webp",
+    gallery: [
+      "/images/wedding/invitation.webp",
+      "/images/wedding/venue.webp",
+      "/images/wedding/schedule.webp",
+      "/images/wedding/travel.webp",
+      "/images/wedding/stay.webp",
+      "/images/wedding/food-music.webp",
+      "/images/wedding/photos.webp",
+      "/images/wedding/rsvp.webp",
+    ],
+    galleryAspect: "wide",
   },
   {
     slug: "itil-quiz",
