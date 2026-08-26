@@ -104,14 +104,14 @@ function EntryBadge({ entry }: { entry: ResumeEntry }) {
   return (
     <span
       className={cn(
-        "grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl border border-line shadow-card",
+        "grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl border border-line shadow-card",
         // Brand logos come with a white background baked in, so the tile
         // stays white in both themes rather than showing a pale block.
         entry.logo ? "bg-white" : "bg-surface",
       )}
     >
       {entry.logo ? (
-        <Image src={entry.logo} alt="" width={48} height={48} className="h-full w-full object-contain p-1" />
+        <Image src={entry.logo} alt="" width={56} height={56} className="h-full w-full object-contain p-1.5" />
       ) : (
         <Icon className="h-5 w-5 text-accent" />
       )}
@@ -129,14 +129,14 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
 
         return (
           <Reveal key={entry.org} delay={i} as="li" className="relative">
-            <div className="grid gap-x-5 gap-y-4 sm:grid-cols-[3rem_1fr] lg:grid-cols-[3rem_1fr_13rem]">
+            <div className="grid gap-x-5 gap-y-4 sm:grid-cols-[3.5rem_1fr] lg:grid-cols-[3.5rem_1fr_13rem]">
               {/* Badge column, with the run down to the next employer. */}
               <div className="relative">
                 <EntryBadge entry={entry} />
                 {!isLast && (
                   <span
                     aria-hidden
-                    className="absolute -bottom-14 left-6 top-14 hidden w-px -translate-x-1/2 bg-line sm:block"
+                    className="absolute -bottom-14 left-7 top-16 hidden w-px -translate-x-1/2 bg-line sm:block"
                   />
                 )}
               </div>

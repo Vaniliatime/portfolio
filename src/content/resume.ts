@@ -79,6 +79,7 @@ export const employment: ResumeEntry[] = [
     location: { en: "Hybrid, Brussels, Belgium", pl: "Hybrydowo, Bruksela, Belgia" },
     period: "Jul 2024 to present",
     icon: "institution",
+    logo: "/images/logos/venthone.webp",
     roles: [
       {
         title: { en: "IT Application Support Agent", pl: "IT Application Support Agent" },
@@ -202,10 +203,11 @@ export const employment: ResumeEntry[] = [
 --------------------------------------------------------------------------- */
 export const freelance: ResumeEntry[] = [
   {
-    org: "Klikbus",
+    org: "Klikbus Service",
     location: { en: "Remote", pl: "Zdalnie" },
     period: "2024 to present",
     icon: "transport",
+    logo: "/images/logos/klikbus.webp",
     projectSlug: "passenger-transport",
     roles: [
       {

@@ -278,132 +278,6 @@ export const projects: Project[] = [
     links: [{ label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl", kind: "site" }],
     cover: "/images/ksztalcenie-sluchu.webp",
   },
-  {
-    slug: "lineup-ev",
-    title: "LineUp EV",
-    year: "2025",
-    category: "product",
-    status: "archived",
-    tagline: {
-      en: "A concept app for queue etiquette at EV charging stations.",
-      pl: "Koncepcyjna aplikacja porządkująca kolejkę na ładowarkach elektryków.",
-    },
-    summary: {
-      en: "A design-led concept exploring a real annoyance: not knowing whether a charger is free, occupied, or blocked by a car that finished charging an hour ago.",
-      pl: "Koncept skupiony na projekcie, rozwiązujący realną irytację: brak informacji, czy ładowarka jest wolna, zajęta, czy blokowana przez auto, które skończyło ładowanie godzinę temu.",
-    },
-    role: { en: "Concept, design and front end.", pl: "Koncept, projekt i front end." },
-    highlights: {
-      en: [
-        "Charger availability, status and estimated wait time as the core screen.",
-        "Animated phone mockups with an interactive status and map preview.",
-        "Modular components with scroll-triggered animation throughout.",
-        "Roadmap, FAQ and an animated battery-fill footer.",
-      ],
-      pl: [
-        "Dostępność ładowarki, status i szacowany czas oczekiwania jako główny ekran.",
-        "Animowane makiety telefonu z interaktywnym statusem i podglądem mapy.",
-        "Modularne komponenty z animacjami wyzwalanymi scrollem.",
-        "Roadmapa, FAQ i animowana stopka wypełniająca się jak bateria.",
-      ],
-    },
-    tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    links: [{ label: "vaniliatime.eu", href: "https://vaniliatime.eu/", kind: "site" }],
-    cover: "/images/lineup-ev.webp",
-  },
-  {
-    slug: "old-portfolio",
-    title: "Portfolio, Bootstrap Edition",
-    year: "2023",
-    category: "client",
-    status: "archived",
-    tagline: {
-      en: "My first developer portfolio, kept online on purpose.",
-      pl: "Moje pierwsze portfolio deweloperskie, celowo trzymane online.",
-    },
-    summary: {
-      en: "The site that came before this one. Left up as an honest before-and-after of how my front-end work has changed.",
-      pl: "Strona, która była przed obecną. Zostawiona jako uczciwe „przed i po” tego, jak zmienił się mój front end.",
-    },
-    role: { en: "Solo build.", pl: "Wykonanie solo." },
-    highlights: {
-      en: [
-        "Core skills and sample projects in a clean, mobile-first layout.",
-        "Fully responsive Bootstrap 5 grid with custom animations.",
-        "A deliberate stepping stone toward the current portfolio.",
-      ],
-      pl: [
-        "Kluczowe umiejętności i przykładowe projekty w czytelnym, mobile-first layoucie.",
-        "W pełni responsywna siatka Bootstrap 5 z autorskimi animacjami.",
-        "Świadomy krok pośredni w stronę obecnego portfolio.",
-      ],
-    },
-    tech: ["Bootstrap", "PHP", "JavaScript"],
-    links: [{ label: "View site", href: "https://kkaszuba.eu/old_portfolio", kind: "site" }],
-    cover: "/images/old_portfolio.webp",
-  },
-  {
-    slug: "pc-builds-landing",
-    title: "Landing Page: 3 PC Builds",
-    year: "2022",
-    category: "client",
-    status: "archived",
-    tagline: {
-      en: "An early static landing page for three PC configurations.",
-      pl: "Wczesny statyczny landing page dla trzech konfiguracji PC.",
-    },
-    summary: {
-      en: "One of my first layout projects, a single-page comparison of three builds, written by hand before any framework habits set in.",
-      pl: "Jeden z moich pierwszych projektów layoutu: jednostronicowe porównanie trzech zestawów, pisane ręcznie, zanim wyrobiłem sobie nawyki frameworkowe.",
-    },
-    role: { en: "Solo build.", pl: "Wykonanie solo." },
-    highlights: {
-      en: [
-        "Responsive single-page layout showcasing three PC builds.",
-        "Product specs paired with a simple call to action.",
-        "An early foundation for everything that came after.",
-      ],
-      pl: [
-        "Responsywny layout one-page prezentujący trzy zestawy PC.",
-        "Specyfikacja produktu zestawiona z prostym call to action.",
-        "Wczesny fundament pod wszystko, co przyszło później.",
-      ],
-    },
-    tech: ["HTML", "CSS", "Bootstrap"],
-    links: [{ label: "View site", href: "https://vaniliatime.github.io/", kind: "site" }],
-    cover: "/images/bootstrap1.webp",
-  },
-  {
-    slug: "anime-heaven",
-    title: "Anime Heaven",
-    year: "2022",
-    category: "client",
-    status: "archived",
-    tagline: {
-      en: "A themed fan site prototype from my student years.",
-      pl: "Prototyp tematycznej strony fanowskiej z czasów studiów.",
-    },
-    summary: {
-      en: "An anime-themed content site built to practise structuring a layout around categories and a strong visual theme.",
-      pl: "Strona contentowa o tematyce anime, zbudowana dla wprawy w organizowaniu layoutu wokół kategorii i mocnego motywu wizualnego.",
-    },
-    role: { en: "Solo build.", pl: "Wykonanie solo." },
-    highlights: {
-      en: [
-        "Anime-themed layout with a fully responsive grid.",
-        "Categorised content for manga, news and highlights.",
-        "Navigation tuned for both desktop and mobile.",
-      ],
-      pl: [
-        "Layout w klimacie anime z w pełni responsywną siatką.",
-        "Treść podzielona na kategorie: manga, newsy i wyróżnione.",
-        "Nawigacja dopracowana pod desktop i mobile.",
-      ],
-    },
-    tech: ["HTML", "CSS", "Bootstrap"],
-    links: [{ label: "View site", href: "https://vaniliatime.github.io/", kind: "site" }],
-    cover: "/images/anime1.webp",
-  },
 
   /* ----------------------------------------------------------------------
      Games and level design: the Unity background.
@@ -509,35 +383,35 @@ export const projects: Project[] = [
   ---------------------------------------------------------------------- */
   {
     slug: "2d-arts",
-    title: "2D Arts",
+    title: "Business Card Design",
     year: "2020-2023",
     category: "design",
     status: "archived",
     tagline: {
-      en: "Vector illustration drawn from scratch.",
-      pl: "Ilustracja wektorowa rysowana od zera.",
+      en: "Vector business cards drawn from scratch.",
+      pl: "Wizytówki wektorowe rysowane od zera.",
     },
     summary: {
-      en: "A set of digital illustrations built in Illustrator and Photoshop. The reason I care about colour, spacing and contrast in the interfaces I build.",
-      pl: "Zestaw ilustracji cyfrowych wykonanych w Illustratorze i Photoshopie. Powód, dla którego zwracam uwagę na kolor, odstępy i kontrast w interfejsach, które buduję.",
+      en: "Business cards set in Illustrator and Photoshop. Small pieces, but the reason I care about colour, spacing and contrast in the interfaces I build.",
+      pl: "Wizytówki złożone w Illustratorze i Photoshopie. Drobne rzeczy, ale to od nich wzięła się moja uwaga na kolor, odstępy i kontrast w interfejsach, które buduję.",
     },
-    role: { en: "Illustration.", pl: "Ilustracja." },
+    role: { en: "Design.", pl: "Projekt." },
     highlights: {
       en: [
-        "Digital vector artworks created from scratch.",
-        "Custom brushes, gradients and hand-picked palettes.",
-        "Presented in a responsive grid with a zoom lightbox.",
+        "Layouts drawn as vectors, so they hold at any print size.",
+        "Hand-picked palettes and type pairings.",
+        "Prepared for print, front and back.",
       ],
       pl: [
-        "Cyfrowe prace wektorowe tworzone od zera.",
-        "Autorskie pędzle, gradienty i ręcznie dobierane palety.",
-        "Prezentowane w responsywnej siatce z lightboxem.",
+        "Layouty rysowane wektorowo, więc trzymają się w każdym rozmiarze druku.",
+        "Ręcznie dobierane palety i pary krojów.",
+        "Przygotowane do druku, awers i rewers.",
       ],
     },
     tech: ["Illustrator", "Photoshop"],
     links: [],
     cover: "/images/2d-art/02.webp",
-    gallery: ["/images/2d-art/02.webp", "/images/2d-art/01.webp", "/images/2d-art/03.webp", "/images/2d-art/04.webp"],
+    gallery: ["/images/2d-art/02.webp", "/images/2d-art/01.webp"],
   },
   {
     slug: "pc-builds",
@@ -569,7 +443,16 @@ export const projects: Project[] = [
     tech: ["Hardware", "Diagnostics", "Thermals"],
     links: [],
     cover: "/images/rigs/pc01.webp",
-    gallery: ["/images/rigs/pc01.webp", "/images/rigs/pc02.webp", "/images/rigs/pc03.webp", "/images/rigs/pc04.webp"],
+    gallery: [
+      "/images/rigs/pc01.webp",
+      "/images/rigs/pc02.webp",
+      "/images/rigs/pc03.webp",
+      "/images/rigs/pc04.webp",
+      "/images/rigs/pc05.webp",
+      "/images/rigs/rig01.webp",
+      "/images/rigs/rig02.webp",
+      "/images/rigs/rig03.webp",
+    ],
   },
 ];
 
