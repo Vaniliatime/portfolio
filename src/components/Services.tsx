@@ -6,6 +6,7 @@ import { services, ui } from "@/content/site";
 import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 import { ButtonLink } from "./Button";
+import { SpotlightGroup } from "./SpotlightGroup";
 
 const icons: Record<string, LucideIcon> = {
   globe: Globe,
@@ -25,11 +26,11 @@ interface ServicesProps {
 
 export function Services({ lang, teaser }: ServicesProps) {
   const cards = (
-    <div className="grid gap-5 sm:grid-cols-2">
+    <SpotlightGroup className="grid gap-5 sm:grid-cols-2">
       {services.map((service, i) => {
         const Icon = icons[service.icon] ?? Globe;
         const card = (
-          <div className="group h-full rounded-2xl border border-line bg-surface p-7 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-lift">
+          <div className="spotlight group h-full rounded-2xl border border-line bg-surface p-7 shadow-card transition-all duration-300 hover:border-accent/35 hover:shadow-lift">
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-wash text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-accent-ink">
               <Icon className="h-5 w-5" />
             </span>
@@ -69,7 +70,7 @@ export function Services({ lang, teaser }: ServicesProps) {
           </Reveal>
         );
       })}
-    </div>
+    </SpotlightGroup>
   );
 
   if (!teaser) return cards;

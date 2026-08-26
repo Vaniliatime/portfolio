@@ -34,7 +34,6 @@
   --blob-core: rgb(168 85 247 / 0.3);
   --blob-mid: rgb(168 85 247 / 0.12);
   --sheen: rgb(255 255 255 / 0.55);
-  --halo: rgb(124 58 237 / 0.4);
 
   /*
    * Logo glint. On the light theme a plain white band barely registers, so it
@@ -76,7 +75,6 @@
   --blob-core: rgb(167 139 250 / 0.2);
   --blob-mid: rgb(167 139 250 / 0.07);
   --sheen: rgb(255 255 255 / 0.07);
-  --halo: rgb(167 139 250 / 0.3);
 
   /* Against a dark page the white band carries on its own. */
   --shine-gradient: linear-gradient(
@@ -248,30 +246,42 @@
   }
 
   /*
-   * Idle halo: a soft pool of violet under the card that swells and fades.
-   * It sits outside the card entirely, so it never touches the screenshot or
-   * the text, and nothing changes position.
-   *
-   * Gradient stops rather than a blur filter, for the same reason as the
-   * cursor light: Firefox pays dearly for a large blur.
+   * Service cards catching the pointer. The wash follows the cursor inside the
+   * card and its strength falls off with distance, so the nearest card is the
+   * brightest and the rest dim in order. Both variables come from
+   * SpotlightGroup; with no JavaScript the card simply stays unlit.
    */
-  .card-halo {
+  .spotlight {
     position: relative;
   }
 
-  .card-halo::after {
+  .spotlight::before {
     content: "";
     position: absolute;
-    left: 7%;
-    right: 7%;
-    bottom: -0.9rem;
-    height: 1.75rem;
+    inset: 0;
     z-index: 0;
     pointer-events: none;
-    border-radius: 9999px;
-    background: radial-gradient(50% 50% at 50% 50%, var(--halo), transparent 72%);
-    opacity: 0;
-    animation: card-halo var(--halo-duration, 14s) ease-in-out var(--halo-delay, 0s) infinite;
+    border-radius: inherit;
+    opacity: calc(var(--spot-strength, 0) * 0.9);
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+      16rem circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      var(--accent-wash),
+      transparent 70%
+    );
+  }
+
+  .spotlight > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /*
+   * The arrow on a card's link nudges every so often, as a reminder the whole
+   * card opens. One glyph moving is the only motion a resting card needs.
+   */
+  .arrow-nudge {
+    animation: arrow-nudge 9s ease-in-out var(--nudge-delay, 0s) infinite;
   }
 
   /*
@@ -468,13 +478,17 @@
   }
 }
 
-@keyframes card-halo {
+@keyframes arrow-nudge {
   0%,
+  82%,
   100% {
-    opacity: 0;
+    transform: translateX(0);
   }
-  50% {
-    opacity: 1;
+  88% {
+    transform: translateX(5px);
+  }
+  94% {
+    transform: translateX(0);
   }
 }
 

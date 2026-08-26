@@ -6,6 +6,7 @@ import { ui } from "@/content/site";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { ProjectCover } from "./ProjectCover";
+import { CardSlideshow } from "./CardSlideshow";
 
 /** Solid fills: the outlined version disappeared against a screenshot. */
 const statusStyles: Record<Project["status"], { pill: string; dot: string; pulse: boolean }> = {
@@ -20,7 +21,7 @@ interface ProjectCardProps {
   /** Large cards lead the featured grid. */
   size?: "lg" | "md";
   priority?: boolean;
-  /** Offsets the halo, so a row of cards is never in step. */
+  /** Offsets the arrow nudge, so a row of cards is never in step. */
   index?: number;
 }
 
@@ -29,6 +30,10 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
   const category = categories.find((c) => c.id === project.category);
   const large = size === "lg";
   const status = statusStyles[project.status];
+  const coverSizes = large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw";
+  // Cover first, then whatever the gallery adds, so the card opens on the
+  // shot the project leads with.
+  const frames = project.gallery?.length ? project.gallery : project.cover ? [project.cover] : [];
 
   /*
    * Card heights match without anything stretching: the thumbnail has a fixed
@@ -37,19 +42,15 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
    */
   return (
     <div
-      className="card-halo group h-full"
-      // Staggered two ways so no two neighbours pulse together: when they
-      // start and how long a cycle runs. Identical cycles drift back into step
-      // however the delays are set.
+      className="card-edge group h-full rounded-2xl shadow-card transition-shadow duration-300 hover:shadow-lift"
+      // Offsets so no two neighbours nudge at the same moment.
       style={
         {
-          "--halo-delay": `${((index % 5) * -3).toFixed(1)}s`,
-          "--halo-duration": `${14 + (index % 3) * 2}s`,
+          "--nudge-delay": `${((index % 5) * -1.8).toFixed(1)}s`,
           "--edge-angle": `${135 + (index % 4) * 45}deg`,
         } as CSSProperties
       }
     >
-      <div className="card-edge h-full rounded-2xl shadow-card transition-shadow duration-300 group-hover:shadow-lift">
         <article className="card-sheen relative flex h-full flex-col overflow-hidden rounded-[calc(1rem-1px)] bg-surface">
           <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
             <ProjectCover
@@ -130,11 +131,12 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
 
             <span className="mt-4 flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
               {t(ui.viewProject, lang)}
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              {/* Nudges on its own every few seconds, and slides further out
+                  under the pointer. */}
+              <ArrowRight className="arrow-nudge h-4 w-4 group-hover:translate-x-1" />
             </span>
           </div>
-        </article>
-      </div>
+      </article>
     </div>
   );
 }
