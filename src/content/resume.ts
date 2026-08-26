@@ -197,7 +197,10 @@ export const employment: ResumeEntry[] = [
     },
     roles: [
       {
-        title: { en: "Computer Technician", pl: "Technik komputerowy" },
+        title: {
+          en: "Computer and Network Technician",
+          pl: "Technik komputerowy i sieciowy",
+        },
         level: { en: "Internship", pl: "Staż" },
         period: "2016 · 3 months",
         points: {
