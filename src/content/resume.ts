@@ -180,8 +180,10 @@ export const employment: ResumeEntry[] = [
   {
     org: "FafNet",
     location: { en: "Katowice Metropolitan Area, on-site", pl: "Aglomeracja katowicka, stacjonarnie" },
-    period: "2016",
+    period: "2016 · 3 months",
     icon: "hardware",
+    logo: "/images/logos/fafnet.svg",
+    logoFill: true,
     note: {
       en: "Local internet provider and computer service in Katowice, running since 2002; now tied to Prolog Tech.",
       pl: "Lokalny dostawca internetu i serwis komputerowy w Katowicach, działa od 2002 roku; obecnie powiązany z Prolog Tech.",
@@ -190,7 +192,7 @@ export const employment: ResumeEntry[] = [
       {
         title: { en: "Computer Technician", pl: "Technik komputerowy" },
         level: { en: "Internship", pl: "Staż" },
-        period: "2016",
+        period: "2016 · 3 months",
         points: {
           en: [
             "School placement with a local internet provider and computer service.",
@@ -453,7 +455,7 @@ export const education: ResumeEntry[] = [
     ],
   },
   {
-    org: "Complex of Printing and Mechanical Schools, Katowice",
+    org: "Zespół Szkół Poligraficzno-Mechanicznych",
     location: { en: "Katowice, Poland", pl: "Katowice" },
     period: "09.2013 to 06.2017",
     icon: "tools",
