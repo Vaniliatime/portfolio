@@ -246,17 +246,15 @@
   }
 
   /*
-   * Idle drift on a card's screenshot: a very slow push in and back out, so a
-   * grid of cards is never completely still. Each card takes its own delay, or
-   * ten thumbnails would breathe in unison and read as a glitch.
+   * Idle float, so a grid of cards is never completely still. Each takes its
+   * own delay, or every card would rise and fall in unison and read as a
+   * glitch rather than as life.
    *
-   * Lives on a wrapper rather than the image, because the image already owns a
-   * transform for the hover zoom and the two would overwrite each other.
+   * Sits on a wrapper around the card, because the card itself already owns a
+   * transform for the hover lift and the two would overwrite each other.
    */
-  .cover-drift {
-    position: absolute;
-    inset: 0;
-    animation: cover-drift 22s ease-in-out var(--drift-delay, 0s) infinite alternate;
+  .card-float {
+    animation: card-float 7s ease-in-out var(--float-offset, 0s) infinite;
     will-change: transform;
   }
 
@@ -433,12 +431,13 @@
   }
 }
 
-@keyframes cover-drift {
-  from {
-    transform: scale(1);
+@keyframes card-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
   }
-  to {
-    transform: scale(1.06);
+  50% {
+    transform: translate3d(0, -6px, 0);
   }
 }
 

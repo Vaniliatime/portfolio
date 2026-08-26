@@ -30,33 +30,35 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
   const large = size === "lg";
   const status = statusStyles[project.status];
 
+  /*
+   * Two nested transforms on purpose: the wrapper floats, the card lifts on
+   * hover. One element cannot do both, since the second would overwrite the
+   * first every frame.
+   *
+   * Card heights match without anything stretching: the thumbnail has a fixed
+   * ratio and the text block a fixed height, so there is no slack to show as a
+   * gap. The min-heights below hold two lines at each type size.
+   */
   return (
-    /*
-     * Every card in a row ends up the same height without stretching anything:
-     * the thumbnail has a fixed ratio and the text block a fixed height, so
-     * there is no slack to leave as a gap and no thumbnail growing past its
-     * neighbour. The min-heights below hold two lines at each type size.
-     */
-    <article
+    <div
+      className="card-float h-full"
+      // Negative delays start each card partway into the loop, so nothing has
+      // to wait before it begins moving.
+      style={{ "--float-offset": `${((index % 5) * -1.4).toFixed(1)}s` } as CSSProperties}
+    >
+      <article
       className={cn(
         "card-sheen group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card",
         "transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-lift",
       )}
     >
       <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
-        <div
-          className="cover-drift"
-          // Negative delays start each card partway into the loop, so nothing
-          // has to wait before it begins moving.
-          style={{ "--drift-delay": `${((index % 5) * -4.4).toFixed(1)}s` } as CSSProperties}
-        >
-          <ProjectCover
-            project={project}
-            priority={priority}
-            className="transition-transform duration-500 group-hover:scale-[1.04]"
-            sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
-          />
-        </div>
+        <ProjectCover
+          project={project}
+          priority={priority}
+          className="transition-transform duration-500 group-hover:scale-[1.04]"
+          sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
+        />
 
         {/* The dot keeps beating on anything still alive, which is what makes
             the pill register as a state rather than a label. */}
@@ -132,6 +134,7 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </div>
-    </article>
+      </article>
+    </div>
   );
 }
