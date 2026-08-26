@@ -129,6 +129,11 @@ function EntryBadge({ entry }: { entry: ResumeEntry }) {
   );
 }
 
+/** Names are a plain string unless the entry supplies one per language. */
+function orgName(org: ResumeEntry["org"], lang: Locale) {
+  return typeof org === "string" ? org : t(org, lang);
+}
+
 function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
   return (
     <ol className="space-y-10">
@@ -138,7 +143,7 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
         const isLast = i === entries.length - 1;
 
         return (
-          <Reveal key={entry.org} delay={i} as="li" className="relative">
+          <Reveal key={orgName(entry.org, "en")} delay={i} as="li" className="relative">
             <div className="grid gap-x-5 gap-y-4 sm:grid-cols-[3.5rem_1fr] lg:grid-cols-[3.5rem_1fr_13rem]">
               {/* Badge column, with the run down to the next employer. */}
               <div className="relative">
@@ -152,7 +157,7 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
               </div>
 
               <div className="min-w-0">
-                <h3 className="font-display text-lg font-semibold">{entry.org}</h3>
+                <h3 className="font-display text-lg font-semibold">{orgName(entry.org, lang)}</h3>
                 {/* Dates sit under the name rather than opposite it: ranged
                     right they drifted away from what they belonged to. */}
                 <p className="mt-1 text-sm text-ink-muted">

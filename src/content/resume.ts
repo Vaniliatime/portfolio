@@ -9,8 +9,15 @@ export interface ResumeRole {
   points: Localized<string[]>;
 }
 
+/**
+ * Most names read the same in both languages, so a plain string is the common
+ * case. Institutions whose Polish name means nothing to an English reader
+ * carry both.
+ */
+export type OrgName = string | Localized;
+
 export interface ResumeEntry {
-  org: string;
+  org: OrgName;
   location: Localized;
   /** Whole-company span, shown when an entry holds more than one role. */
   period?: string;
@@ -274,7 +281,10 @@ export const freelance: ResumeEntry[] = [
     ],
   },
   {
-    org: "Diecezjalny Instytut Muzyki Kościelnej",
+    org: {
+      en: "Diocesan Institute of Church Music",
+      pl: "Diecezjalny Instytut Muzyki Kościelnej",
+    },
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     period: "Jan 2023 to Jan 2024",
     icon: "media",
@@ -455,7 +465,7 @@ export const education: ResumeEntry[] = [
     ],
   },
   {
-    org: "Zespół Szkół Poligraficzno-Mechanicznych",
+    org: { en: "ZSPM Katowice", pl: "Zespół Szkół Poligraficzno-Mechanicznych" },
     location: { en: "Katowice, Poland", pl: "Katowice" },
     period: "09.2013 to 06.2017",
     icon: "tools",
