@@ -20,7 +20,7 @@ interface ProjectCardProps {
   /** Large cards lead the featured grid. */
   size?: "lg" | "md";
   priority?: boolean;
-  /** Offsets the edge light, so a row of cards is never in step. */
+  /** Offsets the edge glow, so a row of cards is never in step. */
   index?: number;
 }
 
@@ -37,16 +37,14 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
    */
   return (
     <div
-      className={cn(
-        "beam-card group h-full rounded-2xl shadow-card transition-all duration-300",
-        "hover:-translate-y-1.5 hover:shadow-lift",
-      )}
-      // Staggered so the lights are never all at the same corner, and each
-      // takes a slightly different pace so they do not resynchronise.
+      className="card-edge group h-full rounded-2xl shadow-card transition-shadow duration-300 hover:shadow-lift"
+      // Staggered three ways so no two neighbours breathe together: when they
+      // start, how long they take, and which corner the light rises from.
       style={
         {
-          "--beam-delay": `${((index % 5) * -1.9).toFixed(1)}s`,
-          "--beam-duration": `${9 + (index % 3)}s`,
+          "--edge-delay": `${((index % 5) * -2.6).toFixed(1)}s`,
+          "--edge-duration": `${12 + (index % 3) * 1.5}s`,
+          "--edge-angle": `${135 + (index % 4) * 45}deg`,
         } as CSSProperties
       }
     >
