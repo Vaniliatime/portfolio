@@ -35,16 +35,16 @@ export function CardSlideshow({ images, alt, sizes, priority, className }: CardS
   useEffect(() => {
     if (reduced || frames.length < 2 || !inView) return;
 
-    const timer = setInterval(() => {
-      setIndex((current) => {
-        const next = (current + 1) % frames.length;
-        setMounted((loaded) => (loaded.includes(next) ? loaded : [...loaded, next]));
-        return next;
-      });
-    }, HOLD_MS);
-
+    const timer = setInterval(() => setIndex((current) => (current + 1) % frames.length), HOLD_MS);
     return () => clearInterval(timer);
   }, [frames.length, inView, reduced]);
+
+  // Mounting follows the index in its own effect. Doing it inside the setIndex
+  // updater made that updater impure, and React runs updaters twice in
+  // development, so the slideshow never advanced.
+  useEffect(() => {
+    setMounted((loaded) => (loaded.includes(index) ? loaded : [...loaded, index]));
+  }, [index]);
 
   return (
     <div ref={ref} className="absolute inset-0">

@@ -34,6 +34,8 @@
   --blob-core: rgb(168 85 247 / 0.3);
   --blob-mid: rgb(168 85 247 / 0.12);
   --sheen: rgb(255 255 255 / 0.55);
+  /* accent-wash is near white and vanished on a white card. */
+  --spot: rgb(124 58 237 / 0.16);
 
   /*
    * Logo glint. On the light theme a plain white band barely registers, so it
@@ -75,6 +77,7 @@
   --blob-core: rgb(167 139 250 / 0.2);
   --blob-mid: rgb(167 139 250 / 0.07);
   --sheen: rgb(255 255 255 / 0.07);
+  --spot: rgb(167 139 250 / 0.18);
 
   /* Against a dark page the white band carries on its own. */
   --shine-gradient: linear-gradient(
@@ -265,8 +268,8 @@
     opacity: calc(var(--spot-strength, 0) * 0.9);
     transition: opacity 0.35s ease;
     background: radial-gradient(
-      16rem circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      var(--accent-wash),
+      circle 15rem at var(--spot-x, 50%) var(--spot-y, 50%),
+      var(--spot),
       transparent 70%
     );
   }
