@@ -246,16 +246,37 @@
   }
 
   /*
-   * Idle float, so a grid of cards is never completely still. Each takes its
-   * own delay, or every card would rise and fall in unison and read as a
-   * glitch rather than as life.
+   * Travelling light around a card's edge, the same trick as the showcase
+   * frame: a conic gradient spun by transform, with the opaque card on top
+   * leaving only the 1px rim showing. Nothing moves, so a grid of these reads
+   * as alive without wobbling.
    *
-   * Sits on a wrapper around the card, because the card itself already owns a
-   * transform for the hover lift and the two would overwrite each other.
+   * The resting edge is painted underneath, otherwise the border would vanish
+   * wherever the gradient is transparent.
    */
-  .card-float {
-    animation: card-float 7s ease-in-out var(--float-offset, 0s) infinite;
-    will-change: transform;
+  .beam-card {
+    position: relative;
+    padding: 1px;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--line);
+  }
+
+  .beam-card::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 180%;
+    aspect-ratio: 1;
+    margin: -90% 0 0 -90%;
+    background: conic-gradient(
+      transparent 0deg,
+      var(--accent) 20deg,
+      var(--accent-soft) 36deg,
+      transparent 68deg
+    );
+    animation: beam-spin var(--beam-duration, 9s) linear var(--beam-delay, 0s) infinite;
   }
 
   /*
@@ -428,16 +449,6 @@
 @keyframes beam-spin {
   to {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes card-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -6px, 0);
   }
 }
 

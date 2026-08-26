@@ -20,7 +20,7 @@ interface ProjectCardProps {
   /** Large cards lead the featured grid. */
   size?: "lg" | "md";
   priority?: boolean;
-  /** Offsets the idle drift, so a row of cards does not move as one. */
+  /** Offsets the edge light, so a row of cards is never in step. */
   index?: number;
 }
 
@@ -31,109 +31,108 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
   const status = statusStyles[project.status];
 
   /*
-   * Two nested transforms on purpose: the wrapper floats, the card lifts on
-   * hover. One element cannot do both, since the second would overwrite the
-   * first every frame.
-   *
    * Card heights match without anything stretching: the thumbnail has a fixed
    * ratio and the text block a fixed height, so there is no slack to show as a
    * gap. The min-heights below hold two lines at each type size.
    */
   return (
     <div
-      className="card-float h-full"
-      // Negative delays start each card partway into the loop, so nothing has
-      // to wait before it begins moving.
-      style={{ "--float-offset": `${((index % 5) * -1.4).toFixed(1)}s` } as CSSProperties}
-    >
-      <article
       className={cn(
-        "card-sheen group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card",
-        "transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-lift",
+        "beam-card group h-full rounded-2xl shadow-card transition-all duration-300",
+        "hover:-translate-y-1.5 hover:shadow-lift",
       )}
+      // Staggered so the lights are never all at the same corner, and each
+      // takes a slightly different pace so they do not resynchronise.
+      style={
+        {
+          "--beam-delay": `${((index % 5) * -1.9).toFixed(1)}s`,
+          "--beam-duration": `${9 + (index % 3)}s`,
+        } as CSSProperties
+      }
     >
-      <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
-        <ProjectCover
-          project={project}
-          priority={priority}
-          className="transition-transform duration-500 group-hover:scale-[1.04]"
-          sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
-        />
+      <article className="card-sheen relative flex h-full flex-col overflow-hidden rounded-[calc(1rem-1px)] bg-surface">
+        <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
+          <ProjectCover
+            project={project}
+            priority={priority}
+            className="transition-transform duration-500 group-hover:scale-[1.04]"
+            sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
+          />
 
-        {/* The dot keeps beating on anything still alive, which is what makes
-            the pill register as a state rather than a label. */}
-        <span
-          className={cn(
-            "absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide shadow-card",
-            status.pill,
-          )}
-        >
-          <span className="relative flex h-1.5 w-1.5">
-            {status.pulse && (
-              <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full", status.dot)} />
-            )}
-            <span className={cn("relative inline-flex h-1.5 w-1.5 rounded-full", status.dot)} />
-          </span>
-          {t(statusLabels[project.status], lang)}
-        </span>
-
-        {/* Reads on hover as an invitation to open the case study. */}
-        <span
-          aria-hidden
-          className="absolute inset-0 flex items-center justify-center bg-accent/85 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full bg-accent-ink px-5 py-2.5 text-sm font-semibold text-accent shadow-lift">
-            {t(ui.viewProject, lang)}
-            <ArrowRight className="h-4 w-4" />
-          </span>
-        </span>
-      </div>
-
-      <div className="flex flex-col p-6">
-        {category && (
-          <span className="mb-2 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent">
-            <span aria-hidden className="h-px w-5 bg-accent/50" />
-            {t(category.label, lang)}
-          </span>
-        )}
-
-        <div className="flex items-start justify-between gap-3">
-          <h3
+          {/* The dot keeps beating on anything still alive, which is what makes
+              the pill register as a state rather than a label. */}
+          <span
             className={cn(
-              "line-clamp-2 font-semibold leading-tight",
-              large ? "min-h-[3.75rem] text-2xl" : "min-h-[3.125rem] text-xl",
+              "absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide shadow-card",
+              status.pill,
             )}
           >
-            <Link href={href} className="after:absolute after:inset-0 after:content-['']">
-              {project.title}
-            </Link>
-          </h3>
-          <span className="shrink-0 pt-1 text-xs text-ink-faint">{project.year}</span>
+            <span className="relative flex h-1.5 w-1.5">
+              {status.pulse && (
+                <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full", status.dot)} />
+              )}
+              <span className={cn("relative inline-flex h-1.5 w-1.5 rounded-full", status.dot)} />
+            </span>
+            {t(statusLabels[project.status], lang)}
+          </span>
+
+          {/* Reads on hover as an invitation to open the case study. */}
+          <span
+            aria-hidden
+            className="absolute inset-0 flex items-center justify-center bg-accent/85 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full bg-accent-ink px-5 py-2.5 text-sm font-semibold text-accent shadow-lift">
+              {t(ui.viewProject, lang)}
+              <ArrowRight className="h-4 w-4" />
+            </span>
+          </span>
         </div>
 
-        <p className="mt-2 line-clamp-2 min-h-[3.05rem] text-[0.9375rem] leading-relaxed text-ink-muted">
-          {t(project.tagline, lang)}
-        </p>
-
-        <ul className="mt-4 flex flex-wrap items-center gap-1.5">
-          {project.tech.slice(0, 4).map((tech) => (
-            <li
-              key={tech}
-              className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[0.7rem] font-medium text-ink-muted"
-            >
-              {tech}
-            </li>
-          ))}
-          {project.tech.length > 4 && (
-            <li className="px-1 py-0.5 text-[0.7rem] font-medium text-ink-faint">+{project.tech.length - 4}</li>
+        <div className="flex flex-col p-6">
+          {category && (
+            <span className="mb-2 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent">
+              <span aria-hidden className="h-px w-5 bg-accent/50" />
+              {t(category.label, lang)}
+            </span>
           )}
-        </ul>
 
-        <span className="mt-4 flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
-          {t(ui.viewProject, lang)}
-          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-        </span>
-      </div>
+          <div className="flex items-start justify-between gap-3">
+            <h3
+              className={cn(
+                "line-clamp-2 font-semibold leading-tight",
+                large ? "min-h-[3.75rem] text-2xl" : "min-h-[3.125rem] text-xl",
+              )}
+            >
+              <Link href={href} className="after:absolute after:inset-0 after:content-['']">
+                {project.title}
+              </Link>
+            </h3>
+            <span className="shrink-0 pt-1 text-xs text-ink-faint">{project.year}</span>
+          </div>
+
+          <p className="mt-2 line-clamp-2 min-h-[3.05rem] text-[0.9375rem] leading-relaxed text-ink-muted">
+            {t(project.tagline, lang)}
+          </p>
+
+          <ul className="mt-4 flex flex-wrap items-center gap-1.5">
+            {project.tech.slice(0, 4).map((tech) => (
+              <li
+                key={tech}
+                className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[0.7rem] font-medium text-ink-muted"
+              >
+                {tech}
+              </li>
+            ))}
+            {project.tech.length > 4 && (
+              <li className="px-1 py-0.5 text-[0.7rem] font-medium text-ink-faint">+{project.tech.length - 4}</li>
+            )}
+          </ul>
+
+          <span className="mt-4 flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
+            {t(ui.viewProject, lang)}
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </span>
+        </div>
       </article>
     </div>
   );
