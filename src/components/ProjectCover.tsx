@@ -40,7 +40,9 @@ export function ProjectCover({ project, className, priority, sizes }: ProjectCov
         fill
         priority={priority}
         sizes={sizes ?? "(min-width: 1024px) 50vw, 100vw"}
-        className={cn("object-cover", className)}
+        // Anchored to the top: these are screenshots, and a centred crop cut
+        // the header off every one of them.
+        className={cn("object-cover object-top", className)}
       />
     );
   }
