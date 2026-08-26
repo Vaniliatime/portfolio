@@ -262,6 +262,7 @@ export const freelance: ResumeEntry[] = [
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     period: "Jan 2023 to Jan 2024",
     icon: "media",
+    logo: "/images/logos/smk.webp",
     visual: "editing",
     roles: [
       {
@@ -298,6 +299,7 @@ export const ownProjects: ResumeEntry[] = [
     location: { en: "Own product", pl: "Produkt własny" },
     period: "2025 to present",
     icon: "product",
+    logo: "/images/logos/amtracker.webp",
     projectSlug: "amtracker",
     roles: [
       {
