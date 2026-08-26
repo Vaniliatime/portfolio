@@ -34,6 +34,7 @@
   --blob-core: rgb(168 85 247 / 0.3);
   --blob-mid: rgb(168 85 247 / 0.12);
   --sheen: rgb(255 255 255 / 0.55);
+  --halo: rgb(124 58 237 / 0.4);
 
   /*
    * Logo glint. On the light theme a plain white band barely registers, so it
@@ -75,6 +76,7 @@
   --blob-core: rgb(167 139 250 / 0.2);
   --blob-mid: rgb(167 139 250 / 0.07);
   --sheen: rgb(255 255 255 / 0.07);
+  --halo: rgb(167 139 250 / 0.3);
 
   /* Against a dark page the white band carries on its own. */
   --shine-gradient: linear-gradient(
@@ -246,15 +248,39 @@
   }
 
   /*
-   * Idle glow on a card's edge: violet rises out of one corner, holds, and
-   * fades back. Nothing travels and nothing moves, so a grid of these is calm
-   * where a spinning light would be busy.
+   * Idle halo: a soft pool of violet under the card that swells and fades.
+   * It sits outside the card entirely, so it never touches the screenshot or
+   * the text, and nothing changes position.
    *
-   * The resting edge is painted underneath, so the border never disappears
-   * while the glow is out. Hover holds the glow at full instead of animating.
+   * Gradient stops rather than a blur filter, for the same reason as the
+   * cursor light: Firefox pays dearly for a large blur.
+   */
+  .card-halo {
+    position: relative;
+  }
+
+  .card-halo::after {
+    content: "";
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    bottom: -0.9rem;
+    height: 1.75rem;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 9999px;
+    background: radial-gradient(50% 50% at 50% 50%, var(--halo), transparent 72%);
+    opacity: 0;
+    animation: card-halo var(--halo-duration, 14s) ease-in-out var(--halo-delay, 0s) infinite;
+  }
+
+  /*
+   * The edge itself no longer animates. It is the resting border, and it lifts
+   * to violet only under the pointer.
    */
   .card-edge {
     position: relative;
+    z-index: 1;
     padding: 1px;
     overflow: hidden;
     isolation: isolate;
@@ -268,14 +294,11 @@
     pointer-events: none;
     background: linear-gradient(var(--edge-angle, 135deg), var(--accent), transparent 58%);
     opacity: 0;
-    animation: card-edge var(--edge-duration, 12s) ease-in-out var(--edge-delay, 0s) infinite;
+    transition: opacity 0.4s ease;
   }
 
-  .group:hover .card-edge::before,
-  .card-edge:hover::before {
-    animation-play-state: paused;
+  .group:hover .card-edge::before {
     opacity: 0.85;
-    transition: opacity 0.4s ease;
   }
 
   /*
@@ -445,13 +468,13 @@
   }
 }
 
-@keyframes card-edge {
+@keyframes card-halo {
   0%,
   100% {
     opacity: 0;
   }
   50% {
-    opacity: 0.6;
+    opacity: 1;
   }
 }
 
