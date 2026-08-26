@@ -17,7 +17,7 @@ export function FeaturedWork({ lang }: { lang: Locale }) {
     >
       <div className="grid gap-6 md:grid-cols-2">
         {featuredProjects.map((project, i) => (
-          <Reveal key={project.slug} delay={i}>
+          <Reveal key={project.slug} delay={i} className="h-full">
             <ProjectCard project={project} lang={lang} size="lg" priority={i < 2} />
           </Reveal>
         ))}

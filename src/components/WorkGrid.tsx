@@ -71,6 +71,8 @@ export function WorkGrid({ lang }: { lang: Locale }) {
           {filtered.map((project) => (
             <motion.div
               key={project.slug}
+              // Full height, so the card can stretch to match its row.
+              className="h-full"
               layout
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}

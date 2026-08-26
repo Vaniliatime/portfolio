@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
-import { statusLabels, type Project } from "@/content/projects";
+import { categories, statusLabels, type Project } from "@/content/projects";
+import { ui } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { ProjectCover } from "./ProjectCover";
 
@@ -21,11 +22,14 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, lang, size = "md", priority }: ProjectCardProps) {
   const href = localePath(lang, `work/${project.slug}`);
+  const category = categories.find((c) => c.id === project.category);
 
   return (
+    // h-full and the mt-auto below are what keep every card in a row the same
+    // height with its footer on the same line, whatever the copy runs to.
     <article
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300",
+        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300",
         "hover:-translate-y-1 hover:border-accent/35 hover:shadow-lift",
       )}
     >
@@ -36,13 +40,29 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
           className="transition-transform duration-500 group-hover:scale-[1.04]"
           sizes={size === "lg" ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
         />
+
+        {/* What it is, on the left; how far along it is, on the right. */}
+        <span className="absolute left-4 top-4 rounded-full border border-accent/25 bg-accent-wash/95 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-accent">
+          {category && t(category.label, lang)}
+        </span>
         <span
           className={cn(
-            "absolute left-4 top-4 rounded-full border px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide backdrop-blur-sm",
+            "absolute right-4 top-4 rounded-full border px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide",
             statusStyles[project.status],
           )}
         >
           {t(statusLabels[project.status], lang)}
+        </span>
+
+        {/* Reads on hover as an invitation to open the case study. */}
+        <span
+          aria-hidden
+          className="absolute inset-0 flex items-center justify-center bg-accent/85 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100"
+        >
+          <span className="inline-flex items-center gap-2 rounded-full bg-accent-ink px-5 py-2.5 text-sm font-semibold text-accent shadow-lift">
+            {t(ui.viewProject, lang)}
+            <ArrowRight className="h-4 w-4" />
+          </span>
         </span>
       </div>
 
@@ -56,29 +76,31 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
           <span className="shrink-0 pt-1 text-xs text-ink-faint">{project.year}</span>
         </div>
 
-        <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink-muted">{t(project.tagline, lang)}</p>
+        {/* Clamped so a long tagline cannot push one card taller than its row. */}
+        <p className="mt-2.5 line-clamp-2 text-[0.9375rem] leading-relaxed text-ink-muted">
+          {t(project.tagline, lang)}
+        </p>
 
-        <ul className="mt-5 flex flex-wrap gap-1.5">
-          {project.tech.slice(0, 4).map((tech) => (
-            <li
-              key={tech}
-              className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[0.7rem] font-medium text-ink-muted"
-            >
-              {tech}
-            </li>
-          ))}
-          {project.tech.length > 4 && (
-            <li className="px-1 py-0.5 text-[0.7rem] font-medium text-ink-faint">+{project.tech.length - 4}</li>
-          )}
-        </ul>
+        <div className="mt-auto pt-5">
+          <ul className="flex flex-wrap gap-1.5">
+            {project.tech.slice(0, 4).map((tech) => (
+              <li
+                key={tech}
+                className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[0.7rem] font-medium text-ink-muted"
+              >
+                {tech}
+              </li>
+            ))}
+            {project.tech.length > 4 && (
+              <li className="px-1 py-0.5 text-[0.7rem] font-medium text-ink-faint">+{project.tech.length - 4}</li>
+            )}
+          </ul>
 
-        <span
-          aria-hidden
-          className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        >
-          {project.title}
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </span>
+          <span className="mt-4 flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
+            {t(ui.viewProject, lang)}
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </span>
+        </div>
       </div>
     </article>
   );
