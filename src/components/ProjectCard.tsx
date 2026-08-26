@@ -25,15 +25,26 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
   const category = categories.find((c) => c.id === project.category);
 
   return (
-    // h-full and the mt-auto below are what keep every card in a row the same
-    // height with its footer on the same line, whatever the copy runs to.
+    // h-full plus a flex-1 thumbnail is what keeps every card in a row the
+    // same height: the text block is a fixed size and the image takes up the
+    // slack, so nothing is left as dead space.
     <article
       className={cn(
         "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300",
         "hover:-translate-y-1 hover:border-accent/35 hover:shadow-lift",
       )}
     >
-      <div className={cn("relative overflow-hidden bg-surface-2", size === "lg" ? "aspect-[16/10]" : "aspect-[16/11]")}>
+      {/*
+       * Grows into whatever height the row has spare. Equal-height cards have
+       * to put that slack somewhere, and an empty gap above the tags was the
+       * worst place for it; the thumbnail is the best.
+       */}
+      <div
+        className={cn(
+          "relative flex-1 overflow-hidden bg-surface-2",
+          size === "lg" ? "min-h-[15rem]" : "min-h-[13rem]",
+        )}
+      >
         <ProjectCover
           project={project}
           priority={priority}
@@ -66,9 +77,14 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
-        <div className="flex items-start justify-between gap-4">
-          <h3 className={cn("font-semibold leading-tight", size === "lg" ? "text-2xl" : "text-xl")}>
+      <div className="flex flex-col p-5">
+        <div className="flex items-start justify-between gap-3">
+          <h3
+            className={cn(
+              "line-clamp-2 font-semibold leading-tight",
+              size === "lg" ? "text-2xl" : "text-xl",
+            )}
+          >
             <Link href={href} className="after:absolute after:inset-0 after:content-['']">
               {project.title}
             </Link>
@@ -76,12 +92,13 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
           <span className="shrink-0 pt-1 text-xs text-ink-faint">{project.year}</span>
         </div>
 
-        {/* Clamped so a long tagline cannot push one card taller than its row. */}
-        <p className="mt-2.5 line-clamp-2 text-[0.9375rem] leading-relaxed text-ink-muted">
+        {/* Both clamped, so the text block stays the same height across cards
+            and the thumbnails end up matching too. */}
+        <p className="mt-2 line-clamp-2 text-[0.9375rem] leading-relaxed text-ink-muted">
           {t(project.tagline, lang)}
         </p>
 
-        <div className="mt-auto pt-5">
+        <div className="mt-4">
           <ul className="flex flex-wrap gap-1.5">
             {project.tech.slice(0, 4).map((tech) => (
               <li
@@ -96,7 +113,7 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
             )}
           </ul>
 
-          <span className="mt-4 flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
+          <span className="mt-3.5 flex items-center gap-1.5 border-t border-line pt-3.5 text-sm font-medium text-accent">
             {t(ui.viewProject, lang)}
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </span>
