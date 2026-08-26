@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kształcenie Słuchu">
+  <defs>
+    <linearGradient id="ks-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#5b21b6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="url(#ks-bg)"/>
+
+  <!-- Note: head plus stem, sitting left of centre. -->
+  <g fill="#ffffff">
+    <ellipse cx="23" cy="42" rx="8.5" ry="6.5" transform="rotate(-18 23 42)"/>
+    <rect x="29" y="17" width="3.4" height="24" rx="1.7"/>
+  </g>
+
+  <!-- Sound carrying away from it: the ear-training half of the title. -->
+  <g stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M38 27a9 9 0 0 1 0 12"/>
+    <path d="M45 22a17 17 0 0 1 0 22" opacity="0.6"/>
+  </g>
+</svg>

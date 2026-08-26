@@ -105,13 +105,23 @@ function EntryBadge({ entry }: { entry: ResumeEntry }) {
     <span
       className={cn(
         "grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl border border-line shadow-card",
-        // Brand logos come with a white background baked in, so the tile
-        // stays white in both themes rather than showing a pale block.
-        entry.logo ? "bg-white" : "bg-surface",
+        // Marks without a background of their own need the tile to supply
+        // one, and it stays white in both themes rather than showing a pale
+        // block. Marks that bring their own fill the tile instead.
+        entry.logo && !entry.logoFill ? "bg-white" : "bg-surface",
       )}
     >
       {entry.logo ? (
-        <Image src={entry.logo} alt="" width={56} height={56} className="h-full w-full object-contain p-1.5" />
+        <Image
+          src={entry.logo}
+          alt=""
+          width={56}
+          height={56}
+          className={cn(
+            "h-full w-full",
+            entry.logoFill ? "object-cover" : "object-contain p-1.5",
+          )}
+        />
       ) : (
         <Icon className="h-5 w-5 text-accent" />
       )}

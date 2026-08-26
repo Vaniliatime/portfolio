@@ -19,6 +19,8 @@ export interface ResumeEntry {
   projectSlug?: string;
   /** Logo file in /public. Falls back to a themed icon when absent. */
   logo?: string;
+  /** Logo brings its own background: let it fill the tile edge to edge. */
+  logoFill?: boolean;
   /** Fallback glyph, keyed in the resume page. */
   icon?:
     | "work"
@@ -129,6 +131,7 @@ export const employment: ResumeEntry[] = [
     period: "Jun 2019 to Jun 2024 · 5 yrs 1 mo",
     icon: "logistics",
     logo: "/images/logos/clickbus.webp",
+    logoFill: true,
     roles: [
       {
         title: { en: "IT Specialist", pl: "IT Specialist" },
@@ -179,6 +182,10 @@ export const employment: ResumeEntry[] = [
     location: { en: "Katowice Metropolitan Area, on-site", pl: "Aglomeracja katowicka, stacjonarnie" },
     period: "2016",
     icon: "hardware",
+    note: {
+      en: "Local internet provider and computer service in Katowice, running since 2002; now tied to Prolog Tech.",
+      pl: "Lokalny dostawca internetu i serwis komputerowy w Katowicach, działa od 2002 roku; obecnie powiązany z Prolog Tech.",
+    },
     roles: [
       {
         title: { en: "Computer Technician", pl: "Technik komputerowy" },
@@ -186,12 +193,16 @@ export const employment: ResumeEntry[] = [
         period: "2016",
         points: {
           en: [
-            "Installed and repaired computer hardware.",
-            "Assisted in managing network infrastructure.",
+            "School placement with a local internet provider and computer service.",
+            "Installed and repaired computer hardware brought in by customers.",
+            "Helped run cabling and set up subscriber connections.",
+            "Assisted in managing the local network infrastructure.",
           ],
           pl: [
-            "Instalacja i naprawa sprzętu komputerowego.",
-            "Wsparcie przy zarządzaniu infrastrukturą sieciową.",
+            "Praktyki u lokalnego dostawcy internetu i w serwisie komputerowym.",
+            "Instalacja i naprawa sprzętu komputerowego przynoszonego przez klientów.",
+            "Pomoc przy prowadzeniu okablowania i podłączaniu abonentów.",
+            "Wsparcie przy zarządzaniu lokalną infrastrukturą sieciową.",
           ],
         },
       },
@@ -236,6 +247,8 @@ export const freelance: ResumeEntry[] = [
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     period: "Jan 2024 to Jan 2025",
     icon: "book",
+    logo: "/images/logos/ksztalcenie-sluchu.svg",
+    logoFill: true,
     projectSlug: "ksztalcenie-sluchu",
     roles: [
       {
@@ -301,6 +314,7 @@ export const ownProjects: ResumeEntry[] = [
     period: "2025 to present",
     icon: "product",
     logo: "/images/logos/amtracker.webp",
+    logoFill: true,
     projectSlug: "amtracker",
     roles: [
       {
@@ -388,6 +402,7 @@ export const education: ResumeEntry[] = [
     period: "10.2018 to 10.2022",
     icon: "school",
     logo: "/images/logos/wsei.webp",
+    logoFill: true,
     note: {
       en: "Now Uniwersytet DSW Ideis Kraków",
       pl: "Obecnie Uniwersytet DSW Ideis Kraków",
@@ -442,6 +457,7 @@ export const education: ResumeEntry[] = [
     location: { en: "Katowice, Poland", pl: "Katowice" },
     period: "09.2013 to 06.2017",
     icon: "tools",
+    logo: "/images/logos/zspm.webp",
     roles: [
       {
         title: { en: "IT technician", pl: "Technik informatyk" },
