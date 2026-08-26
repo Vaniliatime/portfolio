@@ -246,6 +246,21 @@
   }
 
   /*
+   * Idle drift on a card's screenshot: a very slow push in and back out, so a
+   * grid of cards is never completely still. Each card takes its own delay, or
+   * ten thumbnails would breathe in unison and read as a glitch.
+   *
+   * Lives on a wrapper rather than the image, because the image already owns a
+   * transform for the hover zoom and the two would overwrite each other.
+   */
+  .cover-drift {
+    position: absolute;
+    inset: 0;
+    animation: cover-drift 22s ease-in-out var(--drift-delay, 0s) infinite alternate;
+    will-change: transform;
+  }
+
+  /*
    * Light sweeping across a card on hover. A translated element rather than an
    * animated background-position, so the whole thing stays on the compositor.
    */
@@ -415,6 +430,15 @@
 @keyframes beam-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes cover-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
   }
 }
 

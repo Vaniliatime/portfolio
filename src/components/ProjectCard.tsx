@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { categories, statusLabels, type Project } from "@/content/projects";
 import { ui } from "@/content/site";
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { ProjectCover } from "./ProjectCover";
 
@@ -19,9 +20,11 @@ interface ProjectCardProps {
   /** Large cards lead the featured grid. */
   size?: "lg" | "md";
   priority?: boolean;
+  /** Offsets the idle drift, so a row of cards does not move as one. */
+  index?: number;
 }
 
-export function ProjectCard({ project, lang, size = "md", priority }: ProjectCardProps) {
+export function ProjectCard({ project, lang, size = "md", priority, index = 0 }: ProjectCardProps) {
   const href = localePath(lang, `work/${project.slug}`);
   const category = categories.find((c) => c.id === project.category);
   const large = size === "lg";
@@ -41,12 +44,19 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
       )}
     >
       <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
-        <ProjectCover
-          project={project}
-          priority={priority}
-          className="transition-transform duration-500 group-hover:scale-[1.04]"
-          sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
-        />
+        <div
+          className="cover-drift"
+          // Negative delays start each card partway into the loop, so nothing
+          // has to wait before it begins moving.
+          style={{ "--drift-delay": `${((index % 5) * -4.4).toFixed(1)}s` } as CSSProperties}
+        >
+          <ProjectCover
+            project={project}
+            priority={priority}
+            className="transition-transform duration-500 group-hover:scale-[1.04]"
+            sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
+          />
+        </div>
 
         {/* The dot keeps beating on anything still alive, which is what makes
             the pill register as a state rather than a label. */}

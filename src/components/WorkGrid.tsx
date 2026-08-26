@@ -68,7 +68,7 @@ export function WorkGrid({ lang }: { lang: Locale }) {
 
       <motion.div layout className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
-          {filtered.map((project) => (
+          {filtered.map((project, i) => (
             <motion.div
               key={project.slug}
               // Full height, so the card can stretch to match its row.
@@ -79,7 +79,7 @@ export function WorkGrid({ lang }: { lang: Locale }) {
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProjectCard project={project} lang={lang} />
+              <ProjectCard project={project} lang={lang} index={i} />
             </motion.div>
           ))}
         </AnimatePresence>
