@@ -128,6 +128,7 @@ export const employment: ResumeEntry[] = [
     location: { en: "Birmingham, United Kingdom", pl: "Birmingham, Wielka Brytania" },
     period: "Jun 2019 to Jun 2024 · 5 yrs 1 mo",
     icon: "logistics",
+    logo: "/images/logos/clickbus.webp",
     roles: [
       {
         title: { en: "IT Specialist", pl: "IT Specialist" },
