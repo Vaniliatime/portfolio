@@ -169,6 +169,49 @@
     );
   }
 
+  /* ---------------------------------------------------------------------
+     Logo shine.
+
+     A highlight sweeps across the mark every few seconds, clipped to its
+     silhouette by using the logo file itself as a mask. The gradient is three
+     times the width of the box with the bright band in its middle, so at both
+     ends of the travel the band sits outside the frame; the loop can restart
+     without anything visibly jumping.
+  --------------------------------------------------------------------- */
+  .logo-shine {
+    position: relative;
+    display: inline-block;
+  }
+
+  .logo-shine::before,
+  .logo-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Violet bloom that swells as the highlight passes. */
+  .logo-shine::before {
+    background: radial-gradient(circle closest-side, var(--accent-soft), transparent 70%);
+    opacity: 0;
+    animation: logo-bloom 7s ease-in-out infinite;
+  }
+
+  .logo-shine::after {
+    background: linear-gradient(
+      115deg,
+      transparent 0 42%,
+      rgb(255 255 255 / 0.9) 50%,
+      transparent 58% 100%
+    );
+    background-size: 300% 100%;
+    background-repeat: no-repeat;
+    -webkit-mask: url("/logo-mark.webp") center / contain no-repeat;
+    mask: url("/logo-mark.webp") center / contain no-repeat;
+    animation: logo-shine 7s ease-in-out infinite;
+  }
+
   /* Slow drift for the chips around the portrait. Kept in CSS so it runs on
      the compositor and never fights a transform written from JavaScript. */
   .chip-float {
@@ -282,6 +325,31 @@
     mask-size: 30rem 30rem;
     -webkit-mask-position: calc(var(--mx, 50vw) - 15rem) calc(var(--my, 50vh) - 15rem);
     mask-position: calc(var(--mx, 50vw) - 15rem) calc(var(--my, 50vh) - 15rem);
+  }
+}
+
+@keyframes logo-shine {
+  0%,
+  72% {
+    background-position: 0% 0;
+  }
+  92%,
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes logo-bloom {
+  0%,
+  74% {
+    opacity: 0;
+  }
+  82% {
+    opacity: 0.5;
+  }
+  92%,
+  100% {
+    opacity: 0;
   }
 }
 
