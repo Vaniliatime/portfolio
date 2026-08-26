@@ -279,6 +279,11 @@
     z-index: 1;
   }
 
+  /* Incoming slideshow frame, rising over the one it replaces. */
+  .slide-fade {
+    animation: slide-fade 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   /*
    * The arrow on a card's link nudges every so often, as a reminder the whole
    * card opens. One glyph moving is the only motion a resting card needs.
@@ -478,6 +483,17 @@
   92%,
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes slide-fade {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

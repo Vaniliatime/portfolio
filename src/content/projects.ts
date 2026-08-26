@@ -226,8 +226,8 @@ export const projects: Project[] = [
       pl: "Aplikacja do nauki przed certyfikacją ITIL 5 z zarządzania usługami IT.",
     },
     summary: {
-      en: "A quiz app built from my own day-to-day service management work and my own ITIL 5 exam: a structured question bank, timed mock exams, and feedback that explains why an answer was wrong instead of just marking it.",
-      pl: "Aplikacja quizowa zbudowana na bazie mojej codziennej pracy w service management i własnego egzaminu ITIL 5: uporządkowana baza pytań, egzaminy próbne na czas i feedback tłumaczący, dlaczego odpowiedź była błędna, zamiast samego zaznaczenia.",
+      en: "Built from my own day-to-day service management work and my own ITIL 5 exam. The hard part of that exam is not the concepts, it is that every option looks defensible and a single word decides between them, so the app drills the qualifiers: 389 questions, a timed simulation, per-section practice and a glossary written in the wording the syllabus uses.",
+      pl: "Zbudowana na bazie mojej codziennej pracy w service management i własnego egzaminu ITIL 5. Trudność tego egzaminu nie leży w pojęciach, tylko w tym, że każda odpowiedź wygląda sensownie, a rozstrzyga jedno słowo. Aplikacja trenuje właśnie te kwalifikatory: 389 pytań, symulacja na czas, ćwiczenia po sekcjach i słownik pisany językiem sylabusa.",
     },
     role: {
       en: "Solo: question bank, app, tooling.",
@@ -249,6 +249,16 @@ export const projects: Project[] = [
     },
     tech: ["React 19", "TypeScript", "Vite", "Tailwind CSS"],
     links: [],
+    cover: "/images/itil/overview.webp",
+    gallery: [
+      "/images/itil/overview.webp",
+      "/images/itil/tests.webp",
+      "/images/itil/progress.webp",
+      "/images/itil/glossary.webp",
+      "/images/itil/plans.webp",
+      "/images/itil/scope.webp",
+    ],
+    galleryAspect: "wide",
   },
 
   /* ----------------------------------------------------------------------
