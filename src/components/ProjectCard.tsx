@@ -7,10 +7,10 @@ import { cn } from "@/lib/utils";
 import { ProjectCover } from "./ProjectCover";
 
 /** Solid fills: the outlined version disappeared against a screenshot. */
-const statusStyles: Record<Project["status"], string> = {
-  live: "bg-emerald-500 text-white",
-  wip: "bg-amber-500 text-white",
-  archived: "bg-ink/75 text-paper",
+const statusStyles: Record<Project["status"], { pill: string; dot: string; pulse: boolean }> = {
+  live: { pill: "bg-emerald-500 text-white", dot: "bg-white", pulse: true },
+  wip: { pill: "bg-amber-500 text-white", dot: "bg-white", pulse: true },
+  archived: { pill: "bg-ink/75 text-paper", dot: "bg-paper/70", pulse: false },
 };
 
 interface ProjectCardProps {
@@ -25,6 +25,7 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
   const href = localePath(lang, `work/${project.slug}`);
   const category = categories.find((c) => c.id === project.category);
   const large = size === "lg";
+  const status = statusStyles[project.status];
 
   return (
     /*
@@ -35,8 +36,8 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
      */
     <article
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300",
-        "hover:-translate-y-1 hover:border-accent/35 hover:shadow-lift",
+        "card-sheen group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card",
+        "transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-lift",
       )}
     >
       <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
@@ -47,12 +48,20 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
           sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
         />
 
+        {/* The dot keeps beating on anything still alive, which is what makes
+            the pill register as a state rather than a label. */}
         <span
           className={cn(
-            "absolute right-4 top-4 rounded-full px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide shadow-card",
-            statusStyles[project.status],
+            "absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide shadow-card",
+            status.pill,
           )}
         >
+          <span className="relative flex h-1.5 w-1.5">
+            {status.pulse && (
+              <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full", status.dot)} />
+            )}
+            <span className={cn("relative inline-flex h-1.5 w-1.5 rounded-full", status.dot)} />
+          </span>
           {t(statusLabels[project.status], lang)}
         </span>
 
@@ -69,6 +78,13 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
       </div>
 
       <div className="flex flex-col p-6">
+        {category && (
+          <span className="mb-2 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent">
+            <span aria-hidden className="h-px w-5 bg-accent/50" />
+            {t(category.label, lang)}
+          </span>
+        )}
+
         <div className="flex items-start justify-between gap-3">
           <h3
             className={cn(
@@ -87,15 +103,8 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
           {t(project.tagline, lang)}
         </p>
 
-        {/* Category sits with the stack rather than over the screenshot, where
-            it competed with the status for the same corner of the image. */}
         <ul className="mt-4 flex flex-wrap items-center gap-1.5">
-          {category && (
-            <li className="rounded-md border border-accent/25 bg-accent-wash px-2 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wide text-accent">
-              {t(category.label, lang)}
-            </li>
-          )}
-          {project.tech.slice(0, 3).map((tech) => (
+          {project.tech.slice(0, 4).map((tech) => (
             <li
               key={tech}
               className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[0.7rem] font-medium text-ink-muted"
@@ -103,8 +112,8 @@ export function ProjectCard({ project, lang, size = "md", priority }: ProjectCar
               {tech}
             </li>
           ))}
-          {project.tech.length > 3 && (
-            <li className="px-1 py-0.5 text-[0.7rem] font-medium text-ink-faint">+{project.tech.length - 3}</li>
+          {project.tech.length > 4 && (
+            <li className="px-1 py-0.5 text-[0.7rem] font-medium text-ink-faint">+{project.tech.length - 4}</li>
           )}
         </ul>
 
