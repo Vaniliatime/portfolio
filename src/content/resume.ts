@@ -71,15 +71,17 @@ export const employment: ResumeEntry[] = [
         period: "Apr 2026 to present",
         points: {
           en: [
-            "Promoted to mid level after eighteen months on the project.",
+            "Moved to third line on promotion, with direct database access.",
+            "Investigate data-level faults in Oracle SQL instead of passing them further up.",
+            "Write investigation reports and feed findings into problem management.",
             "Own incidents and service requests end to end in Jira and ServiceNow, inside SLA.",
-            "Trace data problems through Oracle SQL rather than escalating them blind.",
             "Hand developers bug reports they can act on without a second round of questions.",
           ],
           pl: [
-            "Awans na poziom mid po półtora roku na projekcie.",
+            "Po awansie przejście na trzecią linię, z bezpośrednim dostępem do bazy danych.",
+            "Analiza błędów na poziomie danych w Oracle SQL zamiast przekazywania ich wyżej.",
+            "Pisanie raportów z analiz i przekazywanie wniosków do problem managementu.",
             "Prowadzenie incydentów i zgłoszeń od początku do końca w Jirze i ServiceNow, w ramach SLA.",
-            "Śledzenie problemów z danymi w Oracle SQL zamiast eskalowania ich w ciemno.",
             "Przekazywanie deweloperom raportów, na których mogą działać bez dopytywania.",
           ],
         },
@@ -92,12 +94,14 @@ export const employment: ResumeEntry[] = [
         period: "Jul 2024 to Apr 2026",
         points: {
           en: [
-            "First line of defence for EU-wide systems used by 1,000+ internal and 50,000+ external users.",
+            "First and second line: first line for end users, second for internal teams.",
+            "Covered EU-wide systems used by 1,000+ internal and 50,000+ external users.",
             "Reproduced reported faults and ran diagnostics before escalation.",
             "Closed the loop with users across multilingual support channels.",
           ],
           pl: [
-            "Pierwsza linia wsparcia dla systemów obejmujących całą UE, używanych przez ponad 1000 użytkowników wewnętrznych i 50 000 zewnętrznych.",
+            "Pierwsza i druga linia: pierwsza dla użytkowników końcowych, druga dla zespołów wewnętrznych.",
+            "Obsługa systemów obejmujących całą UE, używanych przez ponad 1000 użytkowników wewnętrznych i 50 000 zewnętrznych.",
             "Odtwarzanie zgłoszonych usterek i diagnostyka przed eskalacją.",
             "Domykanie komunikacji z użytkownikami w wielojęzycznych kanałach wsparcia.",
           ],
@@ -182,15 +186,13 @@ export const employment: ResumeEntry[] = [
 --------------------------------------------------------------------------- */
 export const freelance: ResumeEntry[] = [
   {
-    org: "Licensed passenger transport (three sites)",
+    org: "Klikbus",
     location: { en: "Remote", pl: "Zdalnie" },
     period: "2024 to present",
     projectSlug: "passenger-transport",
     roles: [
       {
-        // Named for the work rather than a job title: this is a client
-        // engagement, not a position.
-        title: { en: "Rebuild, SEO and maintenance", pl: "Przebudowa, SEO i utrzymanie" },
+        title: { en: "Web developer & maintenance", pl: "Web developer i utrzymanie" },
         period: "2024 to present",
         points: {
           en: [
