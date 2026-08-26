@@ -6,8 +6,9 @@ export type ProjectStatus = "live" | "wip" | "archived";
 
 export interface ProjectLink {
   label: string;
+  /** Empty means the destination does not exist yet, and renders as pending. */
   href: string;
-  kind: "site" | "repo" | "internal";
+  kind: "site" | "repo" | "internal" | "appstore" | "playstore";
 }
 
 export interface Project {
@@ -85,7 +86,12 @@ export const projects: Project[] = [
       ],
     },
     tech: ["Next.js", "React 19", "TypeScript", "Prisma", "NextAuth", "Recharts", "Tailwind CSS", "Nodemailer"],
-    links: [{ label: "amtracker.eu", href: "https://amtracker.eu/", kind: "site" }],
+    links: [
+      { label: "amtracker.eu", href: "https://amtracker.eu/", kind: "site" },
+      // Apps are not published yet; empty hrefs render as pending.
+      { label: "App Store", href: "", kind: "appstore" },
+      { label: "Google Play", href: "", kind: "playstore" },
+    ],
     cover: "/images/amtracker/library.webp",
     gallery: [
       "/images/amtracker/library.webp",

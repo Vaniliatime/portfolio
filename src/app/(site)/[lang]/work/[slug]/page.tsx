@@ -4,13 +4,29 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, ExternalLink, Github } from "lucide-react";
 import { localePath, locales, t, toLocale } from "@/lib/i18n";
 import { alternatesFor } from "@/lib/seo";
-import { categories, getProject, projects, statusLabels } from "@/content/projects";
+import {
+  categories,
+  getProject,
+  projects,
+  statusLabels,
+  type ProjectLink,
+} from "@/content/projects";
+import { AppleIcon, GooglePlayIcon } from "@/components/icons/Stores";
 import { ui } from "@/content/site";
 import { ProjectCover } from "@/components/ProjectCover";
 import { Gallery } from "@/components/Gallery";
 import { ContactCta } from "@/components/ContactCta";
 import { Reveal } from "@/components/Reveal";
 import { SectionEyebrow } from "@/components/Section";
+
+/** Lucide icons and the hand-drawn store glyphs only agree on className. */
+const linkIcons: Record<ProjectLink["kind"], React.ComponentType<{ className?: string }>> = {
+  site: ExternalLink,
+  internal: ExternalLink,
+  repo: Github,
+  appstore: AppleIcon,
+  playstore: GooglePlayIcon,
+};
 
 export function generateStaticParams() {
   return locales.flatMap((lang) => projects.map((project) => ({ lang, slug: project.slug })));
@@ -94,19 +110,33 @@ export default async function ProjectPage({
 
             {project.links.length > 0 && (
               <ul className="mt-9 flex flex-wrap gap-2.5">
-                {project.links.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface px-4 py-2 text-sm font-medium transition-colors hover:border-accent/50 hover:bg-accent-wash hover:text-accent"
-                    >
-                      {link.kind === "repo" ? <Github className="h-4 w-4" /> : <ExternalLink className="h-4 w-4" />}
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {project.links.map((link) => {
+                  const Icon = linkIcons[link.kind];
+                  const chrome =
+                    "inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface px-4 py-2 text-sm font-medium transition-colors hover:border-accent/50 hover:bg-accent-wash hover:text-accent";
+
+                  return (
+                    <li key={link.kind + link.label}>
+                      {/* An empty href means the destination does not exist
+                          yet, so it goes to the in-progress page instead of
+                          being a dead button. */}
+                      {link.href ? (
+                        <a href={link.href} target="_blank" rel="noopener noreferrer" className={chrome}>
+                          <Icon className="h-4 w-4" />
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link href={localePath(lang, "soon")} className={chrome}>
+                          <Icon className="h-4 w-4" />
+                          {link.label}
+                          <span className="rounded-full bg-accent-wash px-2 py-0.5 text-[0.65rem] uppercase tracking-wide text-accent">
+                            {t(ui.comingSoon, lang)}
+                          </span>
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>

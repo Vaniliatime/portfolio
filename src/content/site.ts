@@ -240,6 +240,7 @@ export const ui = {
   allWork: { en: "All work", pl: "Wszystkie" },
   viewProject: { en: "View project", pl: "Zobacz projekt" },
   visitSite: { en: "Visit site", pl: "Otwórz stronę" },
+  comingSoon: { en: "Coming soon", pl: "Wkrótce" },
   sourceCode: { en: "Source code", pl: "Kod źródłowy" },
   featured: { en: "Selected work", pl: "Wybrane projekty" },
   featuredHeading: {
