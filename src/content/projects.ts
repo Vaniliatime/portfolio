@@ -134,12 +134,29 @@ export const projects: Project[] = [
         "Zbudowane tak, aby nietechniczny właściciel mógł je aktualizować bez ryzyka.",
       ],
     },
+    // NOTE: this stack was assumed at the start and never confirmed. The
+    // screenshots look bespoke rather than templated, so check it before launch.
     tech: ["WordPress", "PHP", "Custom CSS", "SEO", "Hosting"],
     links: [
       { label: "klikbus.pl", href: "https://klikbus.pl/", kind: "site" },
       { label: "przewozy-katowice.pl", href: "https://przewozy-katowice.pl/", kind: "site" },
       { label: "licencjonowany-przewoz-osob.pl", href: "https://licencjonowany-przewoz-osob.pl/", kind: "site" },
     ],
+    cover: "/images/transport/home.webp",
+    gallery: [
+      "/images/transport/home.webp",
+      "/images/transport/fleet.webp",
+      "/images/transport/vans.webp",
+      "/images/transport/coaches.webp",
+      "/images/transport/international.webp",
+      "/images/transport/services.webp",
+      "/images/transport/standards.webp",
+      "/images/transport/booking.webp",
+      "/images/transport/news.webp",
+      "/images/transport/katowice.webp",
+      "/images/transport/licensed.webp",
+    ],
+    galleryAspect: "wide",
   },
   {
     slug: "wedding-invitations",
