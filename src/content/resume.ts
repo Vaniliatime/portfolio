@@ -202,13 +202,11 @@ export const employment: ResumeEntry[] = [
         period: "2016 · 3 months",
         points: {
           en: [
-            "School placement with a local internet provider and computer service.",
             "Installed and repaired computer hardware brought in by customers.",
             "Helped run cabling and set up subscriber connections.",
             "Assisted in managing the local network infrastructure.",
           ],
           pl: [
-            "Praktyki u lokalnego dostawcy internetu i w serwisie komputerowym.",
             "Instalacja i naprawa sprzętu komputerowego przynoszonego przez klientów.",
             "Pomoc przy prowadzeniu okablowania i podłączaniu abonentów.",
             "Wsparcie przy zarządzaniu lokalną infrastrukturą sieciową.",
