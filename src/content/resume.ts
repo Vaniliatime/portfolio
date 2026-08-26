@@ -412,6 +412,7 @@ export const education: ResumeEntry[] = [
     location: { en: "Poland", pl: "Polska" },
     period: "09.2017 to 07.2018",
     icon: "design",
+    logo: "/images/logos/gloker.webp",
     roles: [
       {
         title: { en: "Graphic & multimedia design", pl: "Grafika i projektowanie multimediów" },
