@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Sora, Space_Grotesk } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import type { ReactNode } from "react";
 import "../../globals.css";
 import { locales, t, toLocale, type Locale } from "@/lib/i18n";
@@ -12,13 +12,6 @@ import { CursorLight } from "@/components/CursorLight";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter", display: "swap" });
 const sora = Sora({ subsets: ["latin", "latin-ext"], variable: "--font-sora", display: "swap" });
-// Used only for the wordmark, which wanted more character than the body face.
-const wordmark = Space_Grotesk({
-  subsets: ["latin", "latin-ext"],
-  weight: ["500", "700"],
-  variable: "--font-wordmark",
-  display: "swap",
-});
 
 const siteUrl = `https://${profile.domain}`;
 
@@ -79,7 +72,7 @@ export default async function RootLayout({
   const lang = toLocale((await params).lang);
 
   return (
-    <html lang={lang} suppressHydrationWarning className={`${inter.variable} ${sora.variable} ${wordmark.variable}`}>
+    <html lang={lang} suppressHydrationWarning className={`${inter.variable} ${sora.variable}`}>
       <body>
         <Providers>
           <a

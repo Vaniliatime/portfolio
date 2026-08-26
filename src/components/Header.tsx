@@ -53,11 +53,10 @@ export function Header({ lang }: { lang: Locale }) {
       )}
     >
       <div className="shell flex h-16 items-center justify-between gap-4 md:h-20">
-        <Link href={home} className="group flex items-center gap-2.5">
+        {/* The mark carries it alone. A name set beside it read as body text
+            in a header rather than as a wordmark. */}
+        <Link href={home} aria-label={profile.name} className="group flex items-center">
           <LogoMark animated className="h-9 transition-transform duration-300 group-hover:scale-105" />
-          <span className="wordmark hidden text-[1.05rem] sm:inline">
-            Krzysztof <strong>Kaszuba</strong>
-          </span>
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">

@@ -17,9 +17,7 @@ export function Footer({ lang }: { lang: Locale }) {
           <div>
             <Link href={localePath(lang)} className="flex items-center gap-2.5">
               <LogoMark className="h-8" />
-              <span className="wordmark text-lg">
-                Krzysztof <strong>Kaszuba</strong>
-              </span>
+              <span className="font-display text-lg font-semibold tracking-tight">{profile.name}</span>
             </Link>
             <p className="mt-2 text-sm leading-relaxed text-ink-muted">{t(profile.role, lang)}</p>
           </div>

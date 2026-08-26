@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const HOLD_MS = 6000;
 const FADE_MS = 1100;
-const MAX_FRAMES = 3;
+const MAX_DOTS = 5;
 
 interface CardSlideshowProps {
   images: string[];
@@ -25,11 +25,12 @@ interface CardSlideshowProps {
  * halfway through, neither is opaque and the card's own background shows
  * through as a flash.
  *
- * Frames mount only once first shown and the timer runs only while the card is
- * in view, so scrolling past a grid still costs one image per card.
+ * Only the outgoing and incoming frames are ever in the DOM, and the timer runs
+ * only while the card is on screen, so a full gallery costs one image per card
+ * up front and the rest arrive one at a time as the loop reaches them.
  */
 export function CardSlideshow({ images, alt, sizes, priority, className }: CardSlideshowProps) {
-  const frames = images.slice(0, MAX_FRAMES);
+  const frames = images;
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "200px" });
   const reduced = useReducedMotion();
@@ -81,7 +82,9 @@ export function CardSlideshow({ images, alt, sizes, priority, className }: CardS
       {previous !== null && frame(previous, "under")}
       {frame(index, "over")}
 
-      {frames.length > 1 && (
+      {/* Dots read well up to a handful. Past that they turn into a cluttered
+          row, so a long gallery gets a count instead. */}
+      {frames.length > 1 && frames.length <= MAX_DOTS && (
         <span className="absolute bottom-3 left-4 z-10 flex gap-1.5">
           {frames.map((src, i) => (
             <span
@@ -92,6 +95,12 @@ export function CardSlideshow({ images, alt, sizes, priority, className }: CardS
               )}
             />
           ))}
+        </span>
+      )}
+
+      {frames.length > MAX_DOTS && (
+        <span className="absolute bottom-3 left-4 z-10 rounded-full bg-ink/70 px-2 py-0.5 text-[0.65rem] font-medium tabular-nums text-paper">
+          {index + 1} / {frames.length}
         </span>
       )}
     </div>
