@@ -5,6 +5,7 @@ import {
   Activity,
   Award,
   Briefcase,
+  ChevronsUp,
   Code2,
   Download,
   ExternalLink,
@@ -143,8 +144,18 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
                           className="absolute top-1.5 h-3 w-3 rounded-full border-2 border-paper bg-accent left-[calc(-1.875rem-1px)]"
                         />
                       )}
-                      <h4 className="font-medium text-accent">{t(role.title, lang)}</h4>
-                      <p className="mt-0.5 text-sm text-ink-faint">{role.period}</p>
+                      {/* Seniority reads as a badge rather than a comma at
+                          the end of the title, where it disappeared. */}
+                      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                        <h4 className="font-medium text-accent">{t(role.title, lang)}</h4>
+                        {role.level && (
+                          <span className="inline-flex items-center gap-1 rounded-full border border-accent/25 bg-accent-wash px-2 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wide text-accent">
+                            <ChevronsUp className="h-3 w-3" />
+                            {t(role.level, lang)}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-sm text-ink-faint">{role.period}</p>
                       <ul className="mt-3 space-y-2">
                         {t(role.points, lang).map((point) => (
                           <li

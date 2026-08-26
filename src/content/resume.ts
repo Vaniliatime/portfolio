@@ -4,6 +4,8 @@ import type { Localized } from "@/lib/i18n";
 export interface ResumeRole {
   title: Localized;
   period: string;
+  /** Seniority or employment type, shown as a badge beside the title. */
+  level?: Localized;
   points: Localized<string[]>;
 }
 
@@ -64,10 +66,8 @@ export const employment: ResumeEntry[] = [
     icon: "work",
     roles: [
       {
-        title: {
-          en: "IT Application Support Agent, mid",
-          pl: "IT Application Support Agent, mid",
-        },
+        title: { en: "IT Application Support Agent", pl: "IT Application Support Agent" },
+        level: { en: "Mid", pl: "Mid" },
         period: "Apr 2026 to present",
         points: {
           en: [
@@ -87,10 +87,8 @@ export const employment: ResumeEntry[] = [
         },
       },
       {
-        title: {
-          en: "IT Application Support Agent, junior",
-          pl: "IT Application Support Agent, junior",
-        },
+        title: { en: "IT Application Support Agent", pl: "IT Application Support Agent" },
+        level: { en: "Junior", pl: "Junior" },
         period: "Jul 2024 to Apr 2026",
         points: {
           en: [
@@ -117,7 +115,8 @@ export const employment: ResumeEntry[] = [
     roles: [
       {
         title: { en: "IT Specialist", pl: "IT Specialist" },
-        period: "Nov 2019 to Jun 2024 · Full-time, remote",
+        level: { en: "Full-time", pl: "Pełny etat" },
+        period: "Nov 2019 to Jun 2024 · Remote",
         points: {
           en: [
             "Sole remote IT support for the internal teams of a logistics company.",
@@ -137,7 +136,8 @@ export const employment: ResumeEntry[] = [
       },
       {
         title: { en: "IT Technician", pl: "Technik IT" },
-        period: "Jun 2019 to Nov 2019 · Internship, on-site",
+        level: { en: "Internship", pl: "Staż" },
+        period: "Jun 2019 to Nov 2019 · On-site",
         points: {
           en: [
             "Troubleshot hardware and software issues under supervision.",
@@ -165,7 +165,8 @@ export const employment: ResumeEntry[] = [
     roles: [
       {
         title: { en: "Computer Technician", pl: "Technik komputerowy" },
-        period: "2016 · Internship",
+        level: { en: "Internship", pl: "Staż" },
+        period: "2016",
         points: {
           en: [
             "Installed and repaired computer hardware.",
