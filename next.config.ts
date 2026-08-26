@@ -2,9 +2,12 @@ import type { NextConfig } from "next";
 import path from "node:path";
 
 const nextConfig: NextConfig = {
-  // NOTE: `next build` and `next dev` share .next, so building while the dev
-  // server is running deletes the manifests it is serving from and every route
-  // starts returning 500. Stop the dev server before building.
+  // Do not build while the dev server is running. A build breaks it either
+  // way: pointing distDir elsewhere through NEXT_DIST_DIR was tried and the
+  // dev server still fell over, so the separation is not worth relying on.
+  // Use `npm run typecheck` for day to day checking, and build when you are
+  // actually shipping.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   // Pin the workspace root — a stray lockfile in the home directory otherwise
   // makes Next infer the wrong one.
   outputFileTracingRoot: path.resolve(__dirname),
