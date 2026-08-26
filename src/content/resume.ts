@@ -74,7 +74,7 @@ export const sectionLeads: Record<string, Localized> = {
 export const employment: ResumeEntry[] = [
   {
     org: "Venthone (European Commission project)",
-    location: { en: "Hybrid, Brussels", pl: "Hybrydowo, Bruksela" },
+    location: { en: "Hybrid, Brussels, Belgium", pl: "Hybrydowo, Bruksela, Belgia" },
     period: "Jul 2024 to present",
     icon: "institution",
     roles: [
