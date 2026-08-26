@@ -53,9 +53,11 @@ export function Header({ lang }: { lang: Locale }) {
       )}
     >
       <div className="shell flex h-16 items-center justify-between gap-4 md:h-20">
-        <Link href={home} className="group flex items-center gap-2.5 font-display font-semibold tracking-tight">
+        <Link href={home} className="group flex items-center gap-2.5">
           <LogoMark animated className="h-9 transition-transform duration-300 group-hover:scale-105" />
-          <span className="hidden sm:inline">{profile.name}</span>
+          <span className="wordmark hidden text-[1.05rem] sm:inline">
+            Krzysztof <strong>Kaszuba</strong>
+          </span>
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">

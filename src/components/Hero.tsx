@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Github, Linkedin } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { hero, profile, stats } from "@/content/site";
-import { getProject } from "@/content/projects";
+import { featuredProjects } from "@/content/projects";
 import { ButtonLink } from "./Button";
 import { CountUp } from "./CountUp";
 import { FloatingChips } from "./FloatingChips";
@@ -16,7 +16,9 @@ export function Hero({ lang }: { lang: Locale }) {
   const lines = t(hero.headline, lang);
   const accentLine = t(hero.accentWord, lang);
   const badges = t(hero.badges, lang);
-  const showcase = getProject(hero.showcaseSlug);
+  // Only the ones with a real screenshot; a generated gradient would read as
+  // a blank slide in the rotation.
+  const showcase = featuredProjects.filter((project) => project.cover);
 
   const rise = (i: number) =>
     reduced
@@ -114,7 +116,7 @@ export function Hero({ lang }: { lang: Locale }) {
           {/* ---- Right: the featured project, with chips floating around -- */}
           <motion.div {...rise(2)} className="relative mx-auto w-full max-w-sm lg:max-w-none">
             <div className="relative">
-              {showcase && <HeroShowcase project={showcase} lang={lang} />}
+              {showcase.length > 0 && <HeroShowcase projects={showcase} lang={lang} />}
               <FloatingChips badges={badges} />
             </div>
 

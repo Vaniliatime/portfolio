@@ -11,8 +11,6 @@ export const profile = {
   instagram: "https://www.instagram.com/vaniliatime/",
   /**
    * Digits only, country code first, no plus. Empty hides the link.
-   * 791696637 came through without a country code; 48 is the Polish prefix
-   * that matches the format. Confirm before the site goes live.
    */
   whatsapp: "48791696637",
   avatar: "/images/avatar-3.webp",
@@ -54,8 +52,6 @@ export const hero = {
   } satisfies Localized,
   ctaPrimary: { en: "See the work", pl: "Zobacz projekty" } satisfies Localized,
   ctaSecondary: { en: "Start a project", pl: "Zacznijmy projekt" } satisfies Localized,
-  /** Project put on screen in the hero. Needs a cover image to look right. */
-  showcaseSlug: "amtracker",
   /** Chips floating around the showcase: the stack behind what is on screen. */
   badges: {
     en: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma"],

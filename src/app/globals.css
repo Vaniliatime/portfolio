@@ -207,6 +207,18 @@
     display: inline-block;
   }
 
+  /* Wordmark next to the logo. Given its own face, tight tracking and a
+     weight split, so the surname carries and the first name sits back. */
+  .wordmark {
+    font-family: var(--font-wordmark), var(--font-sora), sans-serif;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+  }
+
+  .wordmark strong {
+    font-weight: 700;
+  }
+
   .logo-shine::before,
   .logo-shine::after {
     content: "";

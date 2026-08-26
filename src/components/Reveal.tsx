@@ -5,10 +5,10 @@ import type { ReactNode } from "react";
 
 interface RevealProps {
   children: ReactNode;
-  /** Stagger helper, multiplied by 60ms. */
+  /** Stagger helper, multiplied by 70ms. */
   delay?: number;
   className?: string;
-  as?: "div" | "li" | "section" | "article";
+  as?: "div" | "li" | "ul" | "section" | "article" | "span";
 }
 
 /**
@@ -27,10 +27,12 @@ export function Reveal({ children, delay = 0, className, as = "div" }: RevealPro
   return (
     <Tag
       className={className}
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, delay: delay * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      // Fires a little before the element reaches the fold, so the motion is
+      // already under way by the time it is properly in view.
+      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 0.65, delay: delay * 0.07, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </Tag>

@@ -13,6 +13,12 @@ export interface ResumeEntry {
   /** Whole-company span, shown when an entry holds more than one role. */
   period?: string;
   link?: { label: string; href: string };
+  /** Pulls the thumbnail and the case study link from src/content/projects. */
+  projectSlug?: string;
+  /** Logo file in /public. Falls back to a themed icon when absent. */
+  logo?: string;
+  /** Fallback glyph, keyed in the resume page. */
+  icon?: "work" | "school" | "design" | "tools";
   roles: ResumeRole[];
 }
 
@@ -47,23 +53,45 @@ export const employment: ResumeEntry[] = [
   {
     org: "Venthone (European Commission project)",
     location: { en: "Hybrid, Brussels", pl: "Hybrydowo, Bruksela" },
+    period: "Jul 2024 to present",
+    icon: "work",
     roles: [
       {
-        title: { en: "IT Application Support Agent", pl: "IT Application Support Agent" },
-        period: "Jul 2024 to present",
+        title: {
+          en: "IT Application Support Agent, mid",
+          pl: "IT Application Support Agent, mid",
+        },
+        period: "Apr 2026 to present",
+        points: {
+          en: [
+            "Promoted to mid level after eighteen months on the project.",
+            "Own incidents and service requests end to end in Jira and ServiceNow, inside SLA.",
+            "Trace data problems through Oracle SQL rather than escalating them blind.",
+            "Hand developers bug reports they can act on without a second round of questions.",
+          ],
+          pl: [
+            "Awans na poziom mid po półtora roku na projekcie.",
+            "Prowadzenie incydentów i zgłoszeń od początku do końca w Jirze i ServiceNow, w ramach SLA.",
+            "Śledzenie problemów z danymi w Oracle SQL zamiast eskalowania ich w ciemno.",
+            "Przekazywanie deweloperom raportów, na których mogą działać bez dopytywania.",
+          ],
+        },
+      },
+      {
+        title: {
+          en: "IT Application Support Agent, junior",
+          pl: "IT Application Support Agent, junior",
+        },
+        period: "Jul 2024 to Apr 2026",
         points: {
           en: [
             "First line of defence for EU-wide systems used by 1,000+ internal and 50,000+ external users.",
-            "Own incidents and service requests end to end in Jira and ServiceNow, inside SLA.",
-            "Reproduce reported faults, run diagnostics and hand developers bug reports they can act on without a second round of questions.",
-            "Trace data problems through Oracle SQL rather than escalating them blind.",
-            "Close the loop with users across multilingual support channels.",
+            "Reproduced reported faults and ran diagnostics before escalation.",
+            "Closed the loop with users across multilingual support channels.",
           ],
           pl: [
             "Pierwsza linia wsparcia dla systemów obejmujących całą UE, używanych przez ponad 1000 użytkowników wewnętrznych i 50 000 zewnętrznych.",
-            "Prowadzenie incydentów i zgłoszeń od początku do końca w Jirze i ServiceNow, w ramach SLA.",
-            "Odtwarzanie zgłoszonych usterek, diagnostyka i przekazywanie deweloperom raportów, na których mogą działać bez dopytywania.",
-            "Śledzenie problemów z danymi w Oracle SQL zamiast eskalowania ich w ciemno.",
+            "Odtwarzanie zgłoszonych usterek i diagnostyka przed eskalacją.",
             "Domykanie komunikacji z użytkownikami w wielojęzycznych kanałach wsparcia.",
           ],
         },
@@ -74,6 +102,7 @@ export const employment: ResumeEntry[] = [
     org: "Clickbus LTD",
     location: { en: "Birmingham, United Kingdom", pl: "Birmingham, Wielka Brytania" },
     period: "Jun 2019 to Jun 2024 · 5 yrs 1 mo",
+    icon: "work",
     roles: [
       {
         title: { en: "IT Specialist", pl: "IT Specialist" },
@@ -120,6 +149,8 @@ export const employment: ResumeEntry[] = [
   {
     org: "FafNet",
     location: { en: "Katowice Metropolitan Area, on-site", pl: "Aglomeracja katowicka, stacjonarnie" },
+    period: "2016",
+    icon: "tools",
     roles: [
       {
         title: { en: "Computer Technician", pl: "Technik komputerowy" },
@@ -146,7 +177,8 @@ export const freelance: ResumeEntry[] = [
   {
     org: "Licensed passenger transport (three sites)",
     location: { en: "Remote", pl: "Zdalnie" },
-    link: { label: "klikbus.pl", href: "https://klikbus.pl/" },
+    period: "2024 to present",
+    projectSlug: "passenger-transport",
     roles: [
       {
         title: { en: "Web developer", pl: "Web developer" },
@@ -169,7 +201,8 @@ export const freelance: ResumeEntry[] = [
   {
     org: "AM Tracker",
     location: { en: "Own product", pl: "Produkt własny" },
-    link: { label: "amtracker.eu", href: "https://amtracker.eu/" },
+    period: "2025 to present",
+    projectSlug: "amtracker",
     roles: [
       {
         title: { en: "Full-stack developer", pl: "Full-stack developer" },
@@ -194,7 +227,8 @@ export const freelance: ResumeEntry[] = [
   {
     org: "Kształcenie Słuchu (auditory training eBook)",
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
-    link: { label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl" },
+    period: "Jan 2024 to Jan 2025",
+    projectSlug: "ksztalcenie-sluchu",
     roles: [
       {
         title: { en: "Co-author & content developer", pl: "Współautor i twórca treści" },
@@ -219,6 +253,8 @@ export const freelance: ResumeEntry[] = [
   {
     org: "Diecezjalny Instytut Muzyki Kościelnej",
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
+    period: "Jan 2023 to Jan 2024",
+    icon: "design",
     roles: [
       {
         title: {
@@ -247,8 +283,12 @@ export const freelance: ResumeEntry[] = [
 
 export const education: ResumeEntry[] = [
   {
-    org: "College of Economics and Computer Science",
+    // NOTE: WSEI has since been absorbed by another institution. Update the
+    // name here if the degree should carry the successor's.
+    org: "WSEI, University of Economics and Computer Science",
     location: { en: "Specialisation: game development", pl: "Specjalizacja: game development" },
+    period: "10.2018 to 10.2022",
+    icon: "school",
     link: { label: "Thesis project: Vanilia Runner", href: "https://github.com/Vaniliatime/Vanilla-Runner" },
     roles: [
       {
@@ -272,6 +312,8 @@ export const education: ResumeEntry[] = [
   {
     org: "Gloker Post-Secondary School",
     location: { en: "Poland", pl: "Polska" },
+    period: "09.2017 to 07.2018",
+    icon: "design",
     roles: [
       {
         title: { en: "Graphic & multimedia design", pl: "Grafika i projektowanie multimediów" },
@@ -294,6 +336,8 @@ export const education: ResumeEntry[] = [
   {
     org: "Complex of Printing and Mechanical Schools, Katowice",
     location: { en: "Katowice, Poland", pl: "Katowice" },
+    period: "09.2013 to 06.2017",
+    icon: "tools",
     roles: [
       {
         title: { en: "IT technician", pl: "Technik informatyk" },
@@ -319,19 +363,34 @@ export const education: ResumeEntry[] = [
    Certificates. Taken from the PDFs in /certs: those are the exact titles,
    issuers and dates as printed.
 --------------------------------------------------------------------------- */
+export type CertificateIcon =
+  | "process"
+  | "security"
+  | "code"
+  | "ai"
+  | "osint"
+  | "monitoring"
+  | "microsoft";
+
 export interface Certificate {
   name: string;
   issuer?: string;
   period?: string;
   /** Training hours, where the certificate states them. */
   hours?: string;
+  icon?: CertificateIcon;
 }
 
 export const certificateGroups: { title: Localized; note?: Localized; items: Certificate[] }[] = [
   {
     title: { en: "Service management", pl: "Zarządzanie usługami" },
     items: [
-      { name: "ITIL Foundation, version 5", issuer: "PeopleCert", period: "Aug 2026 to Aug 2029" },
+      {
+        name: "ITIL Foundation, version 5",
+        issuer: "PeopleCert",
+        period: "Aug 2026 to Aug 2029",
+        icon: "process",
+      },
     ],
   },
   {
@@ -346,41 +405,52 @@ export const certificateGroups: { title: Localized; note?: Localized; items: Cer
         issuer: "Securitum",
         period: "Jul 2025 to Jan 2026",
         hours: "50 h",
+        icon: "security",
       },
       {
         name: "Practical Python: 12 step-by-step projects, extended edition",
         issuer: "Securitum / HexArcana",
         period: "Nov 2025 to Feb 2026",
         hours: "36 h",
+        icon: "code",
       },
       {
         name: "AI Toolbox 2.0 Reloaded",
         issuer: "Securitum",
         period: "Sep to Dec 2025",
         hours: "26 h",
+        icon: "ai",
       },
       {
         name: "OSINT 2.0 Toolkit Reloaded",
         issuer: "Securitum",
         period: "Oct to Dec 2025",
         hours: "26 h",
+        icon: "osint",
       },
       {
         name: "AI Toolbox, a practical review of AI tools, 2025 edition",
         issuer: "Securitum",
         period: "May to Jun 2025",
         hours: "15 h",
+        icon: "ai",
       },
-      { name: "Introduction to Wazuh (SIEM)", issuer: "Securitum", period: "Jun 2025", hours: "1.5 h" },
+      {
+        name: "Introduction to Wazuh (SIEM)",
+        issuer: "Securitum",
+        period: "Jun 2025",
+        hours: "1.5 h",
+        icon: "monitoring",
+      },
     ],
   },
   {
     title: { en: "Microsoft", pl: "Microsoft" },
     items: [
-      { name: "MTA: Security Fundamentals (98-367)", issuer: "Microsoft" },
-      { name: "MTA: Software Development (98-361)", issuer: "Microsoft" },
-      { name: "MTA: HTML5 App Development (98-375)", issuer: "Microsoft" },
-      { name: "MTA: Database Fundamentals (98-364)", issuer: "Microsoft" },
+      { name: "MTA: Security Fundamentals (98-367)", issuer: "Microsoft", icon: "microsoft" },
+      { name: "MTA: Software Development (98-361)", issuer: "Microsoft", icon: "microsoft" },
+      { name: "MTA: HTML5 App Development (98-375)", issuer: "Microsoft", icon: "microsoft" },
+      { name: "MTA: Database Fundamentals (98-364)", issuer: "Microsoft", icon: "microsoft" },
     ],
   },
 ];
@@ -393,8 +463,4 @@ export const languages: { code: string; name: Localized; level: Localized }[] = 
 export const resumeMeta = {
   /** Drop the file in /public to enable the download button. */
   pdf: "/Krzysztof_Kaszuba_CV.pdf",
-  extras: {
-    en: ["Driving licence: category B"],
-    pl: ["Prawo jazdy: kategoria B"],
-  } satisfies Localized<string[]>,
 };

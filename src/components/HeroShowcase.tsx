@@ -1,14 +1,37 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Lock, RotateCw } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { statusLabels, type Project } from "@/content/projects";
+import { cn } from "@/lib/utils";
+
+const INTERVAL_MS = 12_000;
 
 /**
- * The featured project shown in a browser chrome in the hero, tilted slightly
- * so it reads as a screen sitting in the page rather than a flat screenshot.
+ * Featured projects shown in a browser chrome, cycling on a timer.
+ *
+ * Only projects with a cover image take part; anything still on a generated
+ * gradient would look like a gap in the rotation. The address bar and the
+ * caption follow the slide, so the frame always describes what it shows.
  */
-export function HeroShowcase({ project, lang }: { project: Project; lang: Locale }) {
+export function HeroShowcase({ projects, lang }: { projects: Project[]; lang: Locale }) {
+  const reduced = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (projects.length < 2) return;
+
+    const timer = setInterval(() => setIndex((i) => (i + 1) % projects.length), INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [projects.length]);
+
+  const project = projects[index];
+  if (!project) return null;
+
   const host = project.links.find((link) => link.kind === "site")?.label ?? project.title;
 
   return (
@@ -52,24 +75,54 @@ export function HeroShowcase({ project, lang }: { project: Project; lang: Locale
             </div>
 
             <div className="relative aspect-[16/11] bg-surface-2">
-              <Image
-                src={project.cover ?? ""}
-                alt={project.title}
-                fill
-                priority
-                sizes="(min-width: 1024px) 460px, 90vw"
-                className="object-cover object-top"
-              />
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.span
+                  key={project.slug}
+                  className="absolute inset-0"
+                  initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 1.04 }}
+                  animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reduced ? 0.2 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <Image
+                    src={project.cover ?? ""}
+                    alt={project.title}
+                    fill
+                    priority={index === 0}
+                    sizes="(min-width: 1024px) 460px, 90vw"
+                    className="object-cover object-top"
+                  />
+                </motion.span>
+              </AnimatePresence>
             </div>
           </div>
         </div>
 
-        <span className="mt-4 inline-flex items-center gap-2 text-sm text-ink-muted">
+        <span className="mt-4 flex items-center gap-2 text-sm text-ink-muted">
           <span className="font-medium text-ink">{project.title}</span>
           <span className="text-ink-faint">{t(statusLabels[project.status], lang)}</span>
           <ArrowUpRight className="h-3.5 w-3.5 text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
       </Link>
+
+      {/* Slide picker. Doubles as a progress readout for the timer. */}
+      {projects.length > 1 && (
+        <div className="mt-3 flex items-center gap-1.5">
+          {projects.map((item, i) => (
+            <button
+              key={item.slug}
+              type="button"
+              aria-label={item.title}
+              aria-current={i === index}
+              onClick={() => setIndex(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300",
+                i === index ? "w-7 bg-accent" : "w-1.5 bg-line-strong hover:bg-accent/50",
+              )}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
