@@ -53,12 +53,22 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
     >
         <article className="card-sheen relative flex h-full flex-col overflow-hidden rounded-[calc(1rem-1px)] bg-surface">
           <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
-            <ProjectCover
-              project={project}
-              priority={priority}
-              className="transition-transform duration-500 group-hover:scale-[1.04]"
-              sizes={large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw"}
-            />
+            {frames.length > 1 ? (
+              <CardSlideshow
+                images={frames}
+                alt={project.title}
+                priority={priority}
+                sizes={coverSizes}
+                className="group-hover:scale-[1.04]"
+              />
+            ) : (
+              <ProjectCover
+                project={project}
+                priority={priority}
+                className="transition-transform duration-500 group-hover:scale-[1.04]"
+                sizes={coverSizes}
+              />
+            )}
 
             {/* The dot keeps beating on anything still alive, which is what makes
                 the pill register as a state rather than a label. */}
