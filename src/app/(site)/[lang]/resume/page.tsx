@@ -27,6 +27,7 @@ import {
   education,
   employment,
   freelance,
+  ownProjects,
   languages,
   resumeMeta,
   resumeSections,
@@ -37,6 +38,8 @@ import {
 import { Reveal } from "@/components/Reveal";
 import { PageHeader } from "@/components/PageHeader";
 import { ProjectCover } from "@/components/ProjectCover";
+import { BrowserFrame } from "@/components/BrowserFrame";
+import { EditorPanel } from "@/components/EditorPanel";
 import { ContactCta } from "@/components/ContactCta";
 import { FlagGB, FlagPL } from "@/components/icons/Flags";
 
@@ -94,6 +97,7 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
     <ol className="space-y-10">
       {entries.map((entry, i) => {
         const project = entry.projectSlug ? getProject(entry.projectSlug) : undefined;
+        const site = project?.links.find((link) => link.kind === "site");
         const isLast = i === entries.length - 1;
 
         return (
@@ -170,21 +174,47 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
               </div>
 
               {/* Thumbnail of the matching project, so the reading has
-                  something to look at and a way through to the case study. */}
-              {project && (
-                <Link
-                  href={localePath(lang, `work/${project.slug}`)}
-                  className="group hidden lg:block"
-                  aria-label={project.title}
-                >
-                  <span className="relative block aspect-[16/11] overflow-hidden rounded-xl border border-line bg-surface-2 shadow-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-accent/40 group-hover:shadow-lift">
-                    <ProjectCover
-                      project={project}
-                      sizes="13rem"
-                      className="transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </span>
-                </Link>
+                  something to look at and a way through to the case study.
+                  Offset to line up with the role text rather than the company
+                  name, which left it stranded at the top of the entry. */}
+              {(project || entry.visual) && (
+                <div className="hidden lg:mt-16 lg:block">
+                  {project ? (
+                    <Link
+                      href={localePath(lang, `work/${project.slug}`)}
+                      className="group block"
+                      aria-label={project.title}
+                    >
+                      <BrowserFrame
+                        host={site?.label ?? project.title}
+                        compact
+                        className="rounded-lg border border-line shadow-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-accent/40 group-hover:shadow-lift"
+                      >
+                        <span className="relative block aspect-[16/11] bg-surface-2">
+                          <ProjectCover
+                            project={project}
+                            sizes="13rem"
+                            className="transition-transform duration-500 group-hover:scale-105"
+                          />
+                        </span>
+                      </BrowserFrame>
+                    </Link>
+                  ) : (
+                    <EditorPanel label={t(entry.location, lang)} />
+                  )}
+
+                  {site && (
+                    <a
+                      href={site.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2.5 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-accent px-3 py-2 text-xs font-medium text-accent-ink transition-colors hover:bg-accent-hover"
+                    >
+                      {t(ui.visitSite, lang)}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  )}
+                </div>
               )}
             </div>
           </Reveal>
@@ -273,13 +303,18 @@ export default async function ResumePage({ params }: { params: Promise<{ lang: s
           <Timeline entries={freelance} lang={lang} />
         </section>
 
-        <section id="education">
+        <section id="projects">
           <SectionHeading index={2} lang={lang} />
+          <Timeline entries={ownProjects} lang={lang} />
+        </section>
+
+        <section id="education">
+          <SectionHeading index={3} lang={lang} />
           <Timeline entries={education} lang={lang} />
         </section>
 
         <section id="certificates">
-          <SectionHeading index={3} lang={lang} />
+          <SectionHeading index={4} lang={lang} />
           <div className="space-y-8">
             {certificateGroups.map((group) => (
               <div key={group.items.map((c) => c.name).join()}>
@@ -318,7 +353,7 @@ export default async function ResumePage({ params }: { params: Promise<{ lang: s
         </section>
 
         <section id="languages">
-          <SectionHeading index={4} lang={lang} />
+          <SectionHeading index={5} lang={lang} />
           <ul className="flex flex-wrap gap-3">
             {languages.map((language, i) => {
               const Flag = flags[language.code];

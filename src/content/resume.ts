@@ -19,6 +19,8 @@ export interface ResumeEntry {
   logo?: string;
   /** Fallback glyph, keyed in the resume page. */
   icon?: "work" | "school" | "design" | "tools";
+  /** Drawn panel for entries with nothing to screenshot. */
+  visual?: "editing";
   roles: ResumeRole[];
 }
 
@@ -29,7 +31,8 @@ export interface ResumeSection {
 
 export const resumeSections: ResumeSection[] = [
   { id: "employment", label: { en: "Employment", pl: "Etat" } },
-  { id: "freelance", label: { en: "Freelance & side projects", pl: "Freelance i projekty własne" } },
+  { id: "freelance", label: { en: "Freelance", pl: "Freelance" } },
+  { id: "projects", label: { en: "Own projects", pl: "Projekty własne" } },
   { id: "education", label: { en: "Education", pl: "Wykształcenie" } },
   { id: "certificates", label: { en: "Certificates", pl: "Certyfikaty" } },
   { id: "languages", label: { en: "Languages", pl: "Języki" } },
@@ -41,8 +44,12 @@ export const sectionLeads: Record<string, Localized> = {
     pl: "Stanowiska etatowe, od najnowszego.",
   },
   freelance: {
-    en: "Paid work and products built outside employment.",
-    pl: "Płatne zlecenia i produkty budowane poza etatem.",
+    en: "Paid client work taken on outside employment.",
+    pl: "Płatne zlecenia dla klientów, brane poza etatem.",
+  },
+  projects: {
+    en: "Products I build for myself, and keep running.",
+    pl: "Produkty, które buduję dla siebie i utrzymuję.",
   },
 };
 
@@ -171,7 +178,7 @@ export const employment: ResumeEntry[] = [
 ];
 
 /* ---------------------------------------------------------------------------
-   Freelance and product work.
+   Client work taken on outside employment.
 --------------------------------------------------------------------------- */
 export const freelance: ResumeEntry[] = [
   {
@@ -197,32 +204,6 @@ export const freelance: ResumeEntry[] = [
             "Rozwinięcie jej w trzy domeny pokazujące firmę z trzech stron: marka, usługa lokalna i licencjonowany przewóz.",
             "Ułożenie każdej strony wokół intencji rezerwacji: cennik, trasy, flota i ścieżka kontaktu na każdej podstronie.",
             "Fundament pod lokalne SEO oraz bieżący hosting i aktualizacje.",
-          ],
-        },
-      },
-    ],
-  },
-  {
-    org: "AM Tracker",
-    location: { en: "Own product", pl: "Produkt własny" },
-    period: "2025 to present",
-    projectSlug: "amtracker",
-    roles: [
-      {
-        title: { en: "Full-stack developer", pl: "Full-stack developer" },
-        period: "2025 to present",
-        points: {
-          en: [
-            "Designed and shipped a production web app end to end: schema, authentication, email, UI and deployment.",
-            "Built account handling with email verification and TOTP two-factor login.",
-            "Modelled the domain in Prisma and surfaced it as a personal statistics dashboard.",
-            "Run it on my own server, including backups and updates.",
-          ],
-          pl: [
-            "Zaprojektowanie i wdrożenie produkcyjnej aplikacji webowej od zera: schemat bazy, autoryzacja, mailing, UI i deployment.",
-            "Obsługa kont z weryfikacją e-mail i logowaniem dwuskładnikowym TOTP.",
-            "Model domeny w Prisma wystawiony jako panel statystyk osobistych.",
-            "Utrzymanie na własnym serwerze, razem z backupami i aktualizacjami.",
           ],
         },
       },
@@ -259,6 +240,7 @@ export const freelance: ResumeEntry[] = [
     location: { en: "Freelance, remote", pl: "Freelance, zdalnie" },
     period: "Jan 2023 to Jan 2024",
     icon: "design",
+    visual: "editing",
     roles: [
       {
         title: {
@@ -278,6 +260,38 @@ export const freelance: ResumeEntry[] = [
             "Czyszczenie i mastering dźwięku w Audacity; montaż i korekcja koloru w DaVinci Resolve.",
             "Przygotowanie folderów prezentacyjnych i materiałów multimedialnych.",
             "Uporządkowanie i archiwizacja wszystkich materiałów w strukturze, po której zespół potrafił się poruszać.",
+          ],
+        },
+      },
+    ],
+  },
+];
+
+/* ---------------------------------------------------------------------------
+   Own products, kept separate from client work: nobody commissioned these.
+--------------------------------------------------------------------------- */
+export const ownProjects: ResumeEntry[] = [
+  {
+    org: "AM Tracker",
+    location: { en: "Own product", pl: "Produkt własny" },
+    period: "2025 to present",
+    projectSlug: "amtracker",
+    roles: [
+      {
+        title: { en: "Full-stack developer", pl: "Full-stack developer" },
+        period: "2025 to present",
+        points: {
+          en: [
+            "Designed and shipped a production web app end to end: schema, authentication, email, UI and deployment.",
+            "Built account handling with email verification and TOTP two-factor login.",
+            "Modelled the domain in Prisma and surfaced it as a personal statistics dashboard.",
+            "Run it on my own server, including backups and updates.",
+          ],
+          pl: [
+            "Zaprojektowanie i wdrożenie produkcyjnej aplikacji webowej od zera: schemat bazy, autoryzacja, mailing, UI i deployment.",
+            "Obsługa kont z weryfikacją e-mail i logowaniem dwuskładnikowym TOTP.",
+            "Model domeny w Prisma wystawiony jako panel statystyk osobistych.",
+            "Utrzymanie na własnym serwerze, razem z backupami i aktualizacjami.",
           ],
         },
       },
