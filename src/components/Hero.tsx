@@ -7,7 +7,6 @@ import { hero, profile, stats } from "@/content/site";
 import { featuredProjects } from "@/content/projects";
 import { ButtonLink } from "./Button";
 import { CountUp } from "./CountUp";
-import { FloatingChips } from "./FloatingChips";
 import { HeroShowcase } from "./HeroShowcase";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +14,6 @@ export function Hero({ lang }: { lang: Locale }) {
   const reduced = useReducedMotion();
   const lines = t(hero.headline, lang);
   const accentLine = t(hero.accentWord, lang);
-  const badges = t(hero.badges, lang);
   // Only the ones with a real screenshot; a generated gradient would read as
   // a blank slide in the rotation.
   const showcase = featuredProjects.filter((project) => project.cover);
@@ -113,25 +111,9 @@ export function Hero({ lang }: { lang: Locale }) {
             </motion.dl>
           </div>
 
-          {/* ---- Right: the featured project, with chips floating around -- */}
+          {/* ---- Right: the project carousel, chips and all -------------- */}
           <motion.div {...rise(2)} className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <div className="relative">
-              {showcase.length > 0 && <HeroShowcase projects={showcase} lang={lang} />}
-              <FloatingChips badges={badges} />
-            </div>
-
-            {/* Below lg the chips cannot float clear of the frame, so they
-                fall back to a plain row. */}
-            <ul className="mt-4 flex flex-wrap justify-center gap-1.5 lg:hidden">
-              {badges.map((badge) => (
-                <li
-                  key={badge}
-                  className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-ink-muted"
-                >
-                  {badge}
-                </li>
-              ))}
-            </ul>
+            {showcase.length > 0 && <HeroShowcase projects={showcase} lang={lang} />}
           </motion.div>
         </div>
 

@@ -52,11 +52,6 @@ export const hero = {
   } satisfies Localized,
   ctaPrimary: { en: "See the work", pl: "Zobacz projekty" } satisfies Localized,
   ctaSecondary: { en: "Start a project", pl: "Zacznijmy projekt" } satisfies Localized,
-  /** Chips floating around the showcase: the stack behind what is on screen. */
-  badges: {
-    en: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma"],
-    pl: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma"],
-  } satisfies Localized<string[]>,
 };
 
 

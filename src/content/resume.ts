@@ -181,16 +181,20 @@ export const freelance: ResumeEntry[] = [
     projectSlug: "passenger-transport",
     roles: [
       {
-        title: { en: "Web developer", pl: "Web developer" },
+        // Named for the work rather than a job title: this is a client
+        // engagement, not a position.
+        title: { en: "Rebuild, SEO and maintenance", pl: "Przebudowa, SEO i utrzymanie" },
         period: "2024 to present",
         points: {
           en: [
-            "Built and maintain three domains covering one transport operator from three angles: brand, city service and licensing.",
+            "Rebuilt the operator's WordPress site on Next.js and Tailwind, inheriting it from a previous developer.",
+            "Grew it into three domains covering the business from three angles: brand, city service and licensing.",
             "Structured each site around booking intent: pricing, routes, fleet and a contact path on every page.",
             "Laid the local SEO groundwork and handle hosting and updates on an ongoing basis.",
           ],
           pl: [
-            "Zbudowanie i utrzymanie trzech domen pokazujących jednego przewoźnika z trzech stron: marka, usługa lokalna i licencjonowany przewóz.",
+            "Przebudowa strony przewoźnika z WordPressa na Next.js i Tailwind, przejętej po poprzednim wykonawcy.",
+            "Rozwinięcie jej w trzy domeny pokazujące firmę z trzech stron: marka, usługa lokalna i licencjonowany przewóz.",
             "Ułożenie każdej strony wokół intencji rezerwacji: cennik, trasy, flota i ścieżka kontaktu na każdej podstronie.",
             "Fundament pod lokalne SEO oraz bieżący hosting i aktualizacje.",
           ],

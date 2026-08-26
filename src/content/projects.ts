@@ -113,30 +113,30 @@ export const projects: Project[] = [
       pl: "Trzy powiązane strony dla jednej firmy przewozowej.",
     },
     summary: {
-      en: "A small network of sites covering the same operator from three angles (brand, city-level service and licensing), so each one can rank for what its own audience actually searches for.",
-      pl: "Sieć stron pokazujących tego samego przewoźnika z trzech stron (marka, usługa lokalna, licencjonowany przewóz), tak aby każda z nich odpowiadała na inne zapytania klientów.",
+      en: "A WordPress site inherited from a previous developer, rebuilt on Next.js, then grown into three domains covering the same operator from three angles (brand, city-level service and licensing), so each one can rank for what its own audience actually searches for.",
+      pl: "Strona na WordPressie odziedziczona po poprzednim wykonawcy, przebudowana na Next.js, a potem rozwinięta w trzy domeny pokazujące tego samego przewoźnika z trzech stron (marka, usługa lokalna, licencjonowany przewóz), tak aby każda z nich odpowiadała na inne zapytania klientów.",
     },
     role: {
-      en: "Design, build, content structure, SEO and ongoing maintenance.",
-      pl: "Projekt, wykonanie, struktura treści, SEO i bieżące utrzymanie.",
+      en: "Rebuild from WordPress, design, SEO and ongoing maintenance.",
+      pl: "Przebudowa z WordPressa, projekt, SEO i bieżące utrzymanie.",
     },
     highlights: {
       en: [
+        "Rebuilt from the WordPress site left by the previous developer, rewritten on Next.js and Tailwind.",
         "Three separate domains sharing a visual language but written for distinct search intent.",
         "Booking-focused layouts: pricing, routes, fleet and a contact path on every page.",
         "Local SEO groundwork: structured headings, service pages per city, fast static delivery.",
         "Built for a non-technical owner to update without breaking anything.",
       ],
       pl: [
+        "Przebudowa strony na WordPressie zostawionej przez poprzedniego wykonawcę, napisana od nowa w Next.js i Tailwind.",
         "Trzy osobne domeny o wspólnym języku wizualnym, pisane pod różne intencje wyszukiwania.",
         "Layout nastawiony na rezerwacje: cennik, trasy, flota i ścieżka kontaktu na każdej podstronie.",
         "Fundament pod lokalne SEO: struktura nagłówków, podstrony usług dla miast, szybkie ładowanie.",
         "Zbudowane tak, aby nietechniczny właściciel mógł je aktualizować bez ryzyka.",
       ],
     },
-    // NOTE: this stack was assumed at the start and never confirmed. The
-    // screenshots look bespoke rather than templated, so check it before launch.
-    tech: ["WordPress", "PHP", "Custom CSS", "SEO", "Hosting"],
+    tech: ["Next.js", "React", "Tailwind CSS", "SEO", "Hosting"],
     links: [
       { label: "klikbus.pl", href: "https://klikbus.pl/", kind: "site" },
       { label: "przewozy-katowice.pl", href: "https://przewozy-katowice.pl/", kind: "site" },

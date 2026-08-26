@@ -111,11 +111,14 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
               </div>
 
               <div className="min-w-0">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 className="font-display text-lg font-semibold">{entry.org}</h3>
-                  {entry.period && <span className="text-sm text-ink-faint">{entry.period}</span>}
-                </div>
-                <p className="mt-1 text-sm text-ink-muted">{t(entry.location, lang)}</p>
+                <h3 className="font-display text-lg font-semibold">{entry.org}</h3>
+                {/* Dates sit under the name rather than opposite it: ranged
+                    right they drifted away from what they belonged to. */}
+                <p className="mt-1 text-sm text-ink-muted">
+                  {entry.period && <span className="text-ink-faint">{entry.period}</span>}
+                  {entry.period && " · "}
+                  {t(entry.location, lang)}
+                </p>
 
                 {/*
                  * Several roles means a promotion inside one company, so they
@@ -136,10 +139,8 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
                           className="absolute top-1.5 h-3 w-3 rounded-full border-2 border-paper bg-accent left-[calc(-1.875rem-1px)]"
                         />
                       )}
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                        <h4 className="font-medium text-accent">{t(role.title, lang)}</h4>
-                        <span className="text-sm text-ink-faint">{role.period}</span>
-                      </div>
+                      <h4 className="font-medium text-accent">{t(role.title, lang)}</h4>
+                      <p className="mt-0.5 text-sm text-ink-faint">{role.period}</p>
                       <ul className="mt-3 space-y-2">
                         {t(role.points, lang).map((point) => (
                           <li
@@ -182,10 +183,6 @@ function Timeline({ entries, lang }: { entries: ResumeEntry[]; lang: Locale }) {
                       sizes="13rem"
                       className="transition-transform duration-500 group-hover:scale-105"
                     />
-                  </span>
-                  <span className="mt-2 flex items-center gap-1 text-xs font-medium text-ink-faint transition-colors group-hover:text-accent">
-                    {t(ui.viewProject, lang)}
-                    <ExternalLink className="h-3 w-3" />
                   </span>
                 </Link>
               )}
