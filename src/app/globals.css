@@ -121,10 +121,18 @@
     /* Sticky header clearance for in-page anchors. */
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
+    /*
+     * Decoration parked outside its container (the glow behind the hero frame,
+     * the floating chips) must never turn into a sideways scrollbar: on a phone
+     * that reads as the whole page being cut off. Clip rather than hidden, so
+     * sticky positioning keeps working inside.
+     */
+    overflow-x: clip;
   }
 
   body {
     background-color: var(--paper);
+    overflow-x: clip;
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -265,6 +273,45 @@
   .spotlight > * {
     position: relative;
     z-index: 1;
+  }
+
+  /* Cursor blinking at the end of an address being typed. */
+  .type-caret {
+    display: inline-block;
+    width: 1px;
+    height: 0.85em;
+    margin-left: 1px;
+    background: currentColor;
+    animation: caret-blink 1s steps(1) infinite;
+  }
+
+  /*
+   * Load line under the address bar. Runs once per address: scaleX only, and
+   * it fades out at the end rather than snapping back to nothing.
+   */
+  .load-bar {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+    transform-origin: left;
+    animation: load-bar 1.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  /*
+   * A full-page screenshot being read inside the browser frame: a beat at the
+   * top, then a slow travel to its own foot. Distance and duration come from
+   * the component, which knows how tall the picture is.
+   */
+  .page-scroll {
+    animation: page-scroll var(--scroll-duration, 12s) cubic-bezier(0.4, 0, 0.35, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-scroll {
+      animation: none;
+    }
   }
 
   /* Incoming slideshow frame, rising over the one it replaces. */
@@ -496,6 +543,40 @@
   }
   94% {
     transform: translateX(0);
+  }
+}
+
+@keyframes page-scroll {
+  0%,
+  12% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(var(--scroll-travel, 0));
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes load-bar {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+
+  65% {
+    transform: scaleX(0.75);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
   }
 }
 

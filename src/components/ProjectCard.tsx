@@ -59,6 +59,7 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
                 alt={project.title}
                 priority={priority}
                 sizes={coverSizes}
+                offset={index}
                 className="group-hover:scale-[1.04]"
               />
             ) : (
@@ -99,7 +100,9 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
             </span>
           </div>
 
-          <div className="flex flex-col p-6">
+          {/* Grows to fill the card, so the link at its foot lines up with the
+              neighbours whatever the tags do above it. */}
+          <div className="flex flex-1 flex-col p-6">
             {category && (
               <span className="mb-2 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent">
                 <span aria-hidden className="h-px w-5 bg-accent/50" />
@@ -125,7 +128,7 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
               {t(project.tagline, lang)}
             </p>
 
-            <ul className="mt-4 flex flex-wrap items-center gap-1.5">
+            <ul className="mb-4 mt-4 flex flex-wrap items-center gap-1.5">
               {project.tech.slice(0, 4).map((tech) => (
                 <li
                   key={tech}
@@ -139,7 +142,7 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
               )}
             </ul>
 
-            <span className="mt-4 flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
+            <span className="mt-auto flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
               {t(ui.viewProject, lang)}
               {/* Nudges on its own every few seconds, and slides further out
                   under the pointer. */}

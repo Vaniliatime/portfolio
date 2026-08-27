@@ -42,7 +42,9 @@ export function FloatingChips({ badges }: { badges: string[] }) {
             style={{ position: "absolute", ...spot.style }}
             initial={reduced ? undefined : { opacity: 0, scale: 0.85 }}
             animate={reduced ? undefined : { opacity: 1, scale: 1 }}
-            transition={reduced ? undefined : { duration: 0.5, delay: 0.6 + i * 0.1 }}
+            // Short delays: these now also play on every slide change, and a
+            // long wait left the frame standing there with no chips at all.
+            transition={reduced ? undefined : { duration: 0.45, delay: 0.15 + i * 0.06 }}
           >
             <span
               // Solid background on purpose: backdrop-blur here forced every

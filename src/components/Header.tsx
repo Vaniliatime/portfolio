@@ -97,7 +97,7 @@ export function Header({ lang }: { lang: Locale }) {
       </div>
 
       {open && (
-        <div className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-line bg-paper px-5 py-8 lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto md:top-20 border-t border-line bg-paper px-5 py-8 lg:hidden">
           <nav aria-label="Mobile" className="flex flex-col gap-1">
             {nav.map((item) => (
               <Link

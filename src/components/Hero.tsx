@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Github, Linkedin } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
@@ -27,9 +28,14 @@ export function Hero({ lang }: { lang: Locale }) {
           transition: { duration: 0.7, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as const },
         };
 
+  // The carousel's position lives here so the dashes and the timer agree on
+  // which slide is showing.
+  const [slide, setSlide] = useState(0);
+  const selectSlide = useCallback((next: number) => setSlide(next), []);
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="shell relative z-10 pb-20 pt-16 md:pb-28 md:pt-24">
+    <section className="relative">
+      <div className="shell relative z-10 py-16 md:py-24">
         <div className="grid items-center gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-24">
           {/* ---- Left: the pitch, with the stats underneath ---------------- */}
           <div>
@@ -113,10 +119,16 @@ export function Hero({ lang }: { lang: Locale }) {
 
           {/* ---- Right: the project carousel, chips and all -------------- */}
           <motion.div {...rise(2)} className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            {showcase.length > 0 && <HeroShowcase projects={showcase} lang={lang} />}
+            {showcase.length > 0 && (
+              <HeroShowcase
+                projects={showcase}
+                lang={lang}
+                index={slide}
+                onSelect={selectSlide}
+              />
+            )}
           </motion.div>
         </div>
-
       </div>
     </section>
   );

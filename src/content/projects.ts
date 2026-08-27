@@ -27,9 +27,21 @@ export interface Project {
   tech: string[];
   links: ProjectLink[];
   cover?: string;
+  /**
+   * Full-page capture, scrolled through inside the hero's browser frame. The
+   * dimensions are what tell the animation how far the picture has to travel,
+   * so they belong here rather than being measured in the browser.
+   */
+  coverTall?: TallCover;
   gallery?: string[];
   /** Screenshots read better in a landscape grid than a square one. */
   galleryAspect?: "square" | "wide";
+}
+
+export interface TallCover {
+  src: string;
+  width: number;
+  height: number;
 }
 
 export const categories: { id: Category; label: Localized }[] = [
@@ -93,6 +105,7 @@ export const projects: Project[] = [
       { label: "Google Play", href: "", kind: "playstore" },
     ],
     cover: "/images/amtracker/library.webp",
+    coverTall: { src: "/images/amtracker/full.webp", width: 1100, height: 2628 },
     gallery: [
       "/images/amtracker/library.webp",
       "/images/amtracker/dashboard.webp",
@@ -149,6 +162,7 @@ export const projects: Project[] = [
       { label: "licencjonowany-przewoz-osob.pl", href: "https://licencjonowany-przewoz-osob.pl/", kind: "site" },
     ],
     cover: "/images/transport/home.webp",
+    coverTall: { src: "/images/transport/full.webp", width: 1100, height: 1725 },
     gallery: [
       "/images/transport/home.webp",
       "/images/transport/fleet.webp",
@@ -202,6 +216,7 @@ export const projects: Project[] = [
     tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Express", "SQLite", "Sharp", "Nodemailer"],
     links: [],
     cover: "/images/wedding/invitation.webp",
+    coverTall: { src: "/images/wedding/full.webp", width: 1100, height: 4630 },
     gallery: [
       "/images/wedding/invitation.webp",
       "/images/wedding/venue.webp",
@@ -250,6 +265,7 @@ export const projects: Project[] = [
     tech: ["React 19", "TypeScript", "Vite", "Tailwind CSS"],
     links: [],
     cover: "/images/itil/overview.webp",
+    coverTall: { src: "/images/itil/full.webp", width: 1100, height: 680 },
     gallery: [
       "/images/itil/overview.webp",
       "/images/itil/tests.webp",

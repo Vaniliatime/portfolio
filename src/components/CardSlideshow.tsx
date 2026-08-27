@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 
 const HOLD_MS = 6000;
 const FADE_MS = 1100;
-const MAX_DOTS = 5;
+/** Gap between neighbouring cards, so a row turns over as a wave. */
+const STAGGER_MS = 1000;
 
 interface CardSlideshowProps {
   images: string[];
@@ -15,6 +16,8 @@ interface CardSlideshowProps {
   sizes: string;
   priority?: boolean;
   className?: string;
+  /** Position in the grid. Offsets this card's turn against its neighbours. */
+  offset?: number;
 }
 
 /**
@@ -32,7 +35,14 @@ interface CardSlideshowProps {
  * costs one image per card up front and the rest arrive one at a time as the
  * loop reaches them.
  */
-export function CardSlideshow({ images, alt, sizes, priority, className }: CardSlideshowProps) {
+export function CardSlideshow({
+  images,
+  alt,
+  sizes,
+  priority,
+  className,
+  offset = 0,
+}: CardSlideshowProps) {
   const frames = images;
   const ref = useRef<HTMLDivElement>(null);
   // No head start: the card has to be properly in view, not merely approaching.
@@ -45,15 +55,26 @@ export function CardSlideshow({ images, alt, sizes, priority, className }: CardS
   useEffect(() => {
     if (reduced || frames.length < 2 || !inView) return;
 
-    const timer = setInterval(() => {
+    const advance = () =>
       setIndex((current) => {
         setPrevious(current);
         return (current + 1) % frames.length;
       });
-    }, HOLD_MS);
 
-    return () => clearInterval(timer);
-  }, [frames.length, inView, reduced]);
+    // The first turn waits a full hold plus this card's share of the stagger,
+    // and the interval keeps that offset afterwards, so neighbours never change
+    // together.
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const first = setTimeout(() => {
+      advance();
+      interval = setInterval(advance, HOLD_MS);
+    }, HOLD_MS + offset * STAGGER_MS);
+
+    return () => {
+      clearTimeout(first);
+      if (interval) clearInterval(interval);
+    };
+  }, [frames.length, inView, reduced, offset]);
 
   // Back to the cover whenever the card leaves the screen, so arriving at it
   // always starts on the shot the project leads with rather than wherever the
@@ -71,6 +92,13 @@ export function CardSlideshow({ images, alt, sizes, priority, className }: CardS
     const timer = setTimeout(() => setPrevious(null), FADE_MS);
     return () => clearTimeout(timer);
   }, [previous, index]);
+
+  /** Manual pick from the dots. Cross-fades exactly like the timer does. */
+  const select = (next: number) => {
+    if (next === index) return;
+    setPrevious(index);
+    setIndex(next);
+  };
 
   const frame = (i: number, layer: "under" | "over") => (
     <Image
@@ -95,27 +123,34 @@ export function CardSlideshow({ images, alt, sizes, priority, className }: CardS
       {previous !== null && frame(previous, "under")}
       {frame(index, "over")}
 
-      {/* Dots read well up to a handful. Past that they turn into a cluttered
-          row, so a long gallery gets a count instead. */}
-      {frames.length > 1 && frames.length <= MAX_DOTS && (
-        <span className="absolute bottom-3 left-4 z-10 flex gap-1.5">
+      {/*
+       * Dots on a dark pill: bare dots vanished against the paler screenshots,
+       * and the pill gives them one background to read on whatever is behind.
+       */}
+      {frames.length > 1 && (
+        <span className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-ink/55 px-2 py-1.5">
           {frames.map((src, i) => (
-            <span
+            <button
               key={src}
+              type="button"
+              aria-label={`${alt} ${i + 1}`}
+              aria-current={i === index}
+              /* The whole card is a link, so the dot has to claim the click
+                 before it turns into navigation. */
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                select(i);
+              }}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-500",
-                i === index ? "w-5 bg-white" : "w-1.5 bg-white/50",
+                i === index ? "w-4 bg-accent-soft" : "w-1.5 bg-paper/45 hover:bg-paper/80",
               )}
             />
           ))}
         </span>
       )}
 
-      {frames.length > MAX_DOTS && (
-        <span className="absolute bottom-3 left-4 z-10 rounded-full bg-ink/70 px-2 py-0.5 text-[0.65rem] font-medium tabular-nums text-paper">
-          {index + 1} / {frames.length}
-        </span>
-      )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Lock, RotateCw } from "lucide-react";
+import { TypedHost } from "./TypedHost";
 import { cn } from "@/lib/utils";
 
 interface BrowserFrameProps {
@@ -8,15 +9,20 @@ interface BrowserFrameProps {
   className?: string;
   /** Thumbnail size: drops the nav arrows, which turn to mush when small. */
   compact?: boolean;
+  /**
+   * Types the address out and runs a load line underneath, once per host. The
+   * hero uses it so a slide change reads as the browser going somewhere.
+   */
+  typed?: boolean;
 }
 
 /** Browser chrome around a screenshot, shared by the hero and the resume. */
-export function BrowserFrame({ host, children, className, compact }: BrowserFrameProps) {
+export function BrowserFrame({ host, children, className, compact, typed }: BrowserFrameProps) {
   return (
     <div className={cn("overflow-hidden bg-surface", className)}>
       <div
         className={cn(
-          "flex items-center border-b border-line bg-surface-2",
+          "relative flex items-center border-b border-line bg-surface-2",
           compact ? "gap-1.5 px-2 py-1.5" : "gap-2.5 px-3 py-2.5",
         )}
       >
@@ -41,8 +47,11 @@ export function BrowserFrame({ host, children, className, compact }: BrowserFram
           )}
         >
           <Lock className={cn("shrink-0 text-emerald-500", compact ? "h-2 w-2" : "h-2.5 w-2.5")} />
-          <span className="truncate">{host}</span>
+          {typed ? <TypedHost key={host} host={host} /> : <span className="truncate">{host}</span>}
         </span>
+
+        {/* Sweeps once as the address lands, then clears itself. */}
+        {typed && <span key={`bar-${host}`} aria-hidden className="load-bar" />}
       </div>
 
       {children}
