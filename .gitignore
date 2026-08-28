@@ -22,3 +22,8 @@ readme.md
 
 # Local tool permissions, not project content.
 .claude/
+
+# Mail credentials for the contact handler. The example file is the only one
+# that belongs in the repository.
+public/api/config.php
+mail-config.php

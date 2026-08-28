@@ -2,24 +2,30 @@
 /**
  * Contact form handler for the static site.
  *
- * The site itself is plain files, so this is the one piece of server code:
- * the form posts JSON here and this passes it on by mail. It lives in public/
- * so the export copies it to out/api/contact.php with everything else.
+ * The site itself is plain files, so this is the one piece of server code: the
+ * form posts JSON here and this passes it on over SMTP. It lives in public/ so
+ * the export copies it to out/api/contact.php with everything else.
  *
- * The envelope sender has to be an address on this domain or the host's mail
- * server refuses it and the message is dropped without a bounce. Whoever
- * wrote in goes in Reply-To instead, so hitting reply answers them.
+ * The message is sent as the domain's own mailbox and addressed to it as well,
+ * which is what lets Gmail answer it from that address rather than from a
+ * personal one. The hosting then forwards it on to wherever it gets read.
+ *
+ * A forwarded message usually fails the sender check, because the forwarding
+ * server is not one the sending domain vouches for. Not here: the same host
+ * sends it and forwards it, so the domain's own record still covers the
+ * address it arrives from, and the signature survives an untouched redirect.
+ *
+ * Whoever wrote in goes in Reply-To, so hitting reply answers them.
  */
 
 declare(strict_types=1);
 
-const MAIL_TO       = 'kaszubakrzysiek@gmail.com';
-const MAIL_FROM     = 'no-reply@kkaszuba.eu';
-const MAIL_FROM_NAME = 'kkaszuba.eu';
+require __DIR__ . '/smtp.php';
+
 /** Messages accepted from one address per hour, before it looks like a bot. */
-const RATE_LIMIT    = 8;
-const RATE_WINDOW   = 3600;
-const MAX_BYTES     = 25000;
+const RATE_LIMIT = 8;
+const RATE_WINDOW = 3600;
+const MAX_BYTES = 25000;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -43,14 +49,26 @@ function oneLine(string $value): string
     return trim(preg_replace('/[\r\n\t]+/', ' ', $value) ?? '');
 }
 
-/** Non-ASCII subjects have to be encoded or they arrive as mojibake. */
-function encodeHeader(string $value): string
+/**
+ * Credentials live outside the repository, and outside the site root wherever
+ * the hosting allows it.
+ *
+ * @return array<string, mixed>
+ */
+function config(): array
 {
-    if (preg_match('/^[\x20-\x7E]*$/', $value)) {
-        return $value;
+    foreach ([__DIR__ . '/../../mail-config.php', __DIR__ . '/config.php'] as $path) {
+        if (is_readable($path)) {
+            $config = require $path;
+            if (is_array($config) && ($config['password'] ?? '') !== '') {
+                return $config;
+            }
+        }
     }
 
-    return '=?UTF-8?B?' . base64_encode($value) . '?=';
+    // Nothing configured is a deployment mistake, not something the visitor
+    // did, so it is worth saying so rather than pretending the mail was sent.
+    fail(500, 'config');
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
@@ -116,32 +134,36 @@ if (count($hits) >= RATE_LIMIT) {
 $hits[] = time();
 @file_put_contents($bucket, json_encode($hits), LOCK_EX);
 
-$lines = [
+$config = config();
+
+$body = implode("\n", [
     'From: ' . $name . ' <' . $email . '>',
     'Subject: ' . ($subject !== '' ? $subject : '(none)'),
-    'IP: ' . $ip,
     'Sent: ' . gmdate('Y-m-d H:i:s') . ' UTC',
     '',
     $message,
-];
-
-$headers = implode("\r\n", [
-    'From: ' . encodeHeader(MAIL_FROM_NAME) . ' <' . MAIL_FROM . '>',
-    'Reply-To: ' . encodeHeader($name) . ' <' . $email . '>',
-    'MIME-Version: 1.0',
-    'Content-Type: text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding: 8bit',
 ]);
 
-$sent = mail(
-    MAIL_TO,
-    encodeHeader('kkaszuba.eu: ' . ($subject !== '' ? $subject : 'new message')),
-    implode("\n", $lines),
-    $headers,
-    '-f' . MAIL_FROM,
+$smtp = new Smtp(
+    (string)$config['host'],
+    (int)$config['port'],
+    (string)$config['user'],
+    (string)$config['password'],
 );
 
-if (!$sent) {
+try {
+    $smtp->send(
+        (string)$config['from'],
+        (string)($config['from_name'] ?? ''),
+        (string)$config['to'],
+        ($config['from_name'] ?? 'website') . ': ' . ($subject !== '' ? $subject : 'new message'),
+        $body,
+        ['Reply-To' => Smtp::encodeHeader($name) . ' <' . $email . '>'],
+    );
+} catch (Throwable $error) {
+    // The message is worth more than the reason it failed, so it goes to the
+    // server log where it can be read later, not back to the browser.
+    error_log('contact.php: ' . $error->getMessage());
     fail(502, 'mail');
 }
 

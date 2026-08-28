@@ -3,7 +3,7 @@ import type { Localized } from "@/lib/i18n";
 export const profile = {
   name: "Krzysztof Kaszuba",
   shortName: "Chris",
-  email: "kaszubakrzysiek@gmail.com",
+  email: "contact@kkaszuba.eu",
   domain: "kkaszuba.eu",
   github: "https://github.com/Vaniliatime",
   linkedin: "https://www.linkedin.com/in/krzysztof-kaszuba/",
