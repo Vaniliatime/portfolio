@@ -8,7 +8,7 @@
  *   1. ../../mail-config.php   one level above the site root, so a mistake in
  *                              the server configuration still cannot expose it.
  *                              This is the one to use.
- *   2. ./config.php            next to the handler. Only if the hosting gives
+ *   2. api/config.php          next to the handler. Only if the hosting gives
  *                              no access above the root. Git ignores it.
  *
  * Neither copy belongs in the repository. This file, with no real values in

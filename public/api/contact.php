@@ -51,7 +51,9 @@ function oneLine(string $value): string
 
 /**
  * Credentials live outside the repository, and outside the site root wherever
- * the hosting allows it.
+ * the hosting allows it. See mail-config.example.php at the root of the repo
+ * for the shape of the file; it is kept out of public/ so the export does not
+ * carry a copy of it onto the server.
  *
  * @return array<string, mixed>
  */
