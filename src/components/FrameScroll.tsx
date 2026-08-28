@@ -6,8 +6,12 @@ import type { TallCover } from "@/content/projects";
 const MAX_TRAVEL_FRAMES = 3.5;
 /** Frame-heights per second. One speed for every page, short or long. */
 const SPEED = 0.25;
-/** Share of the run spent still at the top. Matches the CSS keyframe. */
-const TOP_HOLD = 0.12;
+/**
+ * Share of the run spent still, at the top and again at the foot. Matches the
+ * CSS keyframe. The rest at the bottom is deliberate: the page comes to a stop
+ * and stays stopped for a moment before anything else happens.
+ */
+const HOLDS = 0.2;
 /** How long a page with nothing to scroll stays up. */
 const STILL_SECONDS = 6;
 
@@ -40,7 +44,7 @@ export function scrollPlan(cover: TallCover | undefined, ratio: number): ScrollP
 
   return {
     travel: (travelFrames / framesTall) * 100,
-    seconds: travelFrames / SPEED / (1 - TOP_HOLD),
+    seconds: travelFrames / SPEED / (1 - HOLDS),
   };
 }
 
@@ -77,7 +81,7 @@ export function FrameScroll({ cover, alt, plan, priority }: FrameScrollProps) {
         alt={alt}
         fill
         priority={priority}
-        sizes="(min-width: 1024px) 460px, 90vw"
+        sizes="(min-width: 1920px) 620px, (min-width: 1024px) 480px, 90vw"
         className="object-cover object-top"
       />
     );
@@ -99,7 +103,7 @@ export function FrameScroll({ cover, alt, plan, priority }: FrameScrollProps) {
         width={cover.width}
         height={cover.height}
         priority={priority}
-        sizes="(min-width: 1024px) 460px, 90vw"
+        sizes="(min-width: 1920px) 620px, (min-width: 1024px) 480px, 90vw"
         className="h-auto w-full"
       />
     </div>

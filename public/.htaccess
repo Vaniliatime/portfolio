@@ -1,82 +1,85 @@
-# ---------------------------------------------------------------------------
-# kkaszuba.eu — Apache config for the static export (SEOHOST).
-# Ships inside out/ and is uploaded together with the rest of the build.
-# ---------------------------------------------------------------------------
+# kkaszuba.eu on Apache, serving the static export.
+#
+# The build writes plain files, so everything Apache needs to know is here:
+# which page to show for a wrong address, how to compress, and what may be
+# cached for how long. Copied to the site root by the export.
 
-Options -Indexes
-DirectoryIndex index.html
+# ---------------------------------------------------------------------------
+# Errors
+# ---------------------------------------------------------------------------
+# trailingSlash puts every page in its own directory, so the 404 is a file
+# inside one. Apache needs the path, not a redirect, or the status is lost.
+ErrorDocument 404 /404/index.html
 
+# ---------------------------------------------------------------------------
+# One address per page
+# ---------------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Force HTTPS.
+  # HTTPS, always. SEOHOST terminates TLS upstream, so trust its header first
+  # and fall back to the connection's own state.
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
   RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # Drop the www prefix.
+  # One host: www folds into the bare domain.
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
-  # ---- Language landing -----------------------------------------------------
-  # The bare domain has no page of its own; send Polish browsers to /pl/ and
-  # everyone else to /en/.
-  RewriteCond %{HTTP:Accept-Language} ^pl [NC]
-  RewriteRule ^$ /pl/ [R=302,L]
-  RewriteRule ^$ /en/ [R=302,L]
-
-  # ---- Redirects from the previous site --------------------------------------
-  # Old paths were unprefixed and English-only.
-  RewriteRule ^projects/2d-arts/?$ /en/work/2d-arts/ [R=301,L]
-  RewriteRule ^projects/rigs/?$ /en/work/pc-builds/ [R=301,L]
-  RewriteRule ^projects/?$ /en/work/ [R=301,L]
-  RewriteRule ^resume/?$ /en/resume/ [R=301,L]
-  RewriteRule ^contact/sent/?$ /en/contact/ [R=301,L]
-  RewriteRule ^contact/?$ /en/contact/ [R=301,L]
-
-  # ---- Clean URLs ------------------------------------------------------------
-  # trailingSlash: true means every route is a directory with an index.html,
-  # which Apache resolves on its own. Only map the .html fallback.
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_FILENAME}.html -f
-  RewriteRule ^(.*)$ $1.html [L]
+  # The bare domain picks a language in the browser. Everything else is a real
+  # file or a directory with an index.html in it, so nothing else is rewritten.
 </IfModule>
 
-ErrorDocument 404 /404.html
-
-# ---- Compression ------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Compression
+# ---------------------------------------------------------------------------
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
-  AddOutputFilterByType DEFLATE application/javascript application/json
-  AddOutputFilterByType DEFLATE image/svg+xml font/woff2
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml font/woff2 application/font-woff2
 </IfModule>
 
-# ---- Caching ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Caching
+# ---------------------------------------------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
 
-  # Hashed build assets are safe to cache hard.
-  <FilesMatch "\.(js|css|woff2|woff|ttf)$">
+  # Anything under _next/static carries a hash in its name: a new build means a
+  # new name, so these can be kept for a year and never revalidated.
+  <FilesMatch "\.(js|css|woff2)$">
     ExpiresDefault "access plus 1 year"
-    Header set Cache-Control "public, immutable"
+    Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
-  <FilesMatch "\.(png|jpe?g|gif|svg|webp|avif|ico)$">
-    ExpiresDefault "access plus 6 months"
+  # Images keep their names across builds, so a month with revalidation.
+  <FilesMatch "\.(webp|png|jpg|jpeg|gif|svg|ico)$">
+    ExpiresDefault "access plus 1 month"
   </FilesMatch>
 
-  # HTML must revalidate so deploys are picked up immediately.
+  # HTML must not be cached, or a deploy takes a day to reach anyone.
   <FilesMatch "\.html$">
     ExpiresDefault "access plus 0 seconds"
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
 </IfModule>
 
-# ---- Security headers -------------------------------------------------------
-<IfModule mod_headers.c>
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+# ---------------------------------------------------------------------------
+# Types and safety
+# ---------------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
 </IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Directory listings stay off, and the export has an index everywhere.
+Options -Indexes

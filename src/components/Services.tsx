@@ -7,6 +7,7 @@ import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 import { ButtonLink } from "./Button";
 import { SpotlightGroup } from "./SpotlightGroup";
+import { ServiceDemo } from "./ServiceDemo";
 
 const icons: Record<string, LucideIcon> = {
   globe: Globe,
@@ -34,8 +35,17 @@ export function Services({ lang, teaser }: ServicesProps) {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-wash text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-accent-ink">
               <Icon className="h-5 w-5" />
             </span>
-            <h3 className="mt-5 text-xl font-semibold">{t(service.title, lang)}</h3>
+            <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <h3 className="text-xl font-semibold">{t(service.title, lang)}</h3>
+              {/* A floor, not a quote. Someone who cannot spend this much can
+                  tell straight away, which saves us both an email. */}
+              <span className="text-sm font-semibold text-accent">{t(service.from, lang)}</span>
+            </div>
             <p className="mt-2.5 leading-relaxed text-ink-muted">{t(service.body, lang)}</p>
+
+            {/* A working miniature of the thing itself, rather than another
+                paragraph about it. */}
+            <ServiceDemo id={service.id} lang={lang} />
 
             {teaser ? (
               <span

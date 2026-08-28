@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Mail, MapPin } from "lucide-react";
+import { Clock, Mail, MapPin } from "lucide-react";
 import { locales, t, toLocale } from "@/lib/i18n";
 import { alternatesFor } from "@/lib/seo";
 import { contact, profile, services, ui } from "@/content/site";
 import { Reveal } from "@/components/Reveal";
 import { PageHeader } from "@/components/PageHeader";
-import { ContactForm } from "@/components/ContactForm";
+import { EnquiryFlow } from "@/components/EnquiryFlow";
 import { CopyEmail } from "@/components/CopyEmail";
 import { SocialLinks } from "@/components/SocialLinks";
 
@@ -41,16 +41,17 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
         eyebrow={copy.eyebrow[lang]}
         title={t(contact.heading, lang)}
         lead={t(contact.lead, lang)}
-      />
+      >
+        {/* The one thing somebody hovering over the send button wants to know. */}
+        <p className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-accent/25 bg-accent-wash px-4 py-2 text-sm font-medium text-accent">
+          <Clock className="h-4 w-4" />
+          {t(ui.replyTime, lang)}
+        </p>
+      </PageHeader>
 
-      <div className="shell py-14 md:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
-          <Reveal>
-            <div className="rounded-2xl border border-line bg-surface p-7 shadow-card md:p-9">
-              <ContactForm lang={lang} />
-            </div>
-          </Reveal>
-
+      <EnquiryFlow
+        lang={lang}
+        aside={
           <Reveal delay={1} className="space-y-10">
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-faint">
@@ -91,8 +92,8 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               </p>
             </div>
           </Reveal>
-        </div>
-      </div>
+        }
+      />
     </>
   );
 }

@@ -10,11 +10,20 @@ interface GalleryProps {
   images: string[];
   title: string;
   closeLabel: string;
+  previousLabel: string;
+  nextLabel: string;
   /** Screenshots need a landscape thumbnail; artwork suits a square one. */
   aspect?: "square" | "wide";
 }
 
-export function Gallery({ images, title, closeLabel, aspect = "square" }: GalleryProps) {
+export function Gallery({
+  images,
+  title,
+  closeLabel,
+  previousLabel,
+  nextLabel,
+  aspect = "square",
+}: GalleryProps) {
   const [openAt, setOpenAt] = useState<number | null>(null);
 
   const step = useCallback(
@@ -89,7 +98,7 @@ export function Gallery({ images, title, closeLabel, aspect = "square" }: Galler
               <>
                 <button
                   type="button"
-                  aria-label="Previous"
+                  aria-label={previousLabel}
                   onClick={(e) => {
                     e.stopPropagation();
                     step(-1);
@@ -100,7 +109,7 @@ export function Gallery({ images, title, closeLabel, aspect = "square" }: Galler
                 </button>
                 <button
                   type="button"
-                  aria-label="Next"
+                  aria-label={nextLabel}
                   onClick={(e) => {
                     e.stopPropagation();
                     step(1);

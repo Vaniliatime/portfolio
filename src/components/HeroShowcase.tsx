@@ -95,28 +95,22 @@ export function HeroShowcase({ projects, lang, index, onSelect }: HeroShowcasePr
             <BrowserFrame host={host} typed className="relative z-10 rounded-[calc(1rem-1px)]">
               <div className="relative aspect-[16/11] overflow-hidden bg-surface-2">
                 {/*
-                 * Sync, not popLayout: both frames stay in place and overlap
-                 * while one fades into the other. popLayout pulled the outgoing
-                 * one out of flow, which read as a hard cut.
+                 * One page at a time: the old one clears, then the new one
+                 * arrives. Overlapping them cross-faded two unrelated pictures,
+                 * so for a second you saw the top of the next site ghosting
+                 * through the foot of the last one, which is what read as a
+                 * jump. Clearing first also matches what the chrome above is
+                 * doing: the address retypes and the load line runs while the
+                 * frame is empty, so it reads as the browser going somewhere.
                  */}
-                <AnimatePresence initial={false}>
+                <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={project.slug}
                     className="absolute inset-0 overflow-hidden"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    /*
-                     * The outgoing frame holds fully opaque underneath and is
-                     * simply dropped once it is covered. Fading both at once
-                     * meant that halfway through neither was opaque and the
-                     * card's own background showed through: that flash is what
-                     * read as a hard cut, the same trap as the work cards.
-                     */
-                    exit={{
-                      opacity: 0,
-                      transition: { duration: 0.25, delay: reduced ? 0 : 1.15 },
-                    }}
-                    transition={{ duration: reduced ? 0.2 : 1.2, ease: "linear" }}
+                    exit={{ opacity: 0, transition: { duration: reduced ? 0.1 : 0.35 } }}
+                    transition={{ duration: reduced ? 0.2 : 0.55, ease: [0.22, 1, 0.36, 1] }}
                   >
                     {/* A full-page capture gets scrolled through for as long as
                         the slide is up. Anything else is a still cover. */}
@@ -133,7 +127,7 @@ export function HeroShowcase({ projects, lang, index, onSelect }: HeroShowcasePr
                         alt={project.title}
                         fill
                         priority={index === 0}
-                        sizes="(min-width: 1024px) 460px, 90vw"
+                        sizes="(min-width: 1920px) 620px, (min-width: 1024px) 480px, 90vw"
                         className="object-cover object-top"
                       />
                     )}

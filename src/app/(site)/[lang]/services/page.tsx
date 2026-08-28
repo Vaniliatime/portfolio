@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { locales, t, toLocale } from "@/lib/i18n";
 import { alternatesFor } from "@/lib/seo";
-import { process, ui } from "@/content/site";
+import { ui } from "@/content/site";
+import { Tag } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Services } from "@/components/Services";
 import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
 import { ContactCta } from "@/components/ContactCta";
+import { Faq } from "@/components/Faq";
+import { ProcessTimeline } from "@/components/ProcessTimeline";
+import { Testimonials } from "@/components/Testimonials";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -37,21 +41,29 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
       />
 
       <div className="shell py-14 md:py-20">
+        {/* Before the numbers, not after them: whoever reads "from 3900" needs
+            to already know it is a starting point and not a quote. */}
+        <Reveal className="mb-10 flex max-w-2xl items-start gap-3.5 rounded-2xl border border-accent/25 bg-accent-wash px-6 py-5">
+          <Tag className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+          <p className="leading-relaxed text-ink-muted">{t(ui.pricingNote, lang)}</p>
+        </Reveal>
+
         <Services lang={lang} />
       </div>
 
+      <Testimonials lang={lang} />
+
       <Section tinted heading={t(ui.processHeading, lang)} lead={t(ui.processLead, lang)}>
-        <ol className="grid gap-5 md:grid-cols-2">
-          {process.map((item, i) => (
-            <Reveal key={item.step} delay={i} as="li">
-              <div className="h-full rounded-2xl border border-line bg-surface p-7 shadow-card">
-                <span className="font-display text-4xl font-semibold text-accent/25">{item.step}</span>
-                <h3 className="mt-3 text-lg font-semibold">{t(item.title, lang)}</h3>
-                <p className="mt-2 leading-relaxed text-ink-muted">{t(item.body, lang)}</p>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
+        <ProcessTimeline lang={lang} />
+      </Section>
+
+      <Section
+        id="faq"
+        eyebrow={t(ui.faqEyebrow, lang)}
+        heading={t(ui.faqHeading, lang)}
+        lead={t(ui.faqLead, lang)}
+      >
+        <Faq lang={lang} />
       </Section>
 
       <ContactCta lang={lang} />

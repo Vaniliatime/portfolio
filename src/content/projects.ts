@@ -2,7 +2,7 @@ import type { Localized } from "@/lib/i18n";
 
 export type Category = "client" | "product" | "game" | "design" | "hardware";
 
-export type ProjectStatus = "live" | "wip" | "archived";
+export type ProjectStatus = "live" | "wip" | "done" | "archived";
 
 export interface ProjectLink {
   label: string;
@@ -24,6 +24,12 @@ export interface Project {
   summary: Localized;
   role: Localized;
   highlights: Localized<string[]>;
+  /**
+   * What the work changed for the client, as opposed to what it consisted of.
+   * Optional, because most of these are my own projects and there is nobody on
+   * the other side for it to have changed anything for.
+   */
+  results?: Localized<string[]>;
   tech: string[];
   links: ProjectLink[];
   cover?: string;
@@ -44,17 +50,55 @@ export interface TallCover {
   height: number;
 }
 
+/**
+ * How the work page divides itself up.
+ *
+ * Coarser than the categories on purpose: client work and my own products are
+ * the same craft to anyone reading, so they share one heading, and the card's
+ * own eyebrow is where the difference between them is still drawn.
+ */
+export interface ProjectGroup {
+  id: string;
+  label: Localized;
+  categories: Category[];
+}
+
+export const projectGroups: ProjectGroup[] = [
+  {
+    id: "apps",
+    label: { en: "Apps & websites", pl: "Aplikacje i strony" },
+    categories: ["client", "product"],
+  },
+  {
+    id: "games",
+    label: { en: "Games & level design", pl: "Gry i level design" },
+    categories: ["game"],
+  },
+  { id: "graphics", label: { en: "Graphics", pl: "Grafika" }, categories: ["design"] },
+  {
+    id: "hardware",
+    label: { en: "Hardware & network", pl: "Sprzęt i sieć" },
+    categories: ["hardware"],
+  },
+];
+
 export const categories: { id: Category; label: Localized }[] = [
   { id: "client", label: { en: "Client work", pl: "Prace dla klientów" } },
   { id: "product", label: { en: "Products & apps", pl: "Produkty i aplikacje" } },
   { id: "game", label: { en: "Games & level design", pl: "Gry i level design" } },
   { id: "design", label: { en: "Graphics", pl: "Grafika" } },
-  { id: "hardware", label: { en: "PC builds", pl: "Składy PC" } },
+  { id: "hardware", label: { en: "Hardware & network", pl: "Sprzęt i sieć" } },
 ];
 
+/*
+ * "Archived" belongs to software that has been retired. A printed business card
+ * or a machine that was built and handed over is not archived, it is simply
+ * finished, which is what "done" is for.
+ */
 export const statusLabels: Record<ProjectStatus, Localized> = {
   live: { en: "Live", pl: "Online" },
   wip: { en: "In progress", pl: "W trakcie" },
+  done: { en: "Delivered", pl: "Zrealizowane" },
   archived: { en: "Archived", pl: "Archiwum" },
 };
 
@@ -75,7 +119,7 @@ export const projects: Project[] = [
     },
     summary: {
       en: "A production web app where users track what they watch and read, rate it, and see their habits as charts. Built end to end: schema, auth, email, UI, deployment.",
-      pl: "Produkcyjna aplikacja webowa, w której użytkownicy śledzą, co oglądają i czytają, oceniają tytuły i oglądają swoje nawyki na wykresach. Zbudowana od zera: schemat bazy, autoryzacja, mailing, UI, wdrożenie.",
+      pl: "Produkcyjna aplikacja webowa, w której użytkownicy śledzą, co oglądają i czytają, oceniają tytuły i oglądają swoje nawyki na wykresach. Zbudowana od zera: schemat bazy, uwierzytelnianie, wysyłka maili, UI, wdrożenie.",
     },
     role: {
       en: "Solo: design, front end, back end, database, hosting.",
@@ -155,6 +199,18 @@ export const projects: Project[] = [
         "Zbudowane tak, aby nietechniczny właściciel mógł je aktualizować bez ryzyka.",
       ],
     },
+    results: {
+      en: [
+        "Rebuilt off WordPress at the turn of March and April 2026, after which search impressions climbed to their highest point of the year.",
+        "A blog the owner publishes to himself, so nothing gets paid to a studio per post any more.",
+        "Around 90,000 search impressions and 630 clicks across the sites over twelve months.",
+      ],
+      pl: [
+        "Zejście z WordPressa na przełomie marca i kwietnia 2026, po którym wyświetlenia w wyszukiwarce doszły do najwyższego poziomu w roku.",
+        "Blog, który właściciel prowadzi sam, więc za publikację wpisu nie płaci już studiu.",
+        "Około 90 000 wyświetleń w wyszukiwarce i 630 kliknięć na wszystkich stronach przez dwanaście miesięcy.",
+      ],
+    },
     tech: ["Next.js", "React", "Tailwind CSS", "SEO", "Hosting"],
     links: [
       { label: "klikbus.pl", href: "https://klikbus.pl/", kind: "site" },
@@ -191,7 +247,7 @@ export const projects: Project[] = [
     },
     summary: {
       en: "A paper invitation replaced by a personal web page: the story, the schedule, the venue, an RSVP form the couple actually receives, and a small playable game so guests share the link instead of filing it away.",
-      pl: "Papierowe zaproszenie zastąpione osobistą stroną: historia pary, harmonogram, miejsce, formularz RSVP, który naprawdę do nich trafia, i mała grywalna gra, dzięki której goście podają dalej link, zamiast odkładać zaproszenie do szuflady.",
+      pl: "Papierowe zaproszenie zastąpione osobistą stroną: historia pary, harmonogram, miejsce, formularz RSVP, który naprawdę do nich trafia, i mała gra, dzięki której goście podają dalej link, zamiast odkładać zaproszenie do szuflady.",
     },
     role: {
       en: "Product idea, front end, API, image pipeline and mail delivery.",
@@ -412,7 +468,7 @@ export const projects: Project[] = [
       ],
     },
     tech: ["Unity", "C#"],
-    links: [{ label: "Source", href: "https://github.com/Vaniliatime/Jumping-Jesus", kind: "repo" }],
+    links: [{ label: "Source", href: "https://github.com/Vaniliatime/Level-Design-Surf", kind: "repo" }],
     cover: "/images/surf1.webp",
   },
 
@@ -420,62 +476,98 @@ export const projects: Project[] = [
      Visual and hardware work.
   ---------------------------------------------------------------------- */
   {
-    slug: "2d-arts",
-    title: "Business Card Design",
+    slug: "klikbus-card",
+    title: "Klikbus Business Card",
     year: "2020-2023",
     category: "design",
-    status: "archived",
+    status: "done",
     tagline: {
-      en: "Vector business cards drawn from scratch.",
-      pl: "Wizytówki wektorowe rysowane od zera.",
+      en: "A two-sided card for the transport company, in its own colours.",
+      pl: "Dwustronna wizytówka firmy przewozowej, w jej własnych barwach.",
     },
     summary: {
-      en: "Business cards set in Illustrator and Photoshop. Small pieces, but the reason I care about colour, spacing and contrast in the interfaces I build.",
-      pl: "Wizytówki złożone w Illustratorze i Photoshopie. Drobne rzeczy, ale to od nich wzięła się moja uwaga na kolor, odstępy i kontrast w interfejsach, które buduję.",
+      en: "A card for the same operator whose sites I later rebuilt. Split down the middle: the details sit on a solid blue panel so they read first when the card changes hands, and the mark gets the white half to itself.",
+      pl: "Wizytówka tego samego przewoźnika, któremu później przebudowałem strony. Podzielona na pół: dane siedzą na pełnym niebieskim polu, żeby przeczytać je jako pierwsze przy wręczaniu, a znak dostaje białą połowę wyłącznie dla siebie.",
     },
-    role: { en: "Design.", pl: "Projekt." },
+    role: { en: "Design and print preparation.", pl: "Projekt i przygotowanie do druku." },
     highlights: {
       en: [
-        "Layouts drawn as vectors, so they hold at any print size.",
-        "Hand-picked palettes and type pairings.",
-        "Prepared for print, front and back.",
+        "Built on the company's existing blue and red, so the card sits with the rest of its branding.",
+        "Contact block set against the solid panel, with red rules marking each group.",
+        "Drawn as vectors, so it holds at any print size.",
+        "Front and back prepared for print.",
       ],
       pl: [
-        "Layouty rysowane wektorowo, więc trzymają się w każdym rozmiarze druku.",
-        "Ręcznie dobierane palety i pary krojów.",
-        "Przygotowane do druku, awers i rewers.",
+        "Zbudowana na firmowym niebieskim i czerwonym, żeby wizytówka trzymała się reszty identyfikacji.",
+        "Blok kontaktowy na pełnym polu koloru, z czerwonymi kreskami rozdzielającymi grupy danych.",
+        "Rysowana wektorowo, więc trzyma się w każdym rozmiarze druku.",
+        "Awers i rewers przygotowane do druku.",
+      ],
+    },
+    tech: ["Illustrator", "Photoshop"],
+    links: [],
+    cover: "/images/2d-art/01.webp",
+  },
+  {
+    slug: "guesthouse-card",
+    title: "Guesthouse Business Card",
+    year: "2020-2023",
+    category: "design",
+    status: "done",
+    tagline: {
+      en: "A card for a mountain guesthouse, mark included.",
+      pl: "Wizytówka dla górskiego pensjonatu, razem ze znakiem.",
+    },
+    summary: {
+      en: "Rooms and board in Biały Dunajec, so the mark is the skyline behind the house: a red peak over a grey ridge. The details are stacked against an icon column, which lets someone find the phone number without reading the rest.",
+      pl: "Pokoje i wyżywienie w Białym Dunajcu, więc znakiem jest to, co widać za oknem: czerwony szczyt nad szarą granią. Dane ułożone przy kolumnie ikon, dzięki czemu numer telefonu znajduje się bez czytania reszty.",
+    },
+    role: { en: "Mark, layout and print preparation.", pl: "Znak, layout i przygotowanie do druku." },
+    highlights: {
+      en: [
+        "Mountain mark drawn for the business rather than picked off a stock library.",
+        "Icon column separating name, phone, address and web, each field findable at a glance.",
+        "Soft geometric pattern behind the layout, kept pale enough to stay out of the way.",
+        "Serif type for a warmer register than the sans on the transport card.",
+      ],
+      pl: [
+        "Znak z górami narysowany dla tej firmy, a nie wzięty z banku grafik.",
+        "Kolumna ikon rozdzielająca nazwisko, telefon, adres i stronę, każde pole do znalezienia rzutem oka.",
+        "Delikatny wzór geometryczny pod spodem, na tyle blady, żeby nie wchodził w drogę.",
+        "Szeryfowy krój dla cieplejszego tonu niż bezszeryfowy na wizytówce przewoźnika.",
       ],
     },
     tech: ["Illustrator", "Photoshop"],
     links: [],
     cover: "/images/2d-art/02.webp",
-    gallery: ["/images/2d-art/02.webp", "/images/2d-art/01.webp"],
   },
   {
     slug: "pc-builds",
-    title: "PC Builds & Mining Rigs",
+    title: "PC Builds",
     year: "2018-2024",
     category: "hardware",
-    status: "archived",
+    status: "done",
     tagline: {
-      en: "Gaming machines and mining rigs, built and tuned by hand.",
-      pl: "Maszyny do gier i koparki, składane i strojone ręcznie.",
+      en: "Gaming machines built and tuned by hand.",
+      pl: "Maszyny do gier składane i strojone ręcznie.",
     },
     summary: {
-      en: "Years of building, tuning and troubleshooting hardware. It is where the debugging instinct I use on software came from.",
-      pl: "Lata składania, strojenia i diagnozowania sprzętu. Stąd wziął się instynkt diagnostyczny, którego używam w oprogramowaniu.",
+      en: "Years of picking parts, assembling and troubleshooting machines for gaming and streaming. It is where the debugging instinct I use on software came from: hardware tells you nothing, so you learn to bisect a problem until it does.",
+      pl: "Lata dobierania części, składania i diagnozowania maszyn do grania i streamingu. Stąd wziął się instynkt diagnostyczny, którego używam w oprogramowaniu: sprzęt nic sam nie powie, więc uczysz się dzielić problem na pół, aż powie.",
     },
-    role: { en: "Build, tuning and maintenance.", pl: "Skład, strojenie i utrzymanie." },
+    role: { en: "Build, tuning and maintenance.", pl: "Składanie, strojenie i utrzymanie." },
     highlights: {
       en: [
-        "High-performance gaming PCs and mining rigs built from parts.",
-        "Tuned for demanding gaming, streaming and mining workloads.",
+        "High-performance gaming PCs built from parts, chosen for the budget in front of me.",
+        "Tuned for demanding gaming and streaming workloads.",
         "Careful cable management, thermals and lighting.",
+        "Fault finding on machines that came in dead: power, memory, storage, thermals.",
       ],
       pl: [
-        "Wydajne komputery do gier i koparki składane z części.",
-        "Strojone pod wymagające granie, streaming i kopanie.",
+        "Wydajne komputery do gier składane z części dobieranych pod konkretny budżet.",
+        "Strojone pod wymagające granie i streaming.",
         "Dopracowane prowadzenie kabli, temperatury i oświetlenie.",
+        "Diagnostyka maszyn przyniesionych jako martwe: zasilanie, pamięć, dyski, chłodzenie.",
       ],
     },
     tech: ["Hardware", "Diagnostics", "Thermals"],
@@ -487,10 +579,81 @@ export const projects: Project[] = [
       "/images/rigs/pc03.webp",
       "/images/rigs/pc04.webp",
       "/images/rigs/pc05.webp",
-      "/images/rigs/rig01.webp",
-      "/images/rigs/rig02.webp",
-      "/images/rigs/rig03.webp",
     ],
+  },
+  {
+    slug: "mining-rigs",
+    title: "Mining Rigs",
+    // Built during the GPU mining boom: confirm the years.
+    year: "2021-2022",
+    category: "hardware",
+    status: "done",
+    tagline: {
+      en: "Multi-GPU rigs built for round-the-clock running.",
+      pl: "Koparki wielokartowe budowane pod pracę bez przerwy.",
+    },
+    summary: {
+      en: "Open-frame rigs assembled to run flat out for months at a time. A different problem to a gaming PC: nothing is being looked at, so everything is about power draw, airflow and what happens when a card drops out at four in the morning.",
+      pl: "Koparki na otwartych stelażach, składane pod pracę na pełnych obrotach przez miesiące. Zupełnie inny problem niż komputer do gier: nikt na to nie patrzy, więc liczy się pobór prądu, przepływ powietrza i to, co się dzieje, gdy karta wypada o czwartej nad ranem.",
+    },
+    role: { en: "Build, tuning and monitoring.", pl: "Składanie, strojenie i monitoring." },
+    highlights: {
+      en: [
+        "Open-frame builds with multiple GPUs on risers.",
+        "Undervolting and clock tuning for output against power draw.",
+        "Airflow and temperature control for hardware left running unattended.",
+        "Monitoring and remote restarts, because a rig that stops earns nothing.",
+      ],
+      pl: [
+        "Konstrukcje na otwartych stelażach z wieloma kartami na risersach.",
+        "Undervolting i strojenie zegarów pod stosunek wyniku do poboru prądu.",
+        "Przepływ powietrza i kontrola temperatur dla sprzętu zostawionego samemu sobie.",
+        "Monitoring i zdalne restarty, bo koparka, która stoi, nic nie zarabia.",
+      ],
+    },
+    tech: ["Hardware", "GPU tuning", "Monitoring"],
+    links: [],
+    cover: "/images/rigs/rig01.webp",
+    gallery: ["/images/rigs/rig01.webp", "/images/rigs/rig02.webp", "/images/rigs/rig03.webp"],
+  },
+  {
+    slug: "home-lab",
+    title: "Home Server & Network",
+    year: "2026",
+    category: "hardware",
+    status: "live",
+    tagline: {
+      en: "The network and server my own projects actually run on.",
+      pl: "Sieć i serwer, na których naprawdę stoją moje projekty.",
+    },
+    summary: {
+      en: "AM Tracker and the rest are not hosted on somebody's platform: they run here, on hardware I own, behind a router running firmware I chose. It doubles as the place where I get to be the administrator again rather than the person raising the ticket.",
+      pl: "AM Tracker i reszta nie stoją na cudzej platformie: działają tutaj, na sprzęcie, który jest mój, za routerem z firmware'em, który sam wybrałem. Przy okazji to miejsce, gdzie znowu jestem administratorem, a nie osobą zgłaszającą problem.",
+    },
+    role: {
+      en: "Hardware, network, virtualisation and backups.",
+      pl: "Sprzęt, sieć, wirtualizacja i backupy.",
+    },
+    highlights: {
+      en: [
+        "Proxmox on an ACEMAGIC mini PC (Ryzen 7 7730U, 16 GB RAM, 512 GB), with each project in its own virtual machine.",
+        "Dynalink DL-WRX36 running OpenWrt instead of stock firmware, so routing, DNS and firewall rules are mine.",
+        "Synology DS923+ with 12 TB of WD Red Plus for storage and scheduled backups.",
+        "TP-Link TL-SG108 switch tying the rack together on wired links.",
+        "Updates, backups and uptime handled the way I handle them at work.",
+      ],
+      pl: [
+        "Proxmox na mini PC ACEMAGIC (Ryzen 7 7730U, 16 GB RAM, 512 GB), każdy projekt w osobnej maszynie wirtualnej.",
+        "Dynalink DL-WRX36 z OpenWrt zamiast fabrycznego firmware'u, więc routing, DNS i reguły zapory są moje.",
+        "Synology DS923+ z 12 TB WD Red Plus na dane i zaplanowane kopie zapasowe.",
+        "Switch TP-Link TL-SG108 spinający całość po kablu.",
+        "Aktualizacje, backupy i dostępność prowadzone tak, jak prowadzę je w pracy.",
+      ],
+    },
+    tech: ["Proxmox", "OpenWrt", "Synology DSM", "Linux", "Networking"],
+    links: [],
+    // No photographs yet: the card falls back to a generated cover until there
+    // are some.
   },
 ];
 

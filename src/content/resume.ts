@@ -141,7 +141,7 @@ export const employment: ResumeEntry[] = [
     logoFill: true,
     roles: [
       {
-        title: { en: "IT Specialist", pl: "IT Specialist" },
+        title: { en: "IT Specialist", pl: "Specjalista IT" },
         level: { en: "Full-time", pl: "Pełny etat" },
         period: "Nov 2019 to Jun 2024 · Remote",
         points: {

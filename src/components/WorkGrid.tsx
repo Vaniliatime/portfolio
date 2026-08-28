@@ -1,35 +1,50 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { t, type Locale } from "@/lib/i18n";
-import { categories, projects, type Category } from "@/content/projects";
+import { projectGroups, projects } from "@/content/projects";
 import { ui } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { ProjectCard } from "./ProjectCard";
 
-type Filter = Category | "all";
+type Filter = string;
 
+/**
+ * Every project, grouped under its own heading.
+ *
+ * The filters stay, but they are no longer the only way through: one flat grid
+ * of ten cards read as a pile, and most people never touch a filter row. Each
+ * group now announces itself, so scrolling alone tells you where the web work
+ * ends and the games begin. The groups are coarser than the categories: what a
+ * given card is, client work or my own product, is said on the card.
+ */
 export function WorkGrid({ lang }: { lang: Locale }) {
   const [active, setActive] = useState<Filter>("all");
 
-  // Only offer filters that actually have projects behind them.
+  // Only offer groups that actually have projects behind them.
   const available = useMemo(
-    () => categories.filter((cat) => projects.some((p) => p.category === cat.id)),
+    () =>
+      projectGroups
+        .map((group) => ({
+          ...group,
+          items: projects.filter((p) => group.categories.includes(p.category)),
+        }))
+        .filter((group) => group.items.length > 0),
     [],
   );
 
-  const filtered = useMemo(
-    () => (active === "all" ? projects : projects.filter((p) => p.category === active)),
-    [active],
+  const groups = useMemo(
+    () => available.filter((group) => active === "all" || group.id === active),
+    [available, active],
   );
 
   const chips: { id: Filter; label: string; count: number }[] = [
     { id: "all", label: t(ui.allWork, lang), count: projects.length },
-    ...available.map((cat) => ({
-      id: cat.id as Filter,
-      label: t(cat.label, lang),
-      count: projects.filter((p) => p.category === cat.id).length,
+    ...available.map((group) => ({
+      id: group.id,
+      label: t(group.label, lang),
+      count: group.items.length,
     })),
   ];
 
@@ -59,31 +74,46 @@ export function WorkGrid({ lang }: { lang: Locale }) {
               )}
               <span className="relative z-10">
                 {chip.label}
-                <span className={cn("ml-1.5 text-xs", selected ? "opacity-70" : "text-ink-faint")}>{chip.count}</span>
+                <span className={cn("ml-1.5 text-xs", selected ? "opacity-70" : "text-ink-faint")}>
+                  {chip.count}
+                </span>
               </span>
             </button>
           );
         })}
       </div>
 
-      <motion.div layout className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {filtered.map((project, i) => (
-            <motion.div
-              key={project.slug}
-              // Full height, so the card can stretch to match its row.
-              className="h-full"
-              layout
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <ProjectCard project={project} lang={lang} index={i} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
+      <div className="mt-12 space-y-16">
+        {groups.map((group) => (
+          <section key={group.id} aria-labelledby={`group-${group.id}`}>
+            <header className="flex items-center gap-4">
+              <h2 id={`group-${group.id}`} className="font-display text-xl font-semibold md:text-2xl">
+                {t(group.label, lang)}
+              </h2>
+              <span className="text-sm font-medium text-ink-faint">{group.items.length}</span>
+              {/* Rule to the edge, so the heading reads as a divider between
+                  sets rather than as a label floating over the first card. */}
+              <span aria-hidden className="h-px flex-1 bg-line" />
+            </header>
+
+            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {group.items.map((project, i) => (
+                <motion.div
+                  // Keyed by the filter as well, so the cards play their arrival
+                  // again when the set changes rather than snapping into place.
+                  key={`${active}-${project.slug}`}
+                  className="h-full"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <ProjectCard project={project} lang={lang} index={i} />
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </div>
   );
 }

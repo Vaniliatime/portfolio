@@ -179,6 +179,25 @@
     }
   }
 
+  /*
+   * Wider on wide screens. 76rem is right for a laptop and looks like a column
+   * of text stranded in the middle of a 1440p display, so the gutter opens up
+   * in two steps rather than one jump. Prose blocks set their own max-width, so
+   * nothing here makes a line of text too long to read.
+   */
+  @media (min-width: 1536px) {
+    .shell {
+      max-width: 86rem;
+      padding-inline: 3.5rem;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .shell {
+      max-width: 96rem;
+    }
+  }
+
   /* Soft violet wash behind page headers. Purely decorative. */
   .aurora {
     position: absolute;
@@ -310,6 +329,114 @@
 
   @media (prefers-reduced-motion: reduce) {
     .page-scroll {
+      animation: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+     Service card demonstrations.
+
+     Every loop below is transform or opacity only, and each element is given
+     its own delay and its own duration through --demo-delay and
+     --demo-duration: identical cycles drift back into step no matter how the
+     delays are set.
+
+     Nothing runs until the card is on screen, and the resting styles are the
+     finished state, so switching the animations off leaves a legible panel
+     rather than a blank one.
+  --------------------------------------------------------------------- */
+  .demo-anim {
+    animation-duration: var(--demo-duration, 5s);
+    animation-delay: var(--demo-delay, 0s);
+    animation-iteration-count: infinite;
+    animation-play-state: paused;
+    animation-fill-mode: both;
+  }
+
+  .demo-live .demo-anim {
+    animation-play-state: running;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .demo-anim {
+      animation: none;
+    }
+  }
+
+  /* Blocks of a page arriving, then clearing for the next pass. */
+  .demo-rise {
+    animation-name: demo-rise;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .demo-fade {
+    animation-name: demo-fade;
+  }
+
+  /* Bars of a chart, growing from the axis. */
+  .demo-grow {
+    transform-origin: bottom;
+    animation-name: demo-grow;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .demo-beat {
+    animation-name: demo-beat;
+    animation-timing-function: ease-in-out;
+  }
+
+  /* The answer being picked on an RSVP. */
+  .demo-pick {
+    animation-name: demo-pick;
+    animation-timing-function: ease-in-out;
+  }
+
+  .demo-count-out {
+    animation-name: demo-count-out;
+  }
+
+  .demo-count-in {
+    animation-name: demo-count-in;
+  }
+
+  /* A check running, then landing. */
+  .demo-spinner {
+    animation-name: demo-spinner;
+    animation-timing-function: linear;
+  }
+
+  .demo-settle {
+    animation-name: demo-settle;
+  }
+
+  .demo-fill {
+    transform-origin: left;
+    animation-name: demo-fill;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /*
+   * Brand marks in the stack list. Several of them are near black, which is
+   * invisible on a dark card, so each carries a second colour for that theme.
+   */
+  .tech-icon {
+    color: var(--tech);
+  }
+
+  .dark .tech-icon {
+    color: var(--tech-dark);
+  }
+
+  /*
+   * Scroll cue. A short travel on a long pause: enough to catch the eye at the
+   * edge of vision, not enough to nag while somebody is reading.
+   */
+  .scroll-cue {
+    animation: scroll-cue 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue {
       animation: none;
     }
   }
@@ -546,14 +673,198 @@
   }
 }
 
-@keyframes page-scroll {
-  0%,
-  12% {
+@keyframes demo-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  14%,
+  84% {
+    opacity: 1;
     transform: translateY(0);
   }
 
+  96%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes demo-fade {
+  0%,
+  20% {
+    opacity: 0;
+  }
+
+  36%,
+  84% {
+    opacity: 1;
+  }
+
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes demo-grow {
+  0% {
+    transform: scaleY(0.08);
+  }
+
+  30%,
+  82% {
+    transform: scaleY(1);
+  }
+
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes demo-beat {
+  0%,
+  70%,
+  100% {
+    transform: scale(1);
+  }
+
+  12% {
+    transform: scale(1.35);
+  }
+
+  24% {
+    transform: scale(1);
+  }
+}
+
+@keyframes demo-pick {
+  0%,
+  30% {
+    opacity: 0.35;
+    transform: scale(0.96);
+  }
+
+  44% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  56%,
+  88% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.35;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes demo-count-out {
+  0%,
+  52% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  62%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes demo-count-in {
+  0%,
+  52% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  62%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes demo-spinner {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  38% {
+    opacity: 1;
+    transform: rotate(540deg);
+  }
+
+  44%,
+  100% {
+    opacity: 0;
+    transform: rotate(540deg);
+  }
+}
+
+@keyframes demo-settle {
+  0%,
+  38% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  58%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes demo-fill {
+  0% {
+    transform: scaleX(0);
+  }
+
+  70%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes page-scroll {
+  0%,
+  10% {
+    transform: translateY(0);
+  }
+
+  90%,
   100% {
     transform: translateY(var(--scroll-travel, 0));
+  }
+}
+
+@keyframes scroll-cue {
+  0%,
+  62%,
+  100% {
+    transform: translateY(0);
+  }
+
+  74% {
+    transform: translateY(6px);
+  }
+
+  86% {
+    transform: translateY(2px);
   }
 }
 

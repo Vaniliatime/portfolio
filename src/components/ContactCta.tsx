@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, Clock, MapPin } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { contact, ui } from "@/content/site";
 import { Reveal } from "./Reveal";
@@ -19,9 +19,16 @@ export function ContactCta({ lang }: { lang: Locale }) {
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-muted">{t(contact.lead, lang)}</p>
 
+              {/* The promise that makes writing feel worth it, next to the
+                  button rather than only on the contact page. */}
+              <p className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-accent/25 bg-accent-wash px-4 py-2 text-sm font-medium text-accent">
+                <Clock className="h-4 w-4 shrink-0" />
+                {t(ui.replyTime, lang)}
+              </p>
+
               {/* One route through to the contact page, rather than an address
                   to copy and a mailto that may not open anything. */}
-              <div className="mt-9 flex justify-center">
+              <div className="mt-8 flex justify-center">
                 <ButtonLink href={localePath(lang, "contact")}>
                   {t(ui.contactMe, lang)}
                   <ArrowRight className="h-4 w-4" />

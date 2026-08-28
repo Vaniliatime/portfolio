@@ -84,6 +84,8 @@ export default async function ProjectPage({
                 images={project.gallery}
                 title={project.title}
                 closeLabel={t(ui.close, lang)}
+                previousLabel={t(ui.previous, lang)}
+                nextLabel={t(ui.next, lang)}
                 aspect={project.galleryAspect}
               />
             </Reveal>

@@ -9,6 +9,7 @@ import { featuredProjects } from "@/content/projects";
 import { ButtonLink } from "./Button";
 import { CountUp } from "./CountUp";
 import { HeroShowcase } from "./HeroShowcase";
+import { ScrollCue } from "./ScrollCue";
 import { cn } from "@/lib/utils";
 
 export function Hero({ lang }: { lang: Locale }) {
@@ -129,6 +130,9 @@ export function Hero({ lang }: { lang: Locale }) {
             )}
           </motion.div>
         </div>
+
+        {/* Says the page carries on, which a full-height hero does not. */}
+        <ScrollCue lang={lang} />
       </div>
     </section>
   );

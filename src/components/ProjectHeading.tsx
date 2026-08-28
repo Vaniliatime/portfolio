@@ -58,11 +58,11 @@ export function ProjectHeading({ project, lang, compact }: ProjectHeadingProps) 
 
       <dl className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">Year</dt>
+          <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">{t(ui.year, lang)}</dt>
           <dd className="mt-1 font-medium">{project.year}</dd>
         </div>
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">Status</dt>
+          <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">{t(ui.status, lang)}</dt>
           <dd className="mt-1 font-medium">{t(statusLabels[project.status], lang)}</dd>
         </div>
         <div className="col-span-2">

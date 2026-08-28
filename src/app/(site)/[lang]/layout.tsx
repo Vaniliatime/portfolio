@@ -52,11 +52,15 @@ export async function generateMetadata({
       url: `/${lang}/`,
       title: `${profile.name} · ${t(profile.role, lang)}`,
       description: descriptions[lang],
+      // Static file rather than a generated one: an export has no image server,
+      // and every share of this link is somebody's first impression of it.
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: profile.name }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${profile.name} · ${t(profile.role, lang)}`,
       description: descriptions[lang],
+      images: ["/og.png"],
     },
     icons: { icon: [{ url: "/icon.png", type: "image/png" }, { url: "/favicon.ico" }] },
   };

@@ -6,6 +6,7 @@ import { alternatesFor } from "@/lib/seo";
 import { about, profile, stats, ui } from "@/content/site";
 import { PageHeader } from "@/components/PageHeader";
 import { About } from "@/components/About";
+import { AboutFacts } from "@/components/AboutFacts";
 import { Reveal } from "@/components/Reveal";
 import { ButtonLink } from "@/components/Button";
 import { CountUp } from "@/components/CountUp";
@@ -33,7 +34,11 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
 
   return (
     <>
-      <PageHeader eyebrow={t(ui.aboutEyebrow, lang)} title={t(about.lead, lang)}>
+      <PageHeader
+        eyebrow={t(ui.aboutEyebrow, lang)}
+        title={t(about.heading, lang)}
+        lead={t(about.lead, lang)}
+      >
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <ButtonLink href={localePath(lang, "resume")} variant="secondary" size="sm">
             {t(ui.viewResume, lang)}
@@ -76,6 +81,8 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
                 className="object-cover object-top"
               />
             </div>
+
+            <AboutFacts lang={lang} />
 
             <dl className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
               {stats.map((stat) => (

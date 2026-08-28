@@ -19,3 +19,6 @@ Thumbs.db
 .idea/
 CV.md
 readme.md
+
+# Local tool permissions, not project content.
+.claude/

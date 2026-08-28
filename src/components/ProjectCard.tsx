@@ -12,6 +12,9 @@ import { CardSlideshow } from "./CardSlideshow";
 const statusStyles: Record<Project["status"], { pill: string; dot: string; pulse: boolean }> = {
   live: { pill: "bg-emerald-500 text-white", dot: "bg-white", pulse: true },
   wip: { pill: "bg-amber-500 text-white", dot: "bg-white", pulse: true },
+  // Finished and handed over: the accent, because it is a good outcome, and no
+  // pulse, because nothing about it is still moving.
+  done: { pill: "bg-accent text-accent-ink", dot: "bg-accent-ink/80", pulse: false },
   archived: { pill: "bg-ink/75 text-paper", dot: "bg-paper/70", pulse: false },
 };
 
