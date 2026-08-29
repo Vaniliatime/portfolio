@@ -1,14 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, type TouchEvent } from "react";
 import { useInView, useReducedMotion } from "motion/react";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 import { cn } from "@/lib/utils";
 
 const HOLD_MS = 6000;
 const FADE_MS = 1100;
 /** Gap between neighbouring cards, so a row turns over as a wave. */
 const STAGGER_MS = 1000;
+/*
+ * A phone shows one card at a time and you scroll past it in a couple of
+ * seconds. Waiting a full hold plus a stagger meant the first change never
+ * arrived before the card left the screen and reset itself, so on a phone the
+ * pictures looked frozen. There the first turn is quick and the queue behind
+ * the other cards does not apply, because no other card is on screen.
+ */
+const TOUCH_FIRST_MS = 1400;
+const TOUCH_HOLD_MS = 3200;
+/** Movement past this, and across rather than down, counts as a swipe. */
+const SWIPE_PX = 40;
 
 interface CardSlideshowProps {
   images: string[];
@@ -18,6 +31,8 @@ interface CardSlideshowProps {
   className?: string;
   /** Position in the grid. Offsets this card's turn against its neighbours. */
   offset?: number;
+  /** Where a tap on the picture should go, on a device that cannot hover. */
+  href?: string;
 }
 
 /**
@@ -42,12 +57,14 @@ export function CardSlideshow({
   priority,
   className,
   offset = 0,
+  href,
 }: CardSlideshowProps) {
   const frames = images;
   const ref = useRef<HTMLDivElement>(null);
   // No head start: the card has to be properly in view, not merely approaching.
   const inView = useInView(ref, { margin: "-15% 0px -15% 0px" });
   const reduced = useReducedMotion();
+  const touch = useMediaQuery("(hover: none)");
 
   const [index, setIndex] = useState(0);
   const [previous, setPrevious] = useState<number | null>(null);
@@ -61,20 +78,23 @@ export function CardSlideshow({
         return (current + 1) % frames.length;
       });
 
-    // The first turn waits a full hold plus this card's share of the stagger,
-    // and the interval keeps that offset afterwards, so neighbours never change
-    // together.
+    // On a pointer device the first turn waits a full hold plus this card's
+    // share of the stagger, so a row of cards turns over as a wave rather than
+    // in unison. On a phone there is no row to stagger against.
+    const firstDelay = touch ? TOUCH_FIRST_MS : HOLD_MS + offset * STAGGER_MS;
+    const hold = touch ? TOUCH_HOLD_MS : HOLD_MS;
+
     let interval: ReturnType<typeof setInterval> | undefined;
     const first = setTimeout(() => {
       advance();
-      interval = setInterval(advance, HOLD_MS);
-    }, HOLD_MS + offset * STAGGER_MS);
+      interval = setInterval(advance, hold);
+    }, firstDelay);
 
     return () => {
       clearTimeout(first);
       if (interval) clearInterval(interval);
     };
-  }, [frames.length, inView, reduced, offset]);
+  }, [frames.length, inView, reduced, offset, touch]);
 
   // Back to the cover whenever the card leaves the screen, so arriving at it
   // always starts on the shot the project leads with rather than wherever the
@@ -93,11 +113,52 @@ export function CardSlideshow({
     return () => clearTimeout(timer);
   }, [previous, index]);
 
-  /** Manual pick from the dots. Cross-fades exactly like the timer does. */
+  /** Manual pick from the dots or a swipe. Cross-fades like the timer does. */
   const select = (next: number) => {
     if (next === index) return;
     setPrevious(index);
     setIndex(next);
+  };
+
+  const step = (delta: number) => select((index + delta + frames.length) % frames.length);
+
+  /*
+   * Swiping, on touch devices only.
+   *
+   * The whole card is a link, and its overlay sits above the picture, so a
+   * finger never reaches the images underneath. This layer goes over the top,
+   * but only where there is no pointer to hover with, and it has to carry the
+   * tap through itself: a picture you cannot tap to open would be a worse card
+   * than one you cannot swipe.
+   */
+  const router = useRouter();
+  const start = useRef<{ x: number; y: number; at: number } | null>(null);
+
+  const onTouchStart = (event: TouchEvent<HTMLElement>) => {
+    const point = event.touches[0];
+    start.current = { x: point.clientX, y: point.clientY, at: Date.now() };
+  };
+
+  const onTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    const from = start.current;
+    const point = event.changedTouches[0];
+    start.current = null;
+    if (!from || !point) return;
+
+    const dx = point.clientX - from.x;
+    const dy = point.clientY - from.y;
+
+    // Across rather than down, or the page is being scrolled, not swiped.
+    if (Math.abs(dx) > SWIPE_PX && Math.abs(dx) > Math.abs(dy)) {
+      step(dx < 0 ? 1 : -1);
+      return;
+    }
+
+    // A tap that went nowhere opens the project, the way the picture would if
+    // this layer were not in the way.
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && Date.now() - from.at < 500 && href) {
+      router.push(href);
+    }
   };
 
   const frame = (i: number, layer: "under" | "over") => (
@@ -122,6 +183,15 @@ export function CardSlideshow({
     <div ref={ref} className="absolute inset-0">
       {previous !== null && frame(previous, "under")}
       {frame(index, "over")}
+
+      {frames.length > 1 && (
+        <span
+          aria-hidden
+          className="swipe-layer absolute inset-0 z-[5]"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        />
+      )}
 
       {/*
        * Dots on a dark pill: bare dots vanished against the paler screenshots,

@@ -1,11 +1,19 @@
 import Link from "next/link";
-import { ExternalLink, Github } from "lucide-react";
+import { Calendar, ExternalLink, Github, UserRound } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { categories, statusLabels, type Project, type ProjectLink } from "@/content/projects";
 import { ui } from "@/content/site";
 import { AppleIcon, GooglePlayIcon } from "./icons/Stores";
 import { SectionEyebrow } from "./Section";
 import { cn } from "@/lib/utils";
+
+/** The status dot borrows the colours the work grid already uses for it. */
+const statusTints: Record<Project["status"], { tint: string; dot: string; pulse: boolean }> = {
+  live: { tint: "bg-emerald-500/15", dot: "bg-emerald-500", pulse: true },
+  wip: { tint: "bg-amber-500/15", dot: "bg-amber-500", pulse: true },
+  done: { tint: "bg-accent-wash", dot: "bg-accent", pulse: false },
+  archived: { tint: "bg-ink/10", dot: "bg-ink-faint", pulse: false },
+};
 
 /** Lucide icons and the hand-drawn store glyphs only agree on className. */
 const linkIcons: Record<ProjectLink["kind"], React.ComponentType<{ className?: string }>> = {
@@ -33,9 +41,10 @@ export function ProjectHeading({ project, lang, compact }: ProjectHeadingProps) 
   const category = categories.find((c) => c.id === project.category);
   // The case study leads the page; in the hero the page already has its h1.
   const Title = compact ? "h2" : "h1";
+  const status = statusTints[project.status];
 
   return (
-    <div className={cn("grid gap-6", compact ? "lg:grid-cols-[1.5fr_1fr]" : "lg:grid-cols-[1.3fr_1fr] lg:items-end")}>
+    <div className={cn("grid gap-6", compact ? "lg:grid-cols-[1.5fr_1fr]" : "lg:grid-cols-[1.3fr_1fr] lg:items-start")}>
       <div>
         {category && <SectionEyebrow>{t(category.label, lang)}</SectionEyebrow>}
         <Title
@@ -56,20 +65,68 @@ export function ProjectHeading({ project, lang, compact }: ProjectHeadingProps) 
         </p>
       </div>
 
-      <dl className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
-        <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">{t(ui.year, lang)}</dt>
-          <dd className="mt-1 font-medium">{project.year}</dd>
+      {/*
+       * A card rather than three labels floating in the margin. These three
+       * facts, and the role in particular, are what a reader checks first, and
+       * as plain text beside a 60px title nobody was seeing them at all.
+       */}
+      <dl
+        className={cn(
+          "grid grid-cols-2 gap-x-6 gap-y-5 rounded-2xl border border-line bg-surface-2/60 text-sm",
+          compact ? "p-5" : "p-6",
+        )}
+      >
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent-wash text-accent">
+            <Calendar className="h-4 w-4" />
+          </span>
+          <div className="min-w-0">
+            <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">
+              {t(ui.year, lang)}
+            </dt>
+            <dd className="mt-0.5 font-semibold">{project.year}</dd>
+          </div>
         </div>
-        <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">{t(ui.status, lang)}</dt>
-          <dd className="mt-1 font-medium">{t(statusLabels[project.status], lang)}</dd>
+
+        <div className="flex items-start gap-3">
+          <span
+            className={cn(
+              "mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg",
+              status.tint,
+            )}
+          >
+            <span className="relative flex h-2 w-2">
+              {status.pulse && (
+                <span
+                  className={cn(
+                    "absolute inline-flex h-full w-full animate-ping rounded-full",
+                    status.dot,
+                  )}
+                />
+              )}
+              <span className={cn("relative inline-flex h-2 w-2 rounded-full", status.dot)} />
+            </span>
+          </span>
+          <div className="min-w-0">
+            <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">
+              {t(ui.status, lang)}
+            </dt>
+            <dd className="mt-0.5 font-semibold">{t(statusLabels[project.status], lang)}</dd>
+          </div>
         </div>
-        <div className="col-span-2">
-          <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">
-            {t(ui.role, lang)}
-          </dt>
-          <dd className="mt-1 font-medium leading-relaxed">{t(project.role, lang)}</dd>
+
+        <div className="col-span-2 flex items-start gap-3 border-t border-line pt-5">
+          <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent text-accent-ink">
+            <UserRound className="h-4 w-4" />
+          </span>
+          <div className="min-w-0">
+            <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-faint">
+              {t(ui.role, lang)}
+            </dt>
+            <dd className="mt-0.5 font-semibold leading-relaxed text-accent">
+              {t(project.role, lang)}
+            </dd>
+          </div>
         </div>
       </dl>
 

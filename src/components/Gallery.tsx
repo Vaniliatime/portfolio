@@ -7,7 +7,11 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface GalleryProps {
-  images: string[];
+  /**
+   * One group per heading. A project with nothing to separate passes a single
+   * group with no label, which renders exactly as the old flat strip did.
+   */
+  groups: { label?: string; images: string[] }[];
   title: string;
   closeLabel: string;
   previousLabel: string;
@@ -17,7 +21,7 @@ interface GalleryProps {
 }
 
 export function Gallery({
-  images,
+  groups,
   title,
   closeLabel,
   previousLabel,
@@ -25,6 +29,15 @@ export function Gallery({
   aspect = "square",
 }: GalleryProps) {
   const [openAt, setOpenAt] = useState<number | null>(null);
+
+  /*
+   * The lightbox works across the whole set rather than within a group: paging
+   * that stopped at a heading would be a strange thing to explain, so the
+   * groups are a heading over the thumbnails and nothing more. Each thumbnail
+   * carries its position in the flattened list.
+   */
+  const images = groups.flatMap((group) => group.images);
+  let cursor = -1;
 
   const step = useCallback(
     (delta: number) => setOpenAt((i) => (i === null ? i : (i + delta + images.length) % images.length)),
@@ -50,28 +63,55 @@ export function Gallery({
 
   return (
     <>
-      <ul className={cn("grid gap-4", aspect === "wide" ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-2 md:grid-cols-4")}>
-        {images.map((src, i) => (
-          <li key={src}>
-            <button
-              type="button"
-              onClick={() => setOpenAt(i)}
+      <div className="space-y-10">
+        {groups.map((group, g) => (
+          <section key={group.label ?? g}>
+            {group.label && (
+              <h3 className="mb-4 flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.14em] text-accent">
+                {group.label}
+                <span aria-hidden className="h-px flex-1 bg-accent/25" />
+              </h3>
+            )}
+
+            <ul
               className={cn(
-                "group relative block w-full overflow-hidden rounded-xl border border-line bg-surface-2",
-                aspect === "wide" ? "aspect-[16/11]" : "aspect-square",
+                "grid gap-4",
+                aspect === "wide" ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-2 md:grid-cols-4",
               )}
             >
-              <Image
-                src={src}
-                alt={`${title} · ${i + 1}`}
-                fill
-                sizes={aspect === "wide" ? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw"}
-                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-              />
-            </button>
-          </li>
+              {group.images.map((src) => {
+                cursor += 1;
+                const at = cursor;
+
+                return (
+                  <li key={src}>
+                    <button
+                      type="button"
+                      onClick={() => setOpenAt(at)}
+                      className={cn(
+                        "group relative block w-full overflow-hidden rounded-xl border border-line bg-surface-2",
+                        aspect === "wide" ? "aspect-[16/11]" : "aspect-square",
+                      )}
+                    >
+                      <Image
+                        src={src}
+                        alt={`${title} · ${at + 1}`}
+                        fill
+                        sizes={
+                          aspect === "wide"
+                            ? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                            : "(min-width: 768px) 25vw, 50vw"
+                        }
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
         ))}
-      </ul>
+      </div>
 
       <AnimatePresence>
         {openAt !== null && (

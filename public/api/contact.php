@@ -21,11 +21,19 @@
 declare(strict_types=1);
 
 require __DIR__ . '/smtp.php';
+require __DIR__ . '/template.php';
 
 /** Messages accepted from one address per hour, before it looks like a bot. */
 const RATE_LIMIT = 8;
 const RATE_WINDOW = 3600;
 const MAX_BYTES = 25000;
+
+/** Attachment limits, kept in step with what the form allows. */
+const MAX_FILES = 5;
+const MAX_TOTAL_BYTES = 8388608;
+const ALLOWED_EXTENSIONS = [
+    'pdf', 'png', 'jpg', 'jpeg', 'webp', 'gif', 'txt', 'doc', 'docx', 'odt', 'zip',
+];
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -78,15 +86,26 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     fail(405, 'method');
 }
 
-$raw = file_get_contents('php://input');
-if ($raw === false || strlen($raw) > MAX_BYTES) {
-    fail(413, 'size');
-}
+/*
+ * Two shapes arrive here. A message on its own is posted as JSON, and one
+ * carrying attachments has to be multipart, where PHP has already parsed the
+ * fields into $_POST and the files into $_FILES and php://input is spent.
+ */
+$multipart = str_contains((string)($_SERVER['CONTENT_TYPE'] ?? ''), 'multipart/form-data');
 
-$data = json_decode($raw, true);
-if (!is_array($data)) {
-    // A browser without fetch, or a form posted the ordinary way.
+if ($multipart) {
     $data = $_POST;
+} else {
+    $raw = file_get_contents('php://input');
+    if ($raw === false || strlen($raw) > MAX_BYTES) {
+        fail(413, 'size');
+    }
+
+    $data = json_decode($raw, true);
+    if (!is_array($data)) {
+        // A browser without fetch, or a form posted the ordinary way.
+        $data = $_POST;
+    }
 }
 
 $name    = oneLine((string)($data['name'] ?? ''));
@@ -136,15 +155,92 @@ if (count($hits) >= RATE_LIMIT) {
 $hits[] = time();
 @file_put_contents($bucket, json_encode($hits), LOCK_EX);
 
+/**
+ * Whatever came up with the message, checked before it is passed on.
+ *
+ * Judged by extension rather than by what the browser called it: the type a
+ * browser reports is whatever it feels like, and the extension is what decides
+ * how the file opens at the other end anyway.
+ *
+ * @return array<int, array{name: string, type: string, content: string}>
+ */
+function attachments(): array
+{
+    $upload = $_FILES['files'] ?? null;
+    if (!is_array($upload) || !isset($upload['name']) || !is_array($upload['name'])) {
+        return [];
+    }
+
+    $files = [];
+    $total = 0;
+
+    foreach ($upload['name'] as $i => $name) {
+        if (($upload['error'][$i] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            continue;
+        }
+
+        if (($upload['error'][$i] ?? 1) !== UPLOAD_ERR_OK) {
+            fail(422, 'upload');
+        }
+
+        if (count($files) >= MAX_FILES) {
+            fail(422, 'files');
+        }
+
+        $path = (string)($upload['tmp_name'][$i] ?? '');
+        if ($path === '' || !is_uploaded_file($path)) {
+            fail(422, 'upload');
+        }
+
+        $extension = strtolower(pathinfo((string)$name, PATHINFO_EXTENSION));
+        if (!in_array($extension, ALLOWED_EXTENSIONS, true)) {
+            fail(422, 'type');
+        }
+
+        $total += (int)($upload['size'][$i] ?? 0);
+        if ($total > MAX_TOTAL_BYTES) {
+            fail(413, 'files');
+        }
+
+        $content = file_get_contents($path);
+        if ($content === false) {
+            fail(500, 'upload');
+        }
+
+        $type = (new finfo(FILEINFO_MIME_TYPE))->file($path) ?: 'application/octet-stream';
+
+        $files[] = [
+            'name' => basename((string)$name),
+            'type' => $type,
+            'content' => $content,
+        ];
+    }
+
+    return $files;
+}
+
+$files = attachments();
 $config = config();
 
-$body = implode("\n", [
-    'From: ' . $name . ' <' . $email . '>',
-    'Subject: ' . ($subject !== '' ? $subject : '(none)'),
-    'Sent: ' . gmdate('Y-m-d H:i:s') . ' UTC',
-    '',
-    $message,
-]);
+$siteName = (string)($config['from_name'] ?? 'website');
+
+/*
+ * The plain-text half, and not a fallback nobody reads: it is what a phone puts
+ * in the preview line under the subject, and the whole of what a text-only
+ * client shows.
+ */
+$lines = ['Od: ' . $name . ' <' . $email . '>'];
+if ($subject !== '') {
+    $lines[] = 'Temat: ' . $subject;
+}
+if ($files !== []) {
+    $lines[] = 'Załączniki: ' . count($files);
+}
+$lines[] = '';
+$lines[] = $message;
+
+$body = implode("\n", $lines);
+$html = enquiryHtml($name, $email, $subject, $message, $files, $siteName);
 
 $smtp = new Smtp(
     (string)$config['host'],
@@ -158,9 +254,11 @@ try {
         (string)$config['from'],
         (string)($config['from_name'] ?? ''),
         (string)$config['to'],
-        ($config['from_name'] ?? 'website') . ': ' . ($subject !== '' ? $subject : 'new message'),
+        $siteName . ': ' . ($subject !== '' ? $subject : 'nowe zapytanie'),
         $body,
         ['Reply-To' => Smtp::encodeHeader($name) . ' <' . $email . '>'],
+        $files,
+        $html,
     );
 } catch (Throwable $error) {
     // The message is worth more than the reason it failed, so it goes to the

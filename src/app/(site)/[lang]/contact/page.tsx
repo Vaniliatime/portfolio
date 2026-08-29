@@ -86,10 +86,6 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
                 {copy.elsewhere[lang]}
               </h2>
               <SocialLinks className="mt-4" />
-              <p className="mt-6 flex items-start gap-2 text-sm text-ink-muted">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                {t(contact.note, lang)}
-              </p>
             </div>
           </Reveal>
         }

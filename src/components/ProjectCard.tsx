@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
-import { categories, statusLabels, type Project } from "@/content/projects";
+import { categories, galleryOf, statusLabels, type Project } from "@/content/projects";
 import { ui } from "@/content/site";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
@@ -36,7 +36,8 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
   const coverSizes = large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw";
   // Cover first, then whatever the gallery adds, so the card opens on the
   // shot the project leads with.
-  const frames = project.gallery?.length ? project.gallery : project.cover ? [project.cover] : [];
+  const shots = galleryOf(project);
+  const frames = shots.length ? shots : project.cover ? [project.cover] : [];
 
   /*
    * Card heights match without anything stretching: the thumbnail has a fixed
@@ -63,6 +64,7 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
                 priority={priority}
                 sizes={coverSizes}
                 offset={index}
+                href={href}
                 className="group-hover:scale-[1.04]"
               />
             ) : (

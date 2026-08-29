@@ -23,7 +23,14 @@ export interface Project {
   tagline: Localized;
   summary: Localized;
   role: Localized;
+  /** What it does, for whoever is deciding whether they want one. */
   highlights: Localized<string[]>;
+  /**
+   * How it is built, for whoever is deciding whether I can build it. Optional:
+   * the two readings sit side by side when both exist, and the page falls back
+   * to one column when they do not.
+   */
+  technical?: Localized<string[]>;
   /**
    * What the work changed for the client, as opposed to what it consisted of.
    * Optional, because most of these are my own projects and there is nobody on
@@ -40,6 +47,12 @@ export interface Project {
    */
   coverTall?: TallCover;
   gallery?: string[];
+  /**
+   * Screenshots split into labelled sets, where a flat strip would leave the
+   * reader guessing which side of the product they are looking at. Takes over
+   * from gallery wherever it exists; galleryOf() flattens either shape.
+   */
+  gallerySections?: { label: Localized; images: string[] }[];
   /** Screenshots read better in a landscape grid than a square one. */
   galleryAspect?: "square" | "wide";
 }
@@ -114,12 +127,12 @@ export const projects: Project[] = [
     status: "live",
     featured: true,
     tagline: {
-      en: "A full-stack tracker for anime and manga collections.",
-      pl: "Full-stackowy tracker kolekcji anime i mangi.",
+      en: "A self-hosted tracker for anime, manga, manhwa and manhua.",
+      pl: "Self-hostowany tracker anime, mangi, manhwy i manhui.",
     },
     summary: {
-      en: "A production web app where users track what they watch and read, rate it, and see their habits as charts. Built end to end: schema, auth, email, UI, deployment.",
-      pl: "Produkcyjna aplikacja webowa, w której użytkownicy śledzą, co oglądają i czytają, oceniają tytuły i oglądają swoje nawyki na wykresach. Zbudowana od zera: schemat bazy, uwierzytelnianie, wysyłka maili, UI, wdrożenie.",
+      en: "For people who would rather keep their own library than rent it: everything they watch and read in one place, what they are in the middle of at a glance, and a notification when the next episode or chapter is out. It runs on my own hardware, not on somebody's platform.",
+      pl: "Dla osób, które wolą trzymać swoją bibliotekę u siebie, niż ją wynajmować: wszystko, co oglądają i czytają, w jednym miejscu, rzut oka na to, co jest w trakcie, i powiadomienie, gdy wyjdzie kolejny odcinek albo rozdział. Stoi na moim sprzęcie, a nie na czyjejś platformie.",
     },
     role: {
       en: "Solo: design, front end, back end, database, hosting.",
@@ -127,40 +140,92 @@ export const projects: Project[] = [
     },
     highlights: {
       en: [
-        "Account system with credentials auth, email verification and TOTP two-factor login.",
-        "Relational data modelled in Prisma: titles, entries, ratings, progress and user settings.",
-        "Personal statistics dashboard built with Recharts: watch time, score spread, completion rate.",
-        "Dark and light themes, fully responsive layout, animated route transitions.",
-        "Deployed and maintained on my own server, including backups and updates.",
+        "One library out of four catalogues: the search merges AniList, MyAnimeList, MangaDex and MangaUpdates, drops the duplicates, and adds a title with its full metadata in one click.",
+        "Progress in one tap. It notices when a series has finished, and counts rewatches as their own cycles.",
+        "It tells you when the next one is out: anime to the hour from AniList, manga and manhwa from a nightly sweep, because nobody publishes a schedule for those.",
+        "What lands today, as a list or a month at a time, either from your own shelf or from everything there is.",
+        "Two-factor with trusted devices, each one revocable on its own, so losing a phone is not losing the account.",
+        "Bring years of history in from MAL or AniList, and take the whole lot back out whenever you like.",
+        "See what friends are on, and add it to your own list from their profile.",
       ],
       pl: [
-        "System kont z logowaniem, weryfikacją e-mail i dwuskładnikowym uwierzytelnianiem TOTP.",
-        "Model relacyjny w Prisma: tytuły, wpisy, oceny, postęp i ustawienia użytkownika.",
-        "Panel statystyk osobistych na Recharts: czas oglądania, rozkład ocen, wskaźnik ukończeń.",
-        "Motyw jasny i ciemny, w pełni responsywny layout, animowane przejścia między widokami.",
-        "Wdrożone i utrzymywane na własnym serwerze, razem z backupami i aktualizacjami.",
+        "Jedna biblioteka z czterech katalogów: wyszukiwarka scala AniList, MyAnimeList, MangaDex i MangaUpdates, usuwa duplikaty i dodaje tytuł z pełnymi danymi jednym kliknięciem.",
+        "Postęp jednym dotknięciem. Sama zauważa koniec serii i liczy ponowne przejścia jako osobne cykle.",
+        "Mówi, kiedy wyjdzie kolejny: anime co do godziny z AniList, manga i manhwa z nocnego przeglądu, bo dla nich nikt harmonogramu nie publikuje.",
+        "Co wychodzi dzisiaj, listą albo miesiącem naraz, z własnej półki lub ze wszystkiego, co jest.",
+        "Dwa składniki logowania z zaufanymi urządzeniami, każde odwoływalne osobno, więc zgubiony telefon to nie zgubione konto.",
+        "Wciągnięcie lat historii z MAL-a albo AniList i wyciągnięcie całości z powrotem, kiedy tylko chcesz.",
+        "Podgląd tego, co oglądają znajomi, i dodanie czegoś do siebie prosto z ich profilu.",
       ],
     },
-    tech: ["Next.js", "React 19", "TypeScript", "Prisma", "NextAuth", "Recharts", "Tailwind CSS", "Nodemailer"],
+    technical: {
+      en: [
+        "Next.js 16 on the App Router with Turbopack, Prisma 6 over MySQL, NextAuth on JWTs. Self-hosted in an LXC container under Proxmox, reached through a Cloudflare Tunnel, kept alive by PM2.",
+        "User pages are force-dynamic; the heavy public feeds are cached server-side with stale-while-revalidate on a 5 to 15 minute window, with in-flight coalescing so a hundred readers do not each start their own probe.",
+        "AniList is queried in batches through GraphQL aliases, up to 50 records a request, with a cron refreshing airing status and totals every six hours.",
+        "Manga has no public schedule anywhere, so a nightly cron sweeps MangaUpdates, links new entries by title, and builds the release history the calendar reads.",
+        "Sessions die the moment they should: passwordChangedAt and twoFactorChangedAt are compared against the token's issued-at, so changing a password drops every older session instantly.",
+        "Rate limiting in three layers, per address, per email and per account, each with its own window. Strict CSP, HSTS preload, magic-byte sniffing on avatar uploads, and a URL sanitiser standing between the fetcher and SSRF.",
+        "An operator's panel behind it all: five crons with their last result and next run, live health checks on all four upstreams, 30 days of server logs, and a banner on the site itself the moment an upstream goes down.",
+        "Roughly 14 Prisma models, 40 API routes, 20 pages and 5 crons, against 4 external APIs.",
+      ],
+      pl: [
+        "Next.js 16 na App Routerze z Turbopackiem, Prisma 6 na MySQL, NextAuth na tokenach JWT. Self-hostowane w kontenerze LXC pod Proxmoxem, ruch przez Cloudflare Tunnel, proces pilnowany przez PM2.",
+        "Strony użytkownika są force-dynamic, a ciężkie publiczne feedy cache'owane po stronie serwera w trybie stale-while-revalidate z oknem 5 do 15 minut i scalaniem żądań w locie, żeby stu czytelników nie ruszyło każdy z własnym zapytaniem.",
+        "AniList odpytywany paczkami przez aliasy GraphQL, do 50 rekordów na żądanie, plus cron odświeżający status emisji i sumy co sześć godzin.",
+        "Manga nie ma nigdzie publicznego harmonogramu, więc nocny cron przeczesuje MangaUpdates, dowiązuje nowe wpisy po tytule i buduje historię wydań, z której korzysta kalendarz.",
+        "Sesje umierają dokładnie wtedy, kiedy powinny: passwordChangedAt i twoFactorChangedAt porównywane ze znacznikiem wystawienia tokenu, więc zmiana hasła natychmiast wywala wszystkie starsze.",
+        "Ograniczanie ruchu w trzech warstwach, po adresie, po mailu i po koncie, każda z własnym oknem. Ostre CSP, HSTS preload, sprawdzanie bajtów nagłówka przy wgrywaniu awatara i sanitizer adresów stojący między pobieraniem a SSRF.",
+        "Pod spodem panel operatora: pięć cronów z ostatnim wynikiem i czasem kolejnego uruchomienia, żywe health checki wszystkich czterech źródeł, trzydzieści dni logów serwera i baner na samej stronie w chwili, gdy któreś źródło padnie.",
+        "Około 14 modeli Prisma, 40 tras API, 20 stron i 5 cronów, na czterech zewnętrznych API.",
+      ],
+    },
+    tech: [
+      "Next.js 16",
+      "React",
+      "TypeScript",
+      "Prisma 6",
+      "MySQL",
+      "NextAuth",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Proxmox",
+    ],
     links: [
       { label: "amtracker.eu", href: "https://amtracker.eu/", kind: "site" },
+      { label: "Source", href: "https://github.com/Vaniliatime/anime-tracker", kind: "repo" },
       // Apps are not published yet; empty hrefs render as pending.
       { label: "App Store", href: "", kind: "appstore" },
       { label: "Google Play", href: "", kind: "playstore" },
     ],
     cover: "/images/amtracker/library.webp",
     coverTall: { src: "/images/amtracker/full.webp", width: 1100, height: 2628 },
-    gallery: [
-      "/images/amtracker/library.webp",
-      "/images/amtracker/dashboard.webp",
-      "/images/amtracker/currently-airing.webp",
-      "/images/amtracker/season-browser.webp",
-      "/images/amtracker/latest-releases.webp",
-      "/images/amtracker/achievements.webp",
-      "/images/amtracker/add-entry.webp",
-      "/images/amtracker/settings-2fa.webp",
-      "/images/amtracker/notifications.webp",
-      "/images/amtracker/friends.webp",
+    gallerySections: [
+      {
+        label: { en: "The app", pl: "Aplikacja" },
+        images: [
+          "/images/amtracker/library.webp",
+          "/images/amtracker/dashboard.webp",
+          "/images/amtracker/currently-airing.webp",
+          "/images/amtracker/season-browser.webp",
+          "/images/amtracker/latest-releases.webp",
+          "/images/amtracker/notifications-inbox.webp",
+          "/images/amtracker/achievements.webp",
+          "/images/amtracker/add-entry.webp",
+          "/images/amtracker/settings-2fa.webp",
+          "/images/amtracker/notifications.webp",
+          "/images/amtracker/friends.webp",
+        ],
+      },
+      {
+        label: { en: "Admin panel", pl: "Panel administratora" },
+        images: [
+          "/images/amtracker/admin-statistics.webp",
+          "/images/amtracker/admin-crons.webp",
+          "/images/amtracker/admin-api-status.webp",
+          "/images/amtracker/admin-logs.webp",
+        ],
+      },
     ],
     galleryAspect: "wide",
   },
@@ -185,18 +250,32 @@ export const projects: Project[] = [
     },
     highlights: {
       en: [
-        "Rebuilt from the WordPress site left by the previous developer, rewritten on Next.js and Tailwind.",
-        "Three separate domains sharing a visual language but written for distinct search intent.",
-        "Booking-focused layouts: pricing, routes, fleet and a contact path on every page.",
-        "Local SEO groundwork: structured headings, service pages per city, fast static delivery.",
-        "Built for a non-technical owner to update without breaking anything.",
+        "Somebody looking for a coach in Katowice and somebody looking for a licensed operator find different pages, both of them his.",
+        "Every page ends where a booking starts: prices, routes, the fleet and a way to call.",
+        "The owner adds his own posts now, and no longer pays a studio to publish one.",
+        "It opens quickly on a phone at a bus stop, which is where half of this traffic is.",
+        "Nothing on it can be broken by editing it, which matters when the person editing is not technical.",
       ],
       pl: [
-        "Przebudowa strony na WordPressie zostawionej przez poprzedniego wykonawcę, napisana od nowa w Next.js i Tailwind.",
-        "Trzy osobne domeny o wspólnym języku wizualnym, pisane pod różne intencje wyszukiwania.",
-        "Layout nastawiony na rezerwacje: cennik, trasy, flota i ścieżka kontaktu na każdej podstronie.",
-        "Fundament pod lokalne SEO: struktura nagłówków, podstrony usług dla miast, szybkie ładowanie.",
-        "Zbudowane tak, aby nietechniczny właściciel mógł je aktualizować bez ryzyka.",
+        "Ktoś szukający autokaru w Katowicach i ktoś szukający licencjonowanego przewoźnika trafiają na inne strony, obie jego.",
+        "Każda podstrona kończy się tam, gdzie zaczyna się rezerwacja: cennik, trasy, flota i sposób, żeby zadzwonić.",
+        "Właściciel sam dodaje wpisy i nie płaci już studiu za publikację każdego z nich.",
+        "Otwiera się szybko na telefonie na przystanku, a stamtąd bierze się połowa tego ruchu.",
+        "Edytowaniem nie da się tego zepsuć, co ma znaczenie, gdy edytuje osoba nietechniczna.",
+      ],
+    },
+    technical: {
+      en: [
+        "Rebuilt off the previous developer's WordPress onto Next.js and Tailwind, then split into three domains.",
+        "One visual language across all three, with copy and structure written for distinct search intent.",
+        "Local SEO groundwork: heading structure, a service page per city, static delivery.",
+        "Hosting, deployment and ongoing maintenance handled by me.",
+      ],
+      pl: [
+        "Zejście z WordPressa poprzedniego wykonawcy na Next.js i Tailwind, potem rozbicie na trzy domeny.",
+        "Wspólny język wizualny we wszystkich trzech, przy treści i strukturze pisanych pod różne intencje wyszukiwania.",
+        "Fundament pod lokalne SEO: struktura nagłówków, podstrona usługi dla każdego miasta, statyczne serwowanie.",
+        "Hosting, wdrożenie i bieżące utrzymanie po mojej stronie.",
       ],
     },
     results: {
@@ -236,40 +315,77 @@ export const projects: Project[] = [
   },
   {
     slug: "wedding-invitations",
-    title: "Interactive Wedding Invitations",
+    title: "Interactive Wedding Invitation",
     year: "2026",
     category: "product",
     status: "wip",
     featured: true,
     tagline: {
-      en: "A wedding invitation you open in a browser, with a mini game inside.",
-      pl: "Zaproszenie ślubne, które otwierasz w przeglądarce, z mini grą w środku.",
+      en: "An invitation that is also the event's website, its RSVP system and its guest list.",
+      pl: "Zaproszenie, które jest zarazem stroną wydarzenia, systemem potwierdzeń i listą gości.",
     },
     summary: {
-      en: "A paper invitation replaced by a personal web page: the story, the schedule, the venue, an RSVP form the couple actually receives, and a small playable game so guests share the link instead of filing it away.",
-      pl: "Papierowe zaproszenie zastąpione osobistą stroną: historia pary, harmonogram, miejsce, formularz RSVP, który naprawdę do nich trafia, i mała gra, dzięki której goście podają dalej link, zamiast odkładać zaproszenie do szuflady.",
+      en: "A four-day wedding in Sicily for several dozen people scattered across Poland. The guests need to know where they are flying, where they are sleeping and what they have to confirm; the couple need to know who is coming and what they cannot eat. Every guest gets their own link, and that is the whole of it: no registration, no password, no account. The address is the identity.",
+      pl: "Czterodniowe wesele na Sycylii dla kilkudziesięciu osób rozrzuconych po Polsce. Goście muszą wiedzieć, gdzie lecą, gdzie śpią i co potwierdzić, a para młoda, kto przyjedzie i czego nie może jeść. Każdy gość dostaje własny link i na tym koniec: żadnej rejestracji, hasła ani konta. Adres jest tożsamością.",
     },
     role: {
-      en: "Product idea, front end, API, image pipeline and mail delivery.",
-      pl: "Pomysł na produkt, front end, API, obsługa zdjęć i wysyłka maili.",
+      en: "Solo: design, front end, back end, organiser panel.",
+      pl: "Solo: projekt, front end, back end, panel organizatora.",
     },
     highlights: {
       en: [
-        "Animated single-page invitation with scroll-driven scenes and a countdown.",
-        "RSVP form writing to a SQLite database, with email notifications to the couple.",
-        "Guest photo uploads processed and resized server-side with Sharp.",
-        "A custom mini game built into the invitation as a keepsake for guests.",
-        "Groundwork for a separate company site selling these as a service.",
+        "A guest confirms they are coming, says how many of them there will be and what they cannot eat, and can come back and change their mind until the deadline.",
+        "The whole weekend in one place: the schedule, the address with a pin on the map, how to get there and where to sleep, so nobody has to ask the couple.",
+        "Everyone puts songs on the shared playlist, by pasting a Spotify link or typing a title from memory, and sees what the others have suggested.",
+        "Photos go up straight from a phone during the party, and come back out full size, without anybody signing up to anything.",
+        "A question nothing on the page answered goes to the couple by email.",
+        "The couple add guests one at a time or paste the whole list at once, fix a typo where they see it, and send the invitations in one go to everyone still waiting.",
+        "Who has answered, how many are coming in total and every dietary note, exportable as a spreadsheet for the venue.",
+        "One click turns the suggestions into an actual playlist on Spotify.",
       ],
       pl: [
-        "Animowane zaproszenie one-page ze scenami sterowanymi scrollem i odliczaniem.",
-        "Formularz RSVP zapisujący do bazy SQLite, z powiadomieniami e-mail dla pary młodej.",
-        "Wgrywanie zdjęć przez gości, przetwarzane i skalowane po stronie serwera przez Sharp.",
-        "Autorska mini gra wbudowana w zaproszenie jako pamiątka dla gości.",
-        "Podstawa pod osobną stronę firmową sprzedającą to jako usługę.",
+        "Gość potwierdza obecność, deklaruje, ile osób przyjedzie i czego nie może jeść, a do terminu może wrócić i zmienić zdanie.",
+        "Cały weekend w jednym miejscu: plan, adres z pinezką w mapach, warianty dojazdu i szczegóły noclegu, więc nikt nie musi dopytywać pary młodej.",
+        "Każdy zgłasza utwory na wspólną playlistę, wklejając link ze Spotify albo wpisując tytuł z pamięci, i widzi, co zaproponowali inni.",
+        "Zdjęcia lecą prosto z telefonu w trakcie imprezy i wracają w powiększeniu, bez zakładania konta gdziekolwiek.",
+        "Pytanie, na które nie odpowiedziała żadna sekcja, trafia do pary młodej mailem.",
+        "Para dodaje gości pojedynczo albo wkleja całą listę naraz, poprawia literówkę w miejscu i wysyła zaproszenia hurtem do wszystkich, którzy jeszcze czekają.",
+        "Kto odpowiedział, ile osób łącznie przyjedzie i wszystkie ograniczenia dietetyczne, do wyeksportowania w arkuszu dla obiektu.",
+        "Jedno kliknięcie zamienia zgłoszone propozycje w prawdziwą playlistę na Spotify.",
       ],
     },
-    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Express", "SQLite", "Sharp", "Nodemailer"],
+    technical: {
+      en: [
+        "React 18 and TypeScript on Vite, Tailwind and Framer Motion in front; Node and Express behind, with SQLite through better-sqlite3, Nodemailer for the invitations and Sharp for the thumbnails.",
+        "SQLite rather than a database server: the scale is dozens of records, not millions. One file means no maintenance, a backup is a copy of it, and the driver is synchronous, so there is not a single await around a query.",
+        "A token in the address instead of accounts, because a wedding guest will not open an account to say they are coming. It is only written to the browser once the server has accepted it, so a typo in the link never sticks.",
+        "One source for the words: the invitation text lives in a file that both the page and the email template read, so neither can be changed while the other is forgotten.",
+        "Photographs are served through the API rather than statically. The originals sit outside the public directory and the server makes and caches the WebP thumbnails, so hiding a photo in the panel actually hides it instead of leaving a working direct link.",
+        "Three animated interludes stood still despite correct code: Framer Motion maps x and y onto SVG attributes a group element does not have, so the animation quietly did nothing while the rotations kept working and hid it. All horizontal movement moved to native SMIL.",
+        "Spotify metadata with no registered application: the official API when keys are configured, the Open Graph tags on the track page when they are not, oEmbed as the last resort. It works on first run and improves itself once configured.",
+      ],
+      pl: [
+        "React 18 i TypeScript na Vite, Tailwind i Framer Motion z przodu, Node z Expressem z tyłu, SQLite przez better-sqlite3, Nodemailer do zaproszeń i Sharp do miniatur.",
+        "SQLite zamiast serwera bazy: skala to kilkadziesiąt rekordów, nie miliony. Jeden plik oznacza zero utrzymania, kopia zapasowa to jego skopiowanie, a sterownik jest synchroniczny, więc w kodzie nie ma ani jednego await wokół zapytania.",
+        "Token w adresie zamiast kont, bo gość weselny nie założy konta, żeby powiedzieć, że przyjedzie. Zapisuje się w przeglądarce dopiero po potwierdzeniu przez serwer, więc literówka w linku nie zostaje na stałe.",
+        "Jedno źródło treści: teksty zaproszenia leżą w pliku, który czyta i strona, i szablon maila, więc nie da się zmienić jednego, zapominając o drugim.",
+        "Zdjęcia idą przez API, nie statycznie. Oryginały leżą poza katalogiem publicznym, a serwer generuje i cache'uje miniatury WebP, więc ukrycie zdjęcia w panelu naprawdę je ukrywa, zamiast zostawiać działający bezpośredni link.",
+        "Trzy animowane przerywniki stały nieruchomo mimo poprawnego kodu: Framer Motion mapuje x i y na atrybuty SVG, których element g nie ma, więc animacja cicho nic nie robiła, a działające obroty to maskowały. Cały ruch w poziomie przeszedł na natywny SMIL.",
+        "Metadane ze Spotify bez rejestrowania aplikacji: oficjalne API, gdy klucze są skonfigurowane, znaczniki Open Graph ze strony utworu, gdy ich nie ma, oEmbed jako ostatnia deska ratunku. Działa od pierwszego uruchomienia i samo się poprawia po konfiguracji.",
+      ],
+    },
+    tech: [
+      "React 18",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Express",
+      "SQLite",
+      "Sharp",
+      "Nodemailer",
+      "Spotify API",
+    ],
     links: [],
     cover: "/images/wedding/invitation.webp",
     coverTall: { src: "/images/wedding/full.webp", width: 1100, height: 4630 },
@@ -287,38 +403,72 @@ export const projects: Project[] = [
   },
   {
     slug: "itil-quiz",
-    title: "ITIL 5 Exam Prep Quiz",
+    title: "ITIL 5 Foundation Exam Trainer",
     year: "2026",
     category: "product",
     status: "wip",
     featured: true,
     tagline: {
-      en: "A practice app for the ITIL 5 service management certification.",
-      pl: "Aplikacja do nauki przed certyfikacją ITIL 5 z zarządzania usługami IT.",
+      en: "Practice for an exam nobody has written practice material for yet.",
+      pl: "Nauka do egzaminu, do którego nikt jeszcze nie napisał materiałów.",
     },
     summary: {
-      en: "Built from my own day-to-day service management work and my own ITIL 5 exam. The hard part of that exam is not the concepts, it is that every option looks defensible and a single word decides between them, so the app drills the qualifiers: 389 questions, a timed simulation, per-section practice and a glossary written in the wording the syllabus uses.",
-      pl: "Zbudowana na bazie mojej codziennej pracy w service management i własnego egzaminu ITIL 5. Trudność tego egzaminu nie leży w pojęciach, tylko w tym, że każda odpowiedź wygląda sensownie, a rozstrzyga jedno słowo. Aplikacja trenuje właśnie te kwalifikatory: 389 pytań, symulacja na czas, ćwiczenia po sekcjach i słownik pisany językiem sylabusa.",
+      en: "ITIL 4 has hundreds of mock exams and question dumps behind it. Version 5 has essentially nothing, and people are being sent to sit it by their employers. I took it myself, and without the two mocks my employer paid for I would not have known what to expect, which is the whole reason this exists.",
+      pl: "Za ITIL 4 stoją setki mock testów i zestawów pytań. Za wersją piątą praktycznie nic, a ludzie są na nią wysyłani przez pracodawców. Sam do niej podchodziłem i bez dwóch mocków wykupionych przez firmę nie miałbym pojęcia, czego się spodziewać. Stąd wzięła się ta aplikacja.",
     },
     role: {
-      en: "Solo: question bank, app, tooling.",
-      pl: "Solo: baza pytań, aplikacja, narzędzia.",
+      en: "Solo: question bank, application, tooling, source research.",
+      pl: "Solo: baza pytań, aplikacja, narzędzia, praca ze źródłami.",
     },
     highlights: {
       en: [
-        "Question bank written against the ITIL 5 syllabus and graded by difficulty, kept as structured JSON.",
-        "Timed exam mode alongside a relaxed practice mode with instant explanations.",
-        "Progress tracking so weak areas resurface more often.",
-        "Built on the current React and Vite toolchain with a typed data layer.",
+        "The exam as it really runs: 40 questions, 60 minutes, a pass at 26, no hints. You can flag a question and come back to it from the grid, the way you can on the day.",
+        "In practice mode every answer explains itself, including the wrong ones: not only that it is wrong, but what it actually describes, because the wrong options here are almost always definitions of the neighbouring term.",
+        "The result is not one number. It breaks down by exam criterion, by syllabus section, and separately by question type.",
+        "That last one is the useful part: scoring 85% on plain questions and 40% on the ones containing NOT is not a gap in knowledge, it is a gap in reading, and it needs a different response. Plain category tracking never catches it.",
+        "Each of those qualifiers, PRIMARY, BEST, MAIN and NOT, explains what the question is really testing and which trap it is setting.",
+        "A mode that builds a set out of nothing but the questions you have already got wrong.",
+        "A glossary of 131 terms where each one carries a definition, a note on what the exam catches people out on, and the terms it is most often confused with.",
       ],
       pl: [
-        "Baza pytań pisana pod sylabus ITIL 5, z przypisanym poziomem trudności, trzymana jako uporządkowany JSON.",
-        "Tryb egzaminu na czas obok spokojnego trybu nauki z natychmiastowym wyjaśnieniem.",
-        "Śledzenie postępów: słabsze obszary wracają częściej.",
-        "Zbudowane na aktualnym stacku React + Vite z typowaną warstwą danych.",
+        "Egzamin taki, jaki jest naprawdę: 40 pytań, 60 minut, próg 26, zero podpowiedzi. Pytanie można oflagować i wrócić do niego z siatki, dokładnie jak na miejscu.",
+        "W trybie nauki każda odpowiedź się tłumaczy, także ta błędna: nie tylko że jest zła, ale co właściwie opisuje, bo złe odpowiedzi są tu prawie zawsze definicjami pojęcia sąsiedniego.",
+        "Wynik to nie jedna liczba. Rozbija się na kryteria egzaminacyjne, sekcje sylabusa i osobno na typ pytania.",
+        "To ostatnie jest najbardziej użyteczne: 85% na pytaniach prostych i 40% na tych z NOT to nie luka w wiedzy, tylko w czytaniu, i wymaga zupełnie innej reakcji. Zwykłe śledzenie kategorii tego nie wyłapie.",
+        "Każdy z kwalifikatorów, PRIMARY, BEST, MAIN i NOT, tłumaczy, czego pytanie naprawdę szuka i jaką pułapkę zastawia.",
+        "Tryb, który buduje zestaw wyłącznie z pytań wcześniej obłamanych.",
+        "Słownik 131 pojęć, gdzie każde ma definicję, notatkę o tym, na czym egzamin łapie, i listę pojęć, z którymi bywa mylone.",
       ],
     },
-    tech: ["React 19", "TypeScript", "Vite", "Tailwind CSS"],
+    technical: {
+      en: [
+        "React 19 and TypeScript on Vite 8, Tailwind v4 configured in CSS rather than a config file. No back end at all: progress lives in the browser. Two production dependencies.",
+        "The question bank is TypeScript modules rather than JSON or a database. An odd choice for 309 records until you see what it buys: the type demands exactly four options and a correct index between 0 and 3, so a typo in a criterion code or a fifth option breaks the build instead of the exam.",
+        "Wrong answers are not invented. Reading the official sample papers, the distractors are always definitions of adjacent concepts, so I built a graph of which terms get confused with which, 302 edges across 131 entries, and wrote the wrong answers out of it. The distractor for a question about output is the definition of outcome.",
+        "The 95 assessment criteria from the official syllabus are the backbone: questions map onto them, progress is measured against them, and coverage is verified by a script rather than claimed. It reads 95 out of 95.",
+        "Getting there was the lesson. Reconstructing the criteria from sample paper rationales produced 35, mining the course transcripts another 145 hits, and when the official syllabus finally arrived it turned out I had 38 of 95. Closing the rest was mechanical; knowing the gap existed was not.",
+        "One source of truth, in order: syllabus, then handbook, then sample paper rationales, then course recordings. It caught four of my own mistakes, including a warning I had written that version 5 redefines output. Section 3.1.1.1 says otherwise, and the error had come from an accredited course recording.",
+        "The handbook exists only in an online reader, so verification ran off 210 screenshots ordered by creation time, through a crop and resize pipeline built to get under an image size limit.",
+        "Thirty course recordings transcribed with faster-whisper on a CUDA card, which needed the pip-installed CUDA DLLs registered by hand and a correction pass afterwards: the model insisted on hearing ITIL as IDIL, Hytil and once Hytale.",
+        "The version 4 transcripts were analysed and then deliberately left out. Their densest topics are exactly the areas version 5 rebuilt, so feeding them in would have injected wrong answers.",
+        "Nothing in the application is copied from the handbook: PeopleCert holds the copyright and the glossary forbids text and data mining outright. Every definition is paraphrased and carries a reference to the section it came from, which is the condition of ever publishing any of it.",
+        "309 questions, 1,236 answer options with 831 written rationales, 131 glossary entries, a 155 kB gzipped bundle built in 358 ms.",
+      ],
+      pl: [
+        "React 19 i TypeScript na Vite 8, Tailwind v4 konfigurowany w CSS, nie w pliku konfiguracyjnym. Zero backendu: postęp siedzi w przeglądarce. Dwie zależności produkcyjne.",
+        "Bank pytań to moduły TypeScriptu, a nie JSON czy baza. Dziwny wybór dla 309 rekordów, dopóki nie zobaczy się, co daje: typ wymusza dokładnie cztery opcje i indeks poprawnej w zakresie od zera do trzech, więc literówka w kodzie kryterium albo piąta opcja wywalają build, a nie egzamin.",
+        "Złe odpowiedzi nie są wymyślane. Z oficjalnych sample paperów wynika, że dystraktory to zawsze definicje pojęć sąsiednich, więc zbudowałem graf tego, co z czym bywa mylone, 302 krawędzie na 131 hasłach, i pisałem je z niego. Dystraktorem do pytania o output jest definicja outcome.",
+        "Kręgosłupem jest 95 kryteriów oceny z oficjalnego sylabusa: pytania są do nich przypisane, postęp mierzony względem nich, a pokrycie weryfikowane skryptem, nie deklarowane. Wychodzi 95 na 95.",
+        "Droga do tego była pouczająca. Rekonstrukcja kryteriów z uzasadnień w sample paperach dała 35, przekopanie transkryptów kursu kolejne 145 trafień, a gdy w końcu dotarł oficjalny sylabus, okazało się, że mam 38 z 95. Domknięcie reszty było mechaniczne, wiedza o tym, że jest co domykać, już nie.",
+        "Jedno źródło prawdy, w kolejności: sylabus, podręcznik, uzasadnienia z sample paperów, nagrania kursu. Wyłapało cztery moje własne błędy, w tym ostrzeżenie, które sam napisałem, że wersja piąta zmienia definicję output. Sekcja 3.1.1.1 mówi co innego, a błąd wziął się z nagrania kursu akredytowanego.",
+        "Podręcznik istnieje wyłącznie w czytniku online, więc weryfikacja szła z 210 zrzutów ekranu sortowanych po dacie utworzenia, przez pipeline przycinania i skalowania zbudowany po to, żeby zmieścić się w limicie rozmiaru obrazu.",
+        "Trzydzieści nagrań szkoleniowych przepuszczonych przez faster-whisper na karcie CUDA, co wymagało ręcznego rejestrowania bibliotek CUDA instalowanych przez pip i przebiegu korekt na końcu: model uparcie słyszał ITIL jako IDIL, Hytil, a raz Hytale.",
+        "Transkrypty z wersji czwartej przeanalizowałem i świadomie odrzuciłem. Ich najgęstsze tematy to dokładnie te obszary, które piątka przebudowała, więc wciągnięcie ich wstrzyknęłoby błędne odpowiedzi.",
+        "W aplikacji nie ma ani jednego zdania przepisanego z podręcznika: prawa ma PeopleCert, a słownik wprost zakazuje eksploracji tekstu i danych. Każda definicja jest sparafrazowana i wskazuje sekcję źródła, i to jest warunek, żeby cokolwiek dało się kiedykolwiek opublikować.",
+        "309 pytań, 1236 wariantów odpowiedzi z 831 napisanymi uzasadnieniami, 131 haseł słownika, paczka 155 kB po gzipie budowana w 358 ms.",
+      ],
+    },
+    tech: ["React 19", "TypeScript", "Vite 8", "Tailwind CSS", "Python", "faster-whisper"],
     links: [],
     cover: "/images/itil/overview.webp",
     coverTall: { src: "/images/itil/full.webp", width: 1100, height: 680 },
@@ -329,6 +479,87 @@ export const projects: Project[] = [
       "/images/itil/glossary.webp",
       "/images/itil/plans.webp",
       "/images/itil/scope.webp",
+    ],
+    galleryAspect: "wide",
+  },
+
+  {
+    slug: "secret-santa",
+    title: "Secret Santa",
+    year: "2026",
+    category: "product",
+    status: "wip",
+    featured: true,
+    tagline: {
+      en: "Gift-exchange draws where even the organiser does not know the result.",
+      pl: "Losowanie par na wymianę prezentów, w którym nawet organizator nie zna wyników.",
+    },
+    summary: {
+      en: "The organiser types in the participants, the app draws the pairs and gives each person their own signed link. Only the owner of a link sees what is behind it: the organiser, even when taking part, sees only who has looked already. No accounts for participants, no email addresses collected.",
+      pl: "Organizator wpisuje uczestników, a aplikacja losuje pary i generuje osobny, podpisany link dla każdej osoby. Wynik widzi wyłącznie właściciel danego linku, a organizator, nawet gdy sam bierze udział, widzi tylko to, kto już zajrzał. Bez kont po stronie uczestników, bez zbierania adresów e-mail.",
+    },
+    role: {
+      en: "Solo: back end, front end, security.",
+      pl: "Solo: backend, frontend, bezpieczeństwo.",
+    },
+    highlights: {
+      en: [
+        "Nobody draws themselves, and no two people draw each other: a shuffled cycle when there are no restrictions, and a solver with a hard step limit when couples have to be kept apart.",
+        "A link that cannot be forged or reused by somebody it was not meant for: each one is signed, and the part that identifies you rides in the piece of the address a browser never sends to the server, so it stays out of the logs.",
+        "The organiser can see who has already looked and nothing else, which is checked by a test that fails if a pair ever appears in that response.",
+        "An optional account that grants no extra sight: it remembers your events, and that is all it does.",
+        "Works on the cheapest hosting there is: no build step, no Node, and the same code runs on SQLite at home and MySQL in production.",
+      ],
+      pl: [
+        "Nikt nie losuje samego siebie i nikt nie trafia na osobę, która wylosowała jego: przy braku ograniczeń przetasowany cykl, a gdy trzeba rozdzielić pary, solver z twardym limitem kroków.",
+        "Linku nie da się podrobić ani użyć nie tej osobie: każdy jest podpisany, a część rozpoznająca uczestnika jedzie w tym kawałku adresu, którego przeglądarka nie wysyła na serwer, więc nie zostaje w logach.",
+        "Organizator widzi tylko to, kto już zajrzał, i pilnuje tego test, który nie przejdzie, jeśli w tej odpowiedzi kiedykolwiek pojawi się para.",
+        "Konto jest opcjonalne i celowo bezsilne: pamięta Twoje wydarzenia i na tym kończą się jego uprawnienia.",
+        "Działa na najtańszym hostingu, jaki jest: bez kroku budowania, bez Node'a, a ten sam kod stoi na SQLite lokalnie i na MySQL na produkcji.",
+      ],
+    },
+    technical: {
+      en: [
+        "A REST API kept clear of the static front end: 15 endpoints, 81 tests under pytest.",
+        "Draw: a Hamiltonian cycle in linear time with no exclusions, backtracking with an MRV heuristic and a step ceiling when there are, seeded from a CSPRNG.",
+        "Tokens signed with HMAC over a separate salt, carrying a one-time component from the database so a single link can be revoked.",
+        "Sessions with CSRF protection scoped to cookie-authenticated requests only, and a password reset with no token table: the payload holds a fingerprint of the current hash, so changing the password spends the link.",
+        "SQLAlchemy throughout, so SQLite locally and MySQL or PostgreSQL in production without touching the code.",
+      ],
+      pl: [
+        "REST API odseparowane od statycznego frontendu: 15 endpointów, 81 testów w pytest.",
+        "Losowanie: cykl Hamiltona w czasie liniowym bez wykluczeń, backtracking z heurystyką MRV i limitem kroków przy wykluczeniach, losowość z CSPRNG.",
+        "Tokeny podpisane HMAC na osobnej soli, ze składnikiem jednorazowym z bazy, dzięki czemu pojedynczy link da się unieważnić.",
+        "Sesje z ochroną CSRF ograniczoną do żądań uwierzytelnianych ciasteczkiem oraz reset hasła bez tabeli tokenów: w ładunku siedzi odcisk aktualnego hasła, więc zmiana zużywa link.",
+        "SQLAlchemy w całości, więc SQLite lokalnie i MySQL albo PostgreSQL na produkcji bez zmian w kodzie.",
+      ],
+    },
+    tech: [
+      "Python",
+      "Flask 3",
+      "SQLAlchemy 2",
+      "itsdangerous",
+      "pytest",
+      "Vanilla JS",
+      "REST APIs",
+    ],
+    links: [],
+    cover: "/images/santa/home.webp",
+    gallerySections: [
+      {
+        label: { en: "Organiser", pl: "Organizator" },
+        images: [
+          "/images/santa/home.webp",
+          "/images/santa/new-event.webp",
+          "/images/santa/links.webp",
+          "/images/santa/panel.webp",
+          "/images/santa/events.webp",
+        ],
+      },
+      {
+        label: { en: "Participant", pl: "Uczestnik" },
+        images: ["/images/santa/reveal.webp", "/images/santa/result.webp"],
+      },
     ],
     galleryAspect: "wide",
   },
@@ -658,6 +889,15 @@ export const projects: Project[] = [
 ];
 
 export const featuredProjects = projects.filter((p) => p.featured);
+
+/** Every screenshot a project has, in order, whichever shape it stores them in. */
+export function galleryOf(project: Project): string[] {
+  if (project.gallerySections) {
+    return project.gallerySections.flatMap((section) => section.images);
+  }
+
+  return project.gallery ?? [];
+}
 
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);

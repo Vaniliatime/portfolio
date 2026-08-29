@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { localePath, locales, t, toLocale } from "@/lib/i18n";
 import { alternatesFor } from "@/lib/seo";
-import { getProject, projects } from "@/content/projects";
+import { galleryOf, getProject, projects } from "@/content/projects";
 import { ui } from "@/content/site";
 import { ProjectCover } from "@/components/ProjectCover";
 import { ProjectBrief } from "@/components/ProjectBrief";
@@ -78,10 +78,17 @@ export default async function ProjectPage({
             <ProjectBrief project={project} lang={lang} />
           </div>
 
-          {project.gallery && project.gallery.length > 0 && (
+          {galleryOf(project).length > 0 && (
             <Reveal className="mt-16">
               <Gallery
-                images={project.gallery}
+                groups={
+                  project.gallerySections
+                    ? project.gallerySections.map((section) => ({
+                        label: t(section.label, lang),
+                        images: section.images,
+                      }))
+                    : [{ images: galleryOf(project) }]
+                }
                 title={project.title}
                 closeLabel={t(ui.close, lang)}
                 previousLabel={t(ui.previous, lang)}

@@ -120,6 +120,7 @@ export function HeroShowcase({ projects, lang, index, onSelect }: HeroShowcasePr
                         alt={project.title}
                         plan={plan}
                         priority={index === 0}
+                        live={inView}
                       />
                     ) : (
                       <Image

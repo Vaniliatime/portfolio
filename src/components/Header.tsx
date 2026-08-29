@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { nav, profile, ui } from "@/content/site";
@@ -16,6 +17,7 @@ export function Header({ lang }: { lang: Locale }) {
   const pathname = usePathname() ?? "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -91,38 +93,77 @@ export function Header({ lang }: { lang: Locale }) {
             onClick={() => setOpen((v) => !v)}
             className="grid h-9 w-9 place-items-center rounded-full text-ink-muted transition-colors hover:bg-surface-2 hover:text-ink lg:hidden"
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {/* The two glyphs swap in place rather than cutting, so the button
+                reads as one control changing state. */}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={open ? "close" : "open"}
+                initial={reduced ? { opacity: 0 } : { opacity: 0, rotate: -90, scale: 0.7 }}
+                animate={reduced ? { opacity: 1 } : { opacity: 1, rotate: 0, scale: 1 }}
+                exit={reduced ? { opacity: 0 } : { opacity: 0, rotate: 90, scale: 0.7 }}
+                transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                className="grid place-items-center"
+              >
+                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </motion.span>
+            </AnimatePresence>
           </button>
         </div>
       </div>
 
-      {open && (
-        <div className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto md:top-20 border-t border-line bg-paper px-5 py-8 lg:hidden">
-          <nav aria-label="Mobile" className="flex flex-col gap-1">
-            {nav.map((item) => (
-              <Link
-                key={item.href || "home"}
-                href={localePath(lang, item.href)}
-                onClick={() => setOpen(false)}
-                aria-current={isActive(item.href) ? "page" : undefined}
-                className={cn(
-                  "rounded-xl px-4 py-3.5 font-display text-xl font-medium transition-colors hover:bg-surface-2 hover:text-accent",
-                  isActive(item.href) && "text-accent",
-                )}
-              >
-                {t(item.label, lang)}
-              </Link>
-            ))}
-          </nav>
-          <ButtonLink
-            href={localePath(lang, "contact")}
-            className="mt-6 w-full"
-            onClick={() => setOpen(false)}
+      {/*
+       * The panel drops in and the links follow it one after another, which is
+       * what tells you the menu opened rather than the page having changed
+       * underneath you. Exit runs too, so closing is not a cut.
+       */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            exit={reduced ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto border-t border-line bg-paper px-5 py-8 md:top-20 lg:hidden"
           >
-            {t(ui.contactMe, lang)}
-          </ButtonLink>
-        </div>
-      )}
+            <nav aria-label="Mobile" className="flex flex-col gap-1">
+              {nav.map((item, i) => (
+                <motion.div
+                  key={item.href || "home"}
+                  initial={reduced ? { opacity: 0 } : { opacity: 0, x: -16 }}
+                  animate={reduced ? { opacity: 1 } : { opacity: 1, x: 0 }}
+                  transition={{ duration: 0.28, delay: 0.04 + i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <Link
+                    href={localePath(lang, item.href)}
+                    onClick={() => setOpen(false)}
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                    className={cn(
+                      "block rounded-xl px-4 py-3.5 font-display text-xl font-medium transition-colors hover:bg-surface-2 hover:text-accent",
+                      isActive(item.href) && "text-accent",
+                    )}
+                  >
+                    {t(item.label, lang)}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+
+            <motion.div
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 10 }}
+              animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.28, delay: 0.04 + nav.length * 0.05 }}
+            >
+              <ButtonLink
+                href={localePath(lang, "contact")}
+                className="mt-6 w-full"
+                onClick={() => setOpen(false)}
+              >
+                {t(ui.contactMe, lang)}
+              </ButtonLink>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

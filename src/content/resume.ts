@@ -42,7 +42,8 @@ export interface ResumeEntry {
     | "tools"
     | "hardware"
     | "learning"
-    | "event";
+    | "event"
+    | "gift";
   /** Drawn panel for entries with nothing to screenshot. */
   visual?: "editing";
   /** One short line under the header. Keep it to a fact worth the space. */
@@ -378,7 +379,34 @@ export const ownProjects: ResumeEntry[] = [
     ],
   },
   {
-    org: "Interactive Wedding Invitations",
+    org: "Secret Santa",
+    location: { en: "Own product", pl: "Produkt własny" },
+    period: "2026 to present",
+    icon: "gift",
+    projectSlug: "secret-santa",
+    roles: [
+      {
+        title: { en: "Solo build", pl: "Wykonanie solo" },
+        period: "2026 to present",
+        points: {
+          en: [
+            "Gift-exchange draws where the result exists in one place only: the participant's own signed link.",
+            "Flask and SQLAlchemy behind a REST API, with a front end carrying no dependencies and no build step.",
+            "Took a threat model as part of the design: forged links, guessable identifiers, account enumeration by response time.",
+            "81 tests, the heaviest of them on the draw itself and on what the API must never reveal.",
+          ],
+          pl: [
+            "Losowanie par, w którym wynik istnieje w jednym miejscu: pod własnym podpisanym linkiem uczestnika.",
+            "Flask i SQLAlchemy za REST API, front bez zależności i bez kroku budowania.",
+            "Model zagrożeń jako część projektu: podrobione linki, zgadywanie identyfikatorów, enumeracja kont po czasie odpowiedzi.",
+            "81 testów, najgęściej wokół samego losowania i tego, czego API ujawnić nie może.",
+          ],
+        },
+      },
+    ],
+  },
+  {
+    org: "Interactive Wedding Invitation",
     location: { en: "Own product", pl: "Produkt własny" },
     period: "2026 to present",
     icon: "event",
@@ -392,13 +420,13 @@ export const ownProjects: ResumeEntry[] = [
             "Started as the invitation for my own wedding, built to find out whether the idea holds up.",
             "Animated one-page invitation with scroll-driven scenes, a countdown and a custom mini game.",
             "RSVP form writing to SQLite, with email notifications and guest photo uploads resized server-side.",
-            "Groundwork for a separate company site selling these as a service.",
+            "Built for one wedding, and the groundwork for offering it as a service later.",
           ],
           pl: [
             "Zaczęło się jako zaproszenie na mój własny ślub, zbudowane po to, żeby sprawdzić, czy pomysł się broni.",
             "Animowane zaproszenie one-page ze scenami sterowanymi scrollem, odliczaniem i autorską mini grą.",
             "Formularz RSVP zapisujący do SQLite, z powiadomieniami e-mail i zdjęciami gości skalowanymi po stronie serwera.",
-            "Podstawa pod osobną stronę firmową sprzedającą to jako usługę.",
+            "Zrobione na jedno wesele i przy okazji podstawa, żeby oferować to później jako usługę.",
           ],
         },
       },

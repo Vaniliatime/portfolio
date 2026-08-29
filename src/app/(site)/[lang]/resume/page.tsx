@@ -15,6 +15,7 @@ import {
   Download,
   ExternalLink,
   GraduationCap,
+  Gift,
   Heart,
   Landmark,
   Library,
@@ -80,6 +81,7 @@ const entryIcons: Record<NonNullable<ResumeEntry["icon"]>, LucideIcon> = {
   hardware: Cpu,
   learning: ClipboardCheck,
   event: Heart,
+  gift: Gift,
 };
 
 const certificateIcons: Record<CertificateIcon, LucideIcon> = {

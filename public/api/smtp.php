@@ -33,6 +33,7 @@ final class Smtp
 
     /**
      * @param array<string, string> $headers
+     * @param array<int, array{name: string, type: string, content: string}> $files
      */
     public function send(
         string $from,
@@ -41,6 +42,8 @@ final class Smtp
         string $subject,
         string $body,
         array $headers = [],
+        array $files = [],
+        string $html = '',
     ): void {
         $this->open();
 
@@ -59,7 +62,8 @@ final class Smtp
             $this->command('DATA', 354);
 
             $this->write(
-                $this->message($from, $fromName, $to, $subject, $body, $headers) . "\r\n.\r\n",
+                $this->message($from, $fromName, $to, $subject, $body, $headers, $files, $html)
+                    . "\r\n.\r\n",
             );
             $this->expect(250);
 
@@ -149,6 +153,7 @@ final class Smtp
 
     /**
      * @param array<string, string> $headers
+     * @param array<int, array{name: string, type: string, content: string}> $files
      */
     private function message(
         string $from,
@@ -157,6 +162,8 @@ final class Smtp
         string $subject,
         string $body,
         array $headers,
+        array $files = [],
+        string $html = '',
     ): string {
         // One From header, built here. Passing another one in $headers is how
         // a message ends up with two of them and is rejected outright.
@@ -169,17 +176,84 @@ final class Smtp
             'Subject: ' . self::encodeHeader($subject),
             'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . $this->hostname() . '>',
             'MIME-Version: 1.0',
-            'Content-Type: text/plain; charset=UTF-8',
-            // Base64 sidesteps SMTP's line length limit and the leading-dot
-            // rule in one go, whatever somebody types into the form.
-            'Content-Transfer-Encoding: base64',
         ];
 
         foreach ($headers as $name => $value) {
             $lines[] = $name . ': ' . $value;
         }
 
-        return implode("\r\n", $lines) . "\r\n\r\n" . chunk_split(base64_encode($body), 76, "\r\n");
+        /*
+         * Three shapes, from the inside out. The readable content is either one
+         * plain-text part or a multipart/alternative carrying the plain text
+         * and the formatted version, in that order: a reader picks the last one
+         * it understands, so the plain text is the fallback rather than what
+         * anybody sees. Attachments wrap whichever of those it turns out to be
+         * in a multipart/mixed.
+         *
+         * Base64 throughout sidesteps SMTP's line length limit and the
+         * leading-dot rule in one go, whatever somebody types or attaches.
+         */
+        $content = $html === ''
+            ? [
+                'headers' => ['Content-Type: text/plain; charset=UTF-8', 'Content-Transfer-Encoding: base64'],
+                'body' => rtrim(chunk_split(base64_encode($body), 76, "\r\n")),
+            ]
+            : self::alternative($body, $html);
+
+        if ($files === []) {
+            return implode("\r\n", [...$lines, ...$content['headers']]) . "\r\n\r\n" . $content['body'];
+        }
+
+        $boundary = 'mixed' . bin2hex(random_bytes(12));
+        $lines[] = 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
+
+        $parts = ['--' . $boundary, ...$content['headers'], '', $content['body']];
+
+        foreach ($files as $file) {
+            // Quotes and newlines come out of the name, so a crafted filename
+            // cannot break out of the header it sits in.
+            $name = str_replace(['"', "\r", "\n"], '', $file['name']);
+
+            $parts[] = '--' . $boundary;
+            $parts[] = 'Content-Type: ' . $file['type'] . '; name="' . $name . '"';
+            $parts[] = 'Content-Disposition: attachment; filename="' . $name . '"';
+            $parts[] = 'Content-Transfer-Encoding: base64';
+            $parts[] = '';
+            $parts[] = rtrim(chunk_split(base64_encode($file['content']), 76, "\r\n"));
+        }
+
+        $parts[] = '--' . $boundary . '--';
+
+        return implode("\r\n", $lines) . "\r\n\r\n" . implode("\r\n", $parts);
+    }
+
+    /**
+     * The same message twice: plain text first, formatted second.
+     *
+     * @return array{headers: array<int, string>, body: string}
+     */
+    private static function alternative(string $body, string $html): array
+    {
+        $boundary = 'alt' . bin2hex(random_bytes(12));
+
+        $parts = [
+            '--' . $boundary,
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding: base64',
+            '',
+            rtrim(chunk_split(base64_encode($body), 76, "\r\n")),
+            '--' . $boundary,
+            'Content-Type: text/html; charset=UTF-8',
+            'Content-Transfer-Encoding: base64',
+            '',
+            rtrim(chunk_split(base64_encode($html), 76, "\r\n")),
+            '--' . $boundary . '--',
+        ];
+
+        return [
+            'headers' => ['Content-Type: multipart/alternative; boundary="' . $boundary . '"'],
+            'body' => implode("\r\n", $parts),
+        ];
     }
 
     /** Non-ASCII in a header has to be encoded or it arrives as mojibake. */

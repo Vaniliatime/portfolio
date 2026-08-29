@@ -325,6 +325,11 @@
    */
   .page-scroll {
     animation: page-scroll var(--scroll-duration, 12s) cubic-bezier(0.4, 0, 0.35, 1) both;
+    animation-play-state: paused;
+  }
+
+  .page-scroll.is-live {
+    animation-play-state: running;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -438,6 +443,21 @@
   @media (prefers-reduced-motion: reduce) {
     .scroll-cue {
       animation: none;
+    }
+  }
+
+  /*
+   * Swipe surface over a card's pictures. Inert wherever there is a pointer:
+   * with a mouse the card's own link covers the picture and should keep it.
+   */
+  .swipe-layer {
+    pointer-events: none;
+    touch-action: pan-y;
+  }
+
+  @media (hover: none) {
+    .swipe-layer {
+      pointer-events: auto;
     }
   }
 

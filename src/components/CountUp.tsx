@@ -25,7 +25,12 @@ interface CountUpProps {
  */
 export function CountUp({ value, suffix = "", className, duration = 2.4, delay = 0.9 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  /*
+   * Bottom edge only. Shrinking the viewport from every side asks the number to
+   * be 80px inside a screen that, on a phone, is barely wider than the row it
+   * sits in, and the count never started.
+   */
+  const inView = useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
   const reduced = useReducedMotion();
   const [display, setDisplay] = useState(value);
 

@@ -53,6 +53,8 @@ interface FrameScrollProps {
   alt: string;
   plan: ScrollPlan;
   priority?: boolean;
+  /** Held still until the frame is actually on screen. */
+  live?: boolean;
 }
 
 /**
@@ -67,7 +69,7 @@ interface FrameScrollProps {
  * prop, so the first slide skipped straight to the last keyframe and sat there
  * showing the foot of the page. A CSS animation always starts where it says.
  */
-export function FrameScroll({ cover, alt, plan, priority }: FrameScrollProps) {
+export function FrameScroll({ cover, alt, plan, priority, live }: FrameScrollProps) {
   /*
    * Some captures are barely taller than the frame, because the page itself
    * fits on one screen. Laid out at their natural height those leave a strip of
@@ -89,7 +91,12 @@ export function FrameScroll({ cover, alt, plan, priority }: FrameScrollProps) {
 
   return (
     <div
-      className="page-scroll absolute inset-x-0 top-0"
+      /*
+       * Paused until it is being looked at. On a phone the frame sits well
+       * below the fold, and a page that starts scrolling on load has already
+       * reached its own footer by the time you get there.
+       */
+      className={live ? "page-scroll is-live absolute inset-x-0 top-0" : "page-scroll absolute inset-x-0 top-0"}
       style={
         {
           "--scroll-travel": `-${plan.travel.toFixed(2)}%`,
