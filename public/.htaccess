@@ -81,5 +81,26 @@ ErrorDocument 404 /404/index.html
   Header set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
+# Nothing whose name begins with a dot is site content. A stale .next/ reached
+# the server once by accident and its build chunks were readable one file at a
+# time; .git or .env would be worse. Blocked by name rather than by listing
+# each one, so the next accident is covered too. .well-known stays reachable —
+# certificate validation lives there.
+<IfModule mod_alias.c>
+  RedirectMatch 404 "(?:^|/)\.(?!well-known/)"
+</IfModule>
+
+<IfModule mod_authz_core.c>
+  <FilesMatch "^\.">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+
 # Directory listings stay off, and the export has an index everywhere.
 Options -Indexes
