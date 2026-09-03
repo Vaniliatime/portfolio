@@ -392,7 +392,7 @@ export const projects: Project[] = [
       "Nodemailer",
       "Spotify API",
     ],
-    links: [],
+    links: [{ label: "sicily.kkaszuba.eu", href: "https://sicily.kkaszuba.eu/", kind: "site" }],
     cover: "/images/wedding/invitation.webp",
     coverTall: { src: "/images/wedding/full.webp", width: 1100, height: 4630 },
     gallery: [
@@ -549,7 +549,7 @@ export const projects: Project[] = [
       "Vanilla JS",
       "REST APIs",
     ],
-    links: [],
+    links: [{ label: "santa.kkaszuba.eu", href: "https://santa.kkaszuba.eu/", kind: "site" }],
     cover: "/images/santa/home.webp",
     gallerySections: [
       {
