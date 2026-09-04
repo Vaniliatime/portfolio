@@ -682,6 +682,7 @@ export const projects: Project[] = [
     year: "2026",
     category: "product",
     status: "live",
+    featured: true,
     tagline: {
       en: "Gift-exchange draws where even the organiser does not know the result.",
       pl: "Losowanie par na wymianę prezentów, w którym nawet organizator nie zna wyników.",

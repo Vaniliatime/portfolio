@@ -184,6 +184,23 @@ export function CardSlideshow({
       {previous !== null && frame(previous, "under")}
       {frame(index, "over")}
 
+      {/*
+       * The next picture, fetched and decoded while the current one is still
+       * up. Without this the incoming frame fades in before the browser has
+       * anything to paint, and the card's own background shows through as a
+       * flash. It is worst on the largest screenshots, which are exactly the
+       * ones worth showing.
+       */}
+      {frames.length > 1 && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={frames[(index + 1) % frames.length]}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute h-0 w-0 opacity-0"
+        />
+      )}
+
       {frames.length > 1 && (
         <span
           aria-hidden
