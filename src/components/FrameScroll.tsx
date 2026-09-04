@@ -100,6 +100,9 @@ export function FrameScroll({ cover, alt, plan, priority, live }: FrameScrollPro
       style={
         {
           "--scroll-travel": `-${plan.travel.toFixed(2)}%`,
+          // A beat before it moves. Opening a project and having the picture
+          // slide away under you reads as the page still loading.
+          "--scroll-delay": "0.5s",
           "--scroll-duration": `${plan.seconds.toFixed(2)}s`,
         } as CSSProperties
       }

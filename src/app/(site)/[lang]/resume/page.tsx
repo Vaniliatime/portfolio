@@ -60,7 +60,9 @@ export function generateStaticParams() {
 }
 
 const copy = {
-  heading: { en: "Résumé", pl: "CV" },
+  // Written out in full as the page title, where there is room for it. The
+  // menu keeps the short form, which is what everyone actually says.
+  heading: { en: "Résumé", pl: "Curriculum Vitae" },
   lead: {
     en: "Seven years in IT, an engineering degree in game development, and a steady habit of building things on the side.",
     pl: "Siedem lat w IT, dyplom inżyniera z game development i stały nawyk budowania rzeczy po godzinach.",

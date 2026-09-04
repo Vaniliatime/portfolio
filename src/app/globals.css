@@ -325,6 +325,7 @@
    */
   .page-scroll {
     animation: page-scroll var(--scroll-duration, 12s) cubic-bezier(0.4, 0, 0.35, 1) both;
+    animation-delay: var(--scroll-delay, 0s);
     animation-play-state: paused;
   }
 

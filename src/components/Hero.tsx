@@ -37,7 +37,12 @@ export function Hero({ lang }: { lang: Locale }) {
   return (
     <section className="relative">
       <div className="shell relative z-10 py-16 md:py-24">
-        <div className="grid items-center gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-24">
+        {/*
+         * Top aligned from lg up, not centred. The pitch column is taller than
+         * the frame beside it, and centring pushed the frame well below the
+         * headline on a laptop, where the difference in height is largest.
+         */}
+        <div className="grid items-center gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-24">
           {/* ---- Left: the pitch, with the stats underneath ---------------- */}
           <div>
             <motion.div {...rise(0)}>
@@ -119,7 +124,16 @@ export function Hero({ lang }: { lang: Locale }) {
           </div>
 
           {/* ---- Right: the project carousel, chips and all -------------- */}
-          <motion.div {...rise(2)} className="relative mx-auto w-full max-w-sm lg:max-w-none">
+          {/*
+           * Dropped by the height of the badge above the headline, so the frame
+           * starts level with the first line of type rather than with the small
+           * pill over it. Safe as a fixed offset: the badge is one line of
+           * 14px type whatever the language does to it.
+           */}
+          <motion.div
+            {...rise(2)}
+            className="relative mx-auto w-full max-w-sm lg:mt-16 lg:max-w-none"
+          >
             {showcase.length > 0 && (
               <HeroShowcase
                 projects={showcase}
