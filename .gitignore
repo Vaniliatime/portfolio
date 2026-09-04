@@ -27,3 +27,17 @@ readme.md
 # that belongs in the repository.
 public/api/config.php
 mail-config.php
+
+# Original screenshots and source images, kept out of the build so they are
+# not uploaded with the site.
+_zrodla/
+
+# Certificate scans and previews carry certificate and candidate numbers, the
+# same reason /certs/ is excluded.
+.certs-preview/
+/*.pdf
+
+# One-off scripts kept locally, not part of the site.
+/import-amtracker.mjs
+/make-sheet.mjs
+/read-certs.mjs

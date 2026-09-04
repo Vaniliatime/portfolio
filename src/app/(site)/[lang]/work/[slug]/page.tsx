@@ -6,7 +6,7 @@ import { localePath, locales, t, toLocale } from "@/lib/i18n";
 import { alternatesFor } from "@/lib/seo";
 import { galleryOf, getProject, projects } from "@/content/projects";
 import { ui } from "@/content/site";
-import { ProjectCover } from "@/components/ProjectCover";
+import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { ProjectBrief } from "@/components/ProjectBrief";
 import { ProjectHeading } from "@/components/ProjectHeading";
 import { Gallery } from "@/components/Gallery";
@@ -70,8 +70,8 @@ export default async function ProjectPage({
         </header>
 
         <div className="shell py-14 md:py-20">
-          <Reveal className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-line bg-surface-2 shadow-card">
-            <ProjectCover project={project} priority sizes="(min-width: 1280px) 1200px, 100vw" />
+          <Reveal>
+            <ProjectShowcase project={project} lang={lang} />
           </Reveal>
 
           <div className="mt-16">

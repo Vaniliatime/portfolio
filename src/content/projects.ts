@@ -46,6 +46,12 @@ export interface Project {
    * so they belong here rather than being measured in the browser.
    */
   coverTall?: TallCover;
+  /**
+   * Which heading it files under on the work page, when the category alone
+   * does not decide it. A site built for a client and an application built for
+   * a client are the same category and belong under different headings.
+   */
+  group?: string;
   gallery?: string[];
   /**
    * Screenshots split into labelled sets, where a flat strip would leave the
@@ -79,8 +85,14 @@ export interface ProjectGroup {
 export const projectGroups: ProjectGroup[] = [
   {
     id: "apps",
-    label: { en: "Apps & websites", pl: "Aplikacje i strony" },
+    label: { en: "Applications", pl: "Aplikacje" },
     categories: ["client", "product"],
+  },
+  {
+    id: "sites",
+    label: { en: "Websites", pl: "Strony internetowe" },
+    // Nothing lands here by category: a site is marked as one on the project.
+    categories: [],
   },
   {
     id: "games",
@@ -116,9 +128,6 @@ export const statusLabels: Record<ProjectStatus, Localized> = {
 };
 
 export const projects: Project[] = [
-  /* ----------------------------------------------------------------------
-     Featured: the work that should sell side projects.
-  ---------------------------------------------------------------------- */
   {
     slug: "amtracker",
     title: "AM Tracker",
@@ -193,7 +202,6 @@ export const projects: Project[] = [
     ],
     links: [
       { label: "amtracker.eu", href: "https://amtracker.eu/", kind: "site" },
-      { label: "Source", href: "https://github.com/Vaniliatime/anime-tracker", kind: "repo" },
       // Apps are not published yet; empty hrefs render as pending.
       { label: "App Store", href: "", kind: "appstore" },
       { label: "Google Play", href: "", kind: "playstore" },
@@ -235,6 +243,7 @@ export const projects: Project[] = [
     year: "2024-2026",
     category: "client",
     status: "live",
+    group: "sites",
     featured: true,
     tagline: {
       en: "Three connected sites for one passenger transport business.",
@@ -271,16 +280,16 @@ export const projects: Project[] = [
         "The brand site carries a Sanity studio at /studio, which is how posts get written and published without touching code.",
         "Enquiries reach the owner as email through a server route, with the form checked in the browser and again before anything is sent.",
         "SEO groundwork: generated sitemap and robots, a heading structure per intent, and LocalBusiness structured data for the operator.",
-        "The city and licensing sites are deliberately leaner — no CMS, no forms — because their job is to be found and to hand the visitor onward.",
+        "The city and licensing sites are deliberately leaner (no CMS, no forms), because their job is to be found and to hand the visitor onward.",
         "Hosting, deployment and ongoing maintenance handled by me.",
       ],
       pl: [
         "Zejście z WordPressa poprzedniego wykonawcy na Next.js i Tailwind, potem rozbicie na trzy domeny.",
         "Wspólny język wizualny we wszystkich trzech, przy treści i strukturze pisanych pod różne intencje wyszukiwania.",
-        "Strona marki ma wbudowane Sanity Studio pod /studio — i to nim powstają oraz publikują się wpisy, bez dotykania kodu.",
+        "Strona marki ma wbudowane Sanity Studio pod /studio i to nim powstają oraz publikują się wpisy, bez dotykania kodu.",
         "Zapytania trafiają do właściciela mailem przez trasę serwerową, a formularz jest sprawdzany w przeglądarce i jeszcze raz przed wysyłką.",
         "Fundament pod SEO: generowany sitemap i robots, struktura nagłówków pod intencję, dane strukturalne LocalBusiness dla przewoźnika.",
-        "Strony miejska i licencyjna są celowo lżejsze — bez CMS-a i bez formularzy — bo ich zadaniem jest zostać znalezionym i przekazać odwiedzającego dalej.",
+        "Strony miejska i licencyjna są celowo lżejsze (bez CMS-a i bez formularzy), bo ich zadaniem jest zostać znalezionym i przekazać odwiedzającego dalej.",
         "Hosting, wdrożenie i bieżące utrzymanie po mojej stronie.",
       ],
     },
@@ -304,27 +313,236 @@ export const projects: Project[] = [
     ],
     cover: "/images/transport/home.webp",
     coverTall: { src: "/images/transport/full.webp", width: 1100, height: 1725 },
-    gallery: [
-      "/images/transport/home.webp",
-      "/images/transport/fleet.webp",
-      "/images/transport/vans.webp",
-      "/images/transport/coaches.webp",
-      "/images/transport/international.webp",
-      "/images/transport/services.webp",
-      "/images/transport/standards.webp",
-      "/images/transport/booking.webp",
-      "/images/transport/news.webp",
-      "/images/transport/katowice.webp",
-      "/images/transport/licensed.webp",
+    gallerySections: [
+      {
+        label: { en: "klikbus.pl", pl: "klikbus.pl" },
+        images: [
+          "/images/transport/home.webp",
+          "/images/transport/fleet.webp",
+          "/images/transport/vans.webp",
+          "/images/transport/coaches.webp",
+          "/images/transport/international.webp",
+          "/images/transport/services.webp",
+          "/images/transport/standards.webp",
+          "/images/transport/booking.webp",
+          "/images/transport/news.webp",
+        ],
+      },
+      {
+        label: { en: "przewozy-katowice.pl", pl: "przewozy-katowice.pl" },
+        images: ["/images/transport/katowice.webp"],
+      },
+      {
+        label: { en: "licencjonowany-przewoz-osob.pl", pl: "licencjonowany-przewoz-osob.pl" },
+        images: ["/images/transport/licensed.webp"],
+      },
     ],
     galleryAspect: "wide",
   },
+  {
+    slug: "prox-hub",
+    title: "Prox Hub",
+    year: "2026",
+    category: "product",
+    status: "wip",
+    featured: true,
+    tagline: {
+      en: "A deploy panel for my own homelab, so shipping is a button rather than an SSH session.",
+      pl: "Panel wdrożeniowy do własnego homelabu, żeby wypuszczenie zmiany było przyciskiem, a nie sesją SSH.",
+    },
+    summary: {
+      en: "Ten things of mine run on my own server, and every update used to mean logging in, pulling, building and restarting the right one by hand. This is the panel that does it instead: every project on one screen, the version actually deployed, whether that matches the repository, and the button that fixes it when it does not. The site you are reading was published from it.",
+      pl: "Dziesięć moich rzeczy stoi na własnym serwerze, a każda aktualizacja oznaczała zalogowanie się, pobranie zmian, zbudowanie i zrestartowanie właściwej ręcznie. To jest panel, który robi to za mnie: wszystkie projekty na jednym ekranie, wersja faktycznie wdrożona, informacja, czy zgadza się z repozytorium, i przycisk, gdy się nie zgadza. Strona, którą właśnie czytasz, została opublikowana właśnie z niego.",
+    },
+    role: {
+      en: "Solo: design, front end, back end, deployment.",
+      pl: "Solo: projekt, front end, back end, wdrożenie.",
+    },
+    highlights: {
+      en: [
+        "Every project on one screen: whether it answers, what it costs in processor and memory, when it last went out, and the commit message of the version actually running.",
+        "It says out loud when the repository has moved ahead of what is deployed, so nothing sits quietly a fortnight out of date.",
+        "Deploy, restart and stop from the card, and any commit in the history can be deployed, which turns a rollback into a click on the previous line rather than a rescue operation.",
+        "Adding a project is pasting a repository address in whatever form it comes in. The panel reads the repository, works out how it is built, writes the container definition, claims a subdomain and puts it on the internet.",
+        "Projects that belong together sit in a row of their own, and the board sorts by name or holds whatever order you dragged the cards into.",
+        "It also publishes to hosting I do not run: it builds here and mirrors the result over FTPS, showing exactly what a deploy would delete before it deletes anything.",
+        "Sites it must not touch are watched instead: whether the address answers, how long it took, and the newest commit in its repository. No buttons, because a button that cannot work is worse than none.",
+        "The containers underneath in the same place: processor, memory and disk against their limits, uptime, and start, reboot or shut down where it is needed.",
+        "Behind a login, and removing a project removes only the panel's own entry. Anything running keeps running, because a deploy tool that can delete what it deploys is one bad click from a bad evening.",
+      ],
+      pl: [
+        "Wszystkie projekty na jednym ekranie: czy odpowiadają, ile biorą procesora i pamięci, kiedy ostatnio wyjechały i z jakim opisem commita chodzi aktualna wersja.",
+        "Mówi wprost, gdy repozytorium wyprzedziło to, co wdrożone, więc nic nie stoi po cichu dwa tygodnie nieaktualne.",
+        "Wdrożenie, restart i zatrzymanie prosto z kafelka, a każdy commit z historii da się wdrożyć: cofnięcie się to kliknięcie w poprzedni wiersz, a nie akcja ratunkowa.",
+        "Dodanie projektu to wklejenie adresu repozytorium w dowolnej postaci. Panel czyta repozytorium, ustala jak się je buduje, pisze definicję kontenera, bierze subdomenę i wystawia całość do internetu.",
+        "Projekty, które należą do siebie, stoją we własnym rzędzie, a tablica sortuje się po nazwie albo trzyma kolejność, w którą przeciągnęło się kafelki.",
+        "Publikuje też na hosting, którego nie prowadzę: buduje u siebie i wysyła wynik przez FTPS, pokazując dokładnie co wdrożenie skasuje, zanim cokolwiek skasuje.",
+        "Strony, których ruszać mu nie wolno, są tylko obserwowane: czy adres odpowiada, jak szybko i jaki jest najnowszy commit w repozytorium. Bez przycisków, bo przycisk, który nie może zadziałać, jest gorszy niż jego brak.",
+        "Kontenery pod spodem w tym samym miejscu: procesor, pamięć i dysk względem limitów, czas działania oraz start, restart albo wyłączenie.",
+        "Całość za logowaniem, a usunięcie projektu kasuje wyłącznie wpis w panelu. To, co działa, działa dalej, bo narzędzie do wdrożeń, które potrafi skasować to, co wdraża, jest o jedno kliknięcie od zepsutego wieczoru.",
+      ],
+    },
+    technical: {
+      en: [
+        "Next.js 15 on the App Router, React 19, TypeScript and Tailwind 4, over SQLite through better-sqlite3. One container, no external services, no database to run beside it.",
+        "Two abstractions that know nothing about each other. An executor answers where a command runs: in this container, or over SSH on another host. A runtime answers how a project is built and swapped: compose, a PM2 process, an FTPS mirror, or nothing at all. Adding a fourth kind of project meant one new file.",
+        "A probe reads the repository and writes the Dockerfile and compose file to match, including finding the application when it lives in a subdirectory. The build has to succeed before anything running is touched, so a broken commit fails the deploy instead of taking the site down with it.",
+        "Logs stream over server-sent events with replay, so opening the drawer late still shows the run from its first line, and a keep-alive note distinguishes a slow step from a hung one.",
+        "Environment variables are encrypted at rest with AES-256-GCM. Upload credentials are lifted out before the build runs, so they never reach a .env sitting in the checkout where every npm script could read them.",
+        "One account, and the check lives in middleware rather than in each route, because a guard that has to be remembered is only as good as the memory of whoever adds the next route. Middleware runs on the edge, where SQLite cannot, so the cookie carries a signed claim; server code re-checks it against the database, which is what makes a password change end other sessions at once.",
+        "Publishing a subdomain is two Cloudflare calls (an ingress rule on the tunnel and a DNS record pointing at it), with the zone looked up from the hostname rather than configured, so a second domain works without a second deployment of the panel.",
+        "Migrations run at boot and are idempotent. A rebuild that would drop a column the canonical schema does not define refuses and says which one, because a migration that cannot be done without losing something has to stop rather than proceed quietly.",
+        "Traefik routes by host label on a shared network; the containers are LXC on Proxmox, which is also where the resource figures and the power controls come from, through a token scoped to exactly those two rights.",
+      ],
+      pl: [
+        "Next.js 15 na App Routerze, React 19, TypeScript i Tailwind 4, na SQLite przez better-sqlite3. Jeden kontener, żadnych zewnętrznych usług, żadnej bazy do postawienia obok.",
+        "Dwie abstrakcje, które nic o sobie nie wiedzą. Executor odpowiada, gdzie polecenie się wykonuje: w tym kontenerze czy przez SSH na innym hoście. Runtime odpowiada, jak projekt się buduje i podmienia: compose, proces PM2, lustro FTPS albo wcale. Dodanie czwartego rodzaju projektu to był jeden nowy plik.",
+        "Sonda czyta repozytorium i pisze pod nie Dockerfile oraz compose, łącznie ze znalezieniem aplikacji, gdy ta siedzi w podkatalogu. Build musi się udać, zanim cokolwiek działającego zostanie ruszone, więc zepsuty commit wywala wdrożenie, a nie stronę razem z nim.",
+        "Logi lecą przez server-sent events z odtworzeniem od początku, więc otwarcie szuflady w połowie i tak pokazuje przebieg od pierwszej linijki, a linia podtrzymująca odróżnia krok wolny od zawieszonego.",
+        "Zmienne środowiskowe szyfrowane w spoczynku AES-256-GCM. Dane do wysyłki wyjmowane przed buildem, żeby nigdy nie trafiły do .env w katalogu roboczym, gdzie przeczytałby je każdy skrypt npm.",
+        "Jedno konto, a sprawdzenie siedzi w middleware, nie w każdej trasie osobno, bo strażnik, o którym trzeba pamiętać, jest wart tyle, ile pamięć tego, kto dodaje kolejną trasę. Middleware chodzi na edge, gdzie SQLite nie wejdzie, więc ciasteczko niesie podpisaną deklarację, a kod serwerowy sprawdza ją jeszcze w bazie i to sprawia, że zmiana hasła natychmiast kończy pozostałe sesje.",
+        "Opublikowanie subdomeny to dwa wywołania Cloudflare (reguła wejściowa na tunelu i rekord DNS na nią wskazujący), przy czym strefa jest wyszukiwana z nazwy hosta, a nie skonfigurowana na sztywno, więc druga domena działa bez drugiego wdrożenia panelu.",
+        "Migracje wykonują się przy starcie i są idempotentne. Przebudowa, która skasowałaby kolumnę nieopisaną w kanonicznym schemacie, odmawia i mówi którą, bo migracja, której nie da się zrobić bez straty, ma się zatrzymać, a nie przejść po cichu.",
+        "Traefik trasuje po etykiecie hosta we wspólnej sieci, a kontenery to LXC na Proxmoksie i stamtąd biorą się odczyty zasobów oraz sterowanie zasilaniem, przez token o uprawnieniach dokładnie do tych dwóch rzeczy.",
+      ],
+    },
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "SQLite",
+      "Docker",
+      "Proxmox",
+      "LXC",
+      "Traefik",
+      "Cloudflare Tunnel",
+      "PM2",
+      "SSH",
+      "FTPS",
+      "SSE",
+    ],
+    links: [],
+    cover: "/images/prox-hub/projects.webp",
+    coverTall: { src: "/images/prox-hub/projects.webp", width: 1600, height: 1424 },
+    gallerySections: [
+      {
+        label: { en: "Dashboard", pl: "Pulpit" },
+        images: ["/images/prox-hub/projects.webp", "/images/prox-hub/new-project.webp"],
+      },
+      {
+        label: { en: "A project", pl: "Projekt" },
+        images: [
+          "/images/prox-hub/project.webp",
+          "/images/prox-hub/settings.webp",
+          "/images/prox-hub/history.webp",
+        ],
+      },
+      {
+        label: { en: "Hosts", pl: "Hosty" },
+        images: ["/images/prox-hub/hosts.webp"],
+      },
+    ],
+    galleryAspect: "wide",
+  },
+  {
+    slug: "itil-quiz",
+    title: "ITIL 5 Foundation Exam Trainer",
+    year: "2026",
+    category: "product",
+    status: "live",
+    featured: true,
+    tagline: {
+      en: "Practice for an exam nobody has written practice material for yet.",
+      pl: "Nauka do egzaminu, do którego nikt jeszcze nie napisał materiałów.",
+    },
+    summary: {
+      en: "ITIL 4 has hundreds of mock exams and question dumps behind it. Version 5 has essentially nothing, and people are being sent to sit it by their employers. I took it myself, and without the two mocks my employer paid for I would not have known what to expect, which is the whole reason this exists.",
+      pl: "Za ITIL 4 stoją setki mock testów i zestawów pytań. Za wersją piątą praktycznie nic, a ludzie są na nią wysyłani przez pracodawców. Sam do niej podchodziłem i bez dwóch mocków wykupionych przez firmę nie miałbym pojęcia, czego się spodziewać. Stąd wzięła się ta aplikacja.",
+    },
+    role: {
+      en: "Solo: question bank, application, tooling, source research.",
+      pl: "Solo: baza pytań, aplikacja, narzędzia, praca ze źródłami.",
+    },
+    highlights: {
+      en: [
+        "The exam as it really runs: 40 questions, 60 minutes, a pass at 26, no hints. You can flag a question and come back to it from the grid, the way you can on the day.",
+        "In practice mode every answer explains itself, including the wrong ones: not only that it is wrong, but what it actually describes, because the wrong options here are almost always definitions of the neighbouring term.",
+        "The result is not one number. It breaks down by exam criterion, by syllabus section, and separately by question type.",
+        "That last one is the useful part: scoring 85% on plain questions and 40% on the ones containing NOT is not a gap in knowledge, it is a gap in reading, and it needs a different response. Plain category tracking never catches it.",
+        "Each of those qualifiers, PRIMARY, BEST, MAIN and NOT, explains what the question is really testing and which trap it is setting.",
+        "A mode that builds a set out of nothing but the questions you have already got wrong.",
+        "A glossary of 131 terms where each one carries a definition, a note on what the exam catches people out on, and the terms it is most often confused with.",
+      ],
+      pl: [
+        "Egzamin taki, jaki jest naprawdę: 40 pytań, 60 minut, próg 26, zero podpowiedzi. Pytanie można oflagować i wrócić do niego z siatki, dokładnie jak na miejscu.",
+        "W trybie nauki każda odpowiedź się tłumaczy, także ta błędna: nie tylko że jest zła, ale co właściwie opisuje, bo złe odpowiedzi są tu prawie zawsze definicjami pojęcia sąsiedniego.",
+        "Wynik to nie jedna liczba. Rozbija się na kryteria egzaminacyjne, sekcje sylabusa i osobno na typ pytania.",
+        "To ostatnie jest najbardziej użyteczne: 85% na pytaniach prostych i 40% na tych z NOT to nie luka w wiedzy, tylko w czytaniu, i wymaga zupełnie innej reakcji. Zwykłe śledzenie kategorii tego nie wyłapie.",
+        "Każdy z kwalifikatorów, PRIMARY, BEST, MAIN i NOT, tłumaczy, czego pytanie naprawdę szuka i jaką pułapkę zastawia.",
+        "Tryb, który buduje zestaw wyłącznie z pytań wcześniej obłamanych.",
+        "Słownik 131 pojęć, gdzie każde ma definicję, notatkę o tym, na czym egzamin łapie, i listę pojęć, z którymi bywa mylone.",
+      ],
+    },
+    technical: {
+      en: [
+        "React 19 and TypeScript on Vite 8, Tailwind v4 configured in CSS rather than a config file. No back end at all: progress lives in the browser. Two production dependencies.",
+        "The question bank is TypeScript modules rather than JSON or a database. An odd choice for 309 records until you see what it buys: the type demands exactly four options and a correct index between 0 and 3, so a typo in a criterion code or a fifth option breaks the build instead of the exam.",
+        "Wrong answers are not invented. Reading the official sample papers, the distractors are always definitions of adjacent concepts, so I built a graph of which terms get confused with which, 302 edges across 131 entries, and wrote the wrong answers out of it. The distractor for a question about output is the definition of outcome.",
+        "The 95 assessment criteria from the official syllabus are the backbone: questions map onto them, progress is measured against them, and coverage is verified by a script rather than claimed. It reads 95 out of 95.",
+        "Getting there was the lesson. Reconstructing the criteria from sample paper rationales produced 35, mining the course transcripts another 145 hits, and when the official syllabus finally arrived it turned out I had 38 of 95. Closing the rest was mechanical; knowing the gap existed was not.",
+        "One source of truth, in order: syllabus, then handbook, then sample paper rationales, then course recordings. It caught four of my own mistakes, including a warning I had written that version 5 redefines output. Section 3.1.1.1 says otherwise, and the error had come from an accredited course recording.",
+        "The handbook exists only in an online reader, so verification ran off 210 screenshots ordered by creation time, through a crop and resize pipeline built to get under an image size limit.",
+        "Thirty course recordings transcribed with faster-whisper on a CUDA card, which needed the pip-installed CUDA DLLs registered by hand and a correction pass afterwards: the model insisted on hearing ITIL as IDIL, Hytil and once Hytale.",
+        "The version 4 transcripts were analysed and then deliberately left out. Their densest topics are exactly the areas version 5 rebuilt, so feeding them in would have injected wrong answers.",
+        "Nothing in the application is copied from the handbook: PeopleCert holds the copyright and the glossary forbids text and data mining outright. Every definition is paraphrased and carries a reference to the section it came from, which is the condition of ever publishing any of it.",
+        "309 questions, 1,236 answer options with 831 written rationales, 131 glossary entries, a 155 kB gzipped bundle built in 358 ms.",
+      ],
+      pl: [
+        "React 19 i TypeScript na Vite 8, Tailwind v4 konfigurowany w CSS, nie w pliku konfiguracyjnym. Zero backendu: postęp siedzi w przeglądarce. Dwie zależności produkcyjne.",
+        "Bank pytań to moduły TypeScriptu, a nie JSON czy baza. Dziwny wybór dla 309 rekordów, dopóki nie zobaczy się, co daje: typ wymusza dokładnie cztery opcje i indeks poprawnej w zakresie od zera do trzech, więc literówka w kodzie kryterium albo piąta opcja wywalają build, a nie egzamin.",
+        "Złe odpowiedzi nie są wymyślane. Z oficjalnych sample paperów wynika, że dystraktory to zawsze definicje pojęć sąsiednich, więc zbudowałem graf tego, co z czym bywa mylone, 302 krawędzie na 131 hasłach, i pisałem je z niego. Dystraktorem do pytania o output jest definicja outcome.",
+        "Kręgosłupem jest 95 kryteriów oceny z oficjalnego sylabusa: pytania są do nich przypisane, postęp mierzony względem nich, a pokrycie weryfikowane skryptem, nie deklarowane. Wychodzi 95 na 95.",
+        "Droga do tego była pouczająca. Rekonstrukcja kryteriów z uzasadnień w sample paperach dała 35, przekopanie transkryptów kursu kolejne 145 trafień, a gdy w końcu dotarł oficjalny sylabus, okazało się, że mam 38 z 95. Domknięcie reszty było mechaniczne, wiedza o tym, że jest co domykać, już nie.",
+        "Jedno źródło prawdy, w kolejności: sylabus, podręcznik, uzasadnienia z sample paperów, nagrania kursu. Wyłapało cztery moje własne błędy, w tym ostrzeżenie, które sam napisałem, że wersja piąta zmienia definicję output. Sekcja 3.1.1.1 mówi co innego, a błąd wziął się z nagrania kursu akredytowanego.",
+        "Podręcznik istnieje wyłącznie w czytniku online, więc weryfikacja szła z 210 zrzutów ekranu sortowanych po dacie utworzenia, przez pipeline przycinania i skalowania zbudowany po to, żeby zmieścić się w limicie rozmiaru obrazu.",
+        "Trzydzieści nagrań szkoleniowych przepuszczonych przez faster-whisper na karcie CUDA, co wymagało ręcznego rejestrowania bibliotek CUDA instalowanych przez pip i przebiegu korekt na końcu: model uparcie słyszał ITIL jako IDIL, Hytil, a raz Hytale.",
+        "Transkrypty z wersji czwartej przeanalizowałem i świadomie odrzuciłem. Ich najgęstsze tematy to dokładnie te obszary, które piątka przebudowała, więc wciągnięcie ich wstrzyknęłoby błędne odpowiedzi.",
+        "W aplikacji nie ma ani jednego zdania przepisanego z podręcznika: prawa ma PeopleCert, a słownik wprost zakazuje eksploracji tekstu i danych. Każda definicja jest sparafrazowana i wskazuje sekcję źródła, i to jest warunek, żeby cokolwiek dało się kiedykolwiek opublikować.",
+        "309 pytań, 1236 wariantów odpowiedzi z 831 napisanymi uzasadnieniami, 131 haseł słownika, paczka 155 kB po gzipie budowana w 358 ms.",
+      ],
+    },
+    tech: ["React 19", "TypeScript", "Vite 8", "Tailwind CSS", "Python", "faster-whisper"],
+    links: [{ label: "itil.kkaszuba.eu", href: "https://itil.kkaszuba.eu/", kind: "site" }],
+    cover: "/images/itil/overview.webp",
+    coverTall: { src: "/images/itil/progress.webp", width: 947, height: 1284 },
+    gallerySections: [
+      {
+        label: { en: "Sitting the exam", pl: "Podejście do egzaminu" },
+        images: [
+          "/images/itil/overview.webp",
+          "/images/itil/tests.webp",
+          "/images/itil/plans.webp",
+        ],
+      },
+      {
+        label: { en: "Where you are losing marks", pl: "Gdzie tracisz punkty" },
+        images: [
+          "/images/itil/progress.webp",
+          "/images/itil/scope.webp",
+          "/images/itil/glossary.webp",
+        ],
+      },
+    ],
+    galleryAspect: "wide",
+  },
+
   {
     slug: "wedding-invitations",
     title: "Interactive Wedding Invitation",
     year: "2026",
     category: "product",
-    status: "wip",
+    status: "live",
     featured: true,
     tagline: {
       en: "An invitation that is also the event's website, its RSVP system and its guest list.",
@@ -395,107 +613,75 @@ export const projects: Project[] = [
     links: [{ label: "sicily.kkaszuba.eu", href: "https://sicily.kkaszuba.eu/", kind: "site" }],
     cover: "/images/wedding/invitation.webp",
     coverTall: { src: "/images/wedding/full.webp", width: 1100, height: 4630 },
-    gallery: [
-      "/images/wedding/invitation.webp",
-      "/images/wedding/venue.webp",
-      "/images/wedding/schedule.webp",
-      "/images/wedding/travel.webp",
-      "/images/wedding/stay.webp",
-      "/images/wedding/food-music.webp",
-      "/images/wedding/photos.webp",
-      "/images/wedding/rsvp.webp",
+    gallerySections: [
+      {
+        label: { en: "The invitation", pl: "Zaproszenie" },
+        images: [
+          "/images/wedding/invitation.webp",
+          "/images/wedding/venue.webp",
+          "/images/wedding/schedule.webp",
+          "/images/wedding/food-music.webp",
+        ],
+      },
+      {
+        label: { en: "What a guest does", pl: "Co robi gość" },
+        images: [
+          "/images/wedding/rsvp.webp",
+          "/images/wedding/travel.webp",
+          "/images/wedding/stay.webp",
+          "/images/wedding/photos.webp",
+        ],
+      },
     ],
     galleryAspect: "wide",
   },
   {
-    slug: "itil-quiz",
-    title: "ITIL 5 Foundation Exam Trainer",
-    year: "2026",
-    category: "product",
-    status: "wip",
-    featured: true,
+    slug: "ksztalcenie-sluchu",
+    title: "Kształcenie Słuchu eBook Store",
+    year: "2023",
+    category: "client",
+    status: "live",
+    group: "sites",
     tagline: {
-      en: "Practice for an exam nobody has written practice material for yet.",
-      pl: "Nauka do egzaminu, do którego nikt jeszcze nie napisał materiałów.",
+      en: "An online store selling and delivering an educational eBook.",
+      pl: "Sklep internetowy sprzedający i dostarczający eBook edukacyjny.",
     },
     summary: {
-      en: "ITIL 4 has hundreds of mock exams and question dumps behind it. Version 5 has essentially nothing, and people are being sent to sit it by their employers. I took it myself, and without the two mocks my employer paid for I would not have known what to expect, which is the whole reason this exists.",
-      pl: "Za ITIL 4 stoją setki mock testów i zestawów pytań. Za wersją piątą praktycznie nic, a ludzie są na nią wysyłani przez pracodawców. Sam do niej podchodziłem i bez dwóch mocków wykupionych przez firmę nie miałbym pojęcia, czego się spodziewać. Stąd wzięła się ta aplikacja.",
+      en: "A small commerce site for a music education eBook: product page, checkout, payment handling and automatic delivery of the file after purchase.",
+      pl: "Niewielki sklep dla eBooka o kształceniu słuchu: strona produktu, koszyk, obsługa płatności i automatyczne dostarczenie pliku po zakupie.",
     },
     role: {
-      en: "Solo: question bank, application, tooling, source research.",
-      pl: "Solo: baza pytań, aplikacja, narzędzia, praca ze źródłami.",
+      en: "Build, store setup, hosting and payment integration.",
+      pl: "Wykonanie, konfiguracja sklepu, hosting i integracja płatności.",
     },
     highlights: {
       en: [
-        "The exam as it really runs: 40 questions, 60 minutes, a pass at 26, no hints. You can flag a question and come back to it from the grid, the way you can on the day.",
-        "In practice mode every answer explains itself, including the wrong ones: not only that it is wrong, but what it actually describes, because the wrong options here are almost always definitions of the neighbouring term.",
-        "The result is not one number. It breaks down by exam criterion, by syllabus section, and separately by question type.",
-        "That last one is the useful part: scoring 85% on plain questions and 40% on the ones containing NOT is not a gap in knowledge, it is a gap in reading, and it needs a different response. Plain category tracking never catches it.",
-        "Each of those qualifiers, PRIMARY, BEST, MAIN and NOT, explains what the question is really testing and which trap it is setting.",
-        "A mode that builds a set out of nothing but the questions you have already got wrong.",
-        "A glossary of 131 terms where each one carries a definition, a note on what the exam catches people out on, and the terms it is most often confused with.",
+        "WooCommerce store configured for a single digital product.",
+        "Secure payment processing and automated file delivery.",
+        "Responsive Bootstrap layout with a focused purchase path.",
+        "Hosting, performance and ongoing upkeep handled by me.",
       ],
       pl: [
-        "Egzamin taki, jaki jest naprawdę: 40 pytań, 60 minut, próg 26, zero podpowiedzi. Pytanie można oflagować i wrócić do niego z siatki, dokładnie jak na miejscu.",
-        "W trybie nauki każda odpowiedź się tłumaczy, także ta błędna: nie tylko że jest zła, ale co właściwie opisuje, bo złe odpowiedzi są tu prawie zawsze definicjami pojęcia sąsiedniego.",
-        "Wynik to nie jedna liczba. Rozbija się na kryteria egzaminacyjne, sekcje sylabusa i osobno na typ pytania.",
-        "To ostatnie jest najbardziej użyteczne: 85% na pytaniach prostych i 40% na tych z NOT to nie luka w wiedzy, tylko w czytaniu, i wymaga zupełnie innej reakcji. Zwykłe śledzenie kategorii tego nie wyłapie.",
-        "Każdy z kwalifikatorów, PRIMARY, BEST, MAIN i NOT, tłumaczy, czego pytanie naprawdę szuka i jaką pułapkę zastawia.",
-        "Tryb, który buduje zestaw wyłącznie z pytań wcześniej obłamanych.",
-        "Słownik 131 pojęć, gdzie każde ma definicję, notatkę o tym, na czym egzamin łapie, i listę pojęć, z którymi bywa mylone.",
+        "Sklep WooCommerce skonfigurowany pod jeden produkt cyfrowy.",
+        "Bezpieczna obsługa płatności i automatyczne dostarczanie pliku.",
+        "Responsywny layout na Bootstrapie ze skróconą ścieżką zakupu.",
+        "Hosting, wydajność i bieżące utrzymanie po mojej stronie.",
       ],
     },
-    technical: {
-      en: [
-        "React 19 and TypeScript on Vite 8, Tailwind v4 configured in CSS rather than a config file. No back end at all: progress lives in the browser. Two production dependencies.",
-        "The question bank is TypeScript modules rather than JSON or a database. An odd choice for 309 records until you see what it buys: the type demands exactly four options and a correct index between 0 and 3, so a typo in a criterion code or a fifth option breaks the build instead of the exam.",
-        "Wrong answers are not invented. Reading the official sample papers, the distractors are always definitions of adjacent concepts, so I built a graph of which terms get confused with which, 302 edges across 131 entries, and wrote the wrong answers out of it. The distractor for a question about output is the definition of outcome.",
-        "The 95 assessment criteria from the official syllabus are the backbone: questions map onto them, progress is measured against them, and coverage is verified by a script rather than claimed. It reads 95 out of 95.",
-        "Getting there was the lesson. Reconstructing the criteria from sample paper rationales produced 35, mining the course transcripts another 145 hits, and when the official syllabus finally arrived it turned out I had 38 of 95. Closing the rest was mechanical; knowing the gap existed was not.",
-        "One source of truth, in order: syllabus, then handbook, then sample paper rationales, then course recordings. It caught four of my own mistakes, including a warning I had written that version 5 redefines output. Section 3.1.1.1 says otherwise, and the error had come from an accredited course recording.",
-        "The handbook exists only in an online reader, so verification ran off 210 screenshots ordered by creation time, through a crop and resize pipeline built to get under an image size limit.",
-        "Thirty course recordings transcribed with faster-whisper on a CUDA card, which needed the pip-installed CUDA DLLs registered by hand and a correction pass afterwards: the model insisted on hearing ITIL as IDIL, Hytil and once Hytale.",
-        "The version 4 transcripts were analysed and then deliberately left out. Their densest topics are exactly the areas version 5 rebuilt, so feeding them in would have injected wrong answers.",
-        "Nothing in the application is copied from the handbook: PeopleCert holds the copyright and the glossary forbids text and data mining outright. Every definition is paraphrased and carries a reference to the section it came from, which is the condition of ever publishing any of it.",
-        "309 questions, 1,236 answer options with 831 written rationales, 131 glossary entries, a 155 kB gzipped bundle built in 358 ms.",
-      ],
-      pl: [
-        "React 19 i TypeScript na Vite 8, Tailwind v4 konfigurowany w CSS, nie w pliku konfiguracyjnym. Zero backendu: postęp siedzi w przeglądarce. Dwie zależności produkcyjne.",
-        "Bank pytań to moduły TypeScriptu, a nie JSON czy baza. Dziwny wybór dla 309 rekordów, dopóki nie zobaczy się, co daje: typ wymusza dokładnie cztery opcje i indeks poprawnej w zakresie od zera do trzech, więc literówka w kodzie kryterium albo piąta opcja wywalają build, a nie egzamin.",
-        "Złe odpowiedzi nie są wymyślane. Z oficjalnych sample paperów wynika, że dystraktory to zawsze definicje pojęć sąsiednich, więc zbudowałem graf tego, co z czym bywa mylone, 302 krawędzie na 131 hasłach, i pisałem je z niego. Dystraktorem do pytania o output jest definicja outcome.",
-        "Kręgosłupem jest 95 kryteriów oceny z oficjalnego sylabusa: pytania są do nich przypisane, postęp mierzony względem nich, a pokrycie weryfikowane skryptem, nie deklarowane. Wychodzi 95 na 95.",
-        "Droga do tego była pouczająca. Rekonstrukcja kryteriów z uzasadnień w sample paperach dała 35, przekopanie transkryptów kursu kolejne 145 trafień, a gdy w końcu dotarł oficjalny sylabus, okazało się, że mam 38 z 95. Domknięcie reszty było mechaniczne, wiedza o tym, że jest co domykać, już nie.",
-        "Jedno źródło prawdy, w kolejności: sylabus, podręcznik, uzasadnienia z sample paperów, nagrania kursu. Wyłapało cztery moje własne błędy, w tym ostrzeżenie, które sam napisałem, że wersja piąta zmienia definicję output. Sekcja 3.1.1.1 mówi co innego, a błąd wziął się z nagrania kursu akredytowanego.",
-        "Podręcznik istnieje wyłącznie w czytniku online, więc weryfikacja szła z 210 zrzutów ekranu sortowanych po dacie utworzenia, przez pipeline przycinania i skalowania zbudowany po to, żeby zmieścić się w limicie rozmiaru obrazu.",
-        "Trzydzieści nagrań szkoleniowych przepuszczonych przez faster-whisper na karcie CUDA, co wymagało ręcznego rejestrowania bibliotek CUDA instalowanych przez pip i przebiegu korekt na końcu: model uparcie słyszał ITIL jako IDIL, Hytil, a raz Hytale.",
-        "Transkrypty z wersji czwartej przeanalizowałem i świadomie odrzuciłem. Ich najgęstsze tematy to dokładnie te obszary, które piątka przebudowała, więc wciągnięcie ich wstrzyknęłoby błędne odpowiedzi.",
-        "W aplikacji nie ma ani jednego zdania przepisanego z podręcznika: prawa ma PeopleCert, a słownik wprost zakazuje eksploracji tekstu i danych. Każda definicja jest sparafrazowana i wskazuje sekcję źródła, i to jest warunek, żeby cokolwiek dało się kiedykolwiek opublikować.",
-        "309 pytań, 1236 wariantów odpowiedzi z 831 napisanymi uzasadnieniami, 131 haseł słownika, paczka 155 kB po gzipie budowana w 358 ms.",
-      ],
-    },
-    tech: ["React 19", "TypeScript", "Vite 8", "Tailwind CSS", "Python", "faster-whisper"],
-    links: [],
-    cover: "/images/itil/overview.webp",
-    coverTall: { src: "/images/itil/full.webp", width: 1100, height: 680 },
-    gallery: [
-      "/images/itil/overview.webp",
-      "/images/itil/tests.webp",
-      "/images/itil/progress.webp",
-      "/images/itil/glossary.webp",
-      "/images/itil/plans.webp",
-      "/images/itil/scope.webp",
-    ],
-    galleryAspect: "wide",
+    tech: ["WordPress", "WooCommerce", "PHP", "Bootstrap"],
+    links: [{ label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl", kind: "site" }],
+    cover: "/images/ksztalcenie-sluchu.webp",
   },
 
+  /* ----------------------------------------------------------------------
+     Games and level design: the Unity background.
+  ---------------------------------------------------------------------- */
   {
     slug: "secret-santa",
     title: "Secret Santa",
     year: "2026",
     category: "product",
-    status: "wip",
-    featured: true,
+    status: "live",
     tagline: {
       en: "Gift-exchange draws where even the organiser does not know the result.",
       pl: "Losowanie par na wymianę prezentów, w którym nawet organizator nie zna wyników.",
@@ -570,49 +756,6 @@ export const projects: Project[] = [
     galleryAspect: "wide",
   },
 
-  /* ----------------------------------------------------------------------
-     Earlier client and web work.
-  ---------------------------------------------------------------------- */
-  {
-    slug: "ksztalcenie-sluchu",
-    title: "Kształcenie Słuchu eBook Store",
-    year: "2023",
-    category: "client",
-    status: "live",
-    tagline: {
-      en: "An online store selling and delivering an educational eBook.",
-      pl: "Sklep internetowy sprzedający i dostarczający eBook edukacyjny.",
-    },
-    summary: {
-      en: "A small commerce site for a music education eBook: product page, checkout, payment handling and automatic delivery of the file after purchase.",
-      pl: "Niewielki sklep dla eBooka o kształceniu słuchu: strona produktu, koszyk, obsługa płatności i automatyczne dostarczenie pliku po zakupie.",
-    },
-    role: {
-      en: "Build, store setup, hosting and payment integration.",
-      pl: "Wykonanie, konfiguracja sklepu, hosting i integracja płatności.",
-    },
-    highlights: {
-      en: [
-        "WooCommerce store configured for a single digital product.",
-        "Secure payment processing and automated file delivery.",
-        "Responsive Bootstrap layout with a focused purchase path.",
-        "Hosting, performance and ongoing upkeep handled by me.",
-      ],
-      pl: [
-        "Sklep WooCommerce skonfigurowany pod jeden produkt cyfrowy.",
-        "Bezpieczna obsługa płatności i automatyczne dostarczanie pliku.",
-        "Responsywny layout na Bootstrapie ze skróconą ścieżką zakupu.",
-        "Hosting, wydajność i bieżące utrzymanie po mojej stronie.",
-      ],
-    },
-    tech: ["WordPress", "WooCommerce", "PHP", "Bootstrap"],
-    links: [{ label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl", kind: "site" }],
-    cover: "/images/ksztalcenie-sluchu.webp",
-  },
-
-  /* ----------------------------------------------------------------------
-     Games and level design: the Unity background.
-  ---------------------------------------------------------------------- */
   {
     slug: "vanilia-runner",
     title: "Vanilia Runner",
@@ -895,6 +1038,15 @@ export const projects: Project[] = [
 ];
 
 export const featuredProjects = projects.filter((p) => p.featured);
+
+/** The heading a project files under: its own if it names one, else its category's. */
+export function groupOf(project: Project): string {
+  if (project.group) return project.group;
+
+  const byCategory = projectGroups.find((group) => group.categories.includes(project.category));
+
+  return byCategory?.id ?? "apps";
+}
 
 /** Every screenshot a project has, in order, whichever shape it stores them in. */
 export function galleryOf(project: Project): string[] {

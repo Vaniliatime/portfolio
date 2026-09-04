@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { t, type Locale } from "@/lib/i18n";
-import { projectGroups, projects } from "@/content/projects";
+import { groupOf, projectGroups, projects } from "@/content/projects";
 import { ui } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { ProjectCard } from "./ProjectCard";
@@ -28,7 +28,7 @@ export function WorkGrid({ lang }: { lang: Locale }) {
       projectGroups
         .map((group) => ({
           ...group,
-          items: projects.filter((p) => group.categories.includes(p.category)),
+          items: projects.filter((p) => groupOf(p) === group.id),
         }))
         .filter((group) => group.items.length > 0),
     [],
