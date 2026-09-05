@@ -111,10 +111,14 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
             <span className="mb-2 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent">
               <span aria-hidden className="h-px w-5 bg-accent/50" />
               {category && t(category.label, lang)}
-              {/* Real work for somebody else, said next to what the thing is
-                  rather than instead of it. */}
+              {/*
+               * Real work for somebody else, said next to what the thing is
+               * rather than instead of it. Blue on purpose: in the accent it
+               * read as more of the eyebrow, and the greens and ambers next to
+               * it already mean something about the state of the project.
+               */}
               {project.client && (
-                <span className="rounded-full bg-accent-wash px-2 py-0.5 text-[0.65rem] tracking-[0.1em]">
+                <span className="ml-auto shrink-0 rounded-full border border-sky-500/40 bg-sky-500/10 px-2 py-0.5 text-[0.65rem] tracking-[0.1em] text-sky-700 dark:text-sky-300">
                   {t(ui.clientWork, lang)}
                 </span>
               )}

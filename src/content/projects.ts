@@ -1077,6 +1077,7 @@ export const projects: Project[] = [
     title: "PC Builds",
     year: "2018-2024",
     category: "hardware",
+    client: true,
     status: "done",
     tagline: {
       en: "Gaming machines built and tuned by hand.",

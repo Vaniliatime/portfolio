@@ -49,7 +49,7 @@ export function ProjectHeading({ project, lang, compact }: ProjectHeadingProps) 
         <div className="flex flex-wrap items-center gap-3">
           {category && <SectionEyebrow>{t(category.label, lang)}</SectionEyebrow>}
           {project.client && (
-            <span className="rounded-full bg-accent-wash px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-accent">
+            <span className="ml-auto shrink-0 rounded-full border border-sky-500/40 bg-sky-500/10 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-sky-700 dark:text-sky-300">
               {t(ui.clientWork, lang)}
             </span>
           )}
