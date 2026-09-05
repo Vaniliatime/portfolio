@@ -93,7 +93,12 @@ export function ProjectShowcase({ project, lang }: { project: Project; lang: Loc
       return (
         <div
           key={`${layer}-tall`}
-          className={cn("absolute inset-0 overflow-hidden", layer === "over" && previous !== null && "slide-fade")}
+          // Opaque for the same reason as the stills below: a frame has to
+          // cover the one it is replacing.
+          className={cn(
+            "absolute inset-0 overflow-hidden bg-surface-2",
+            layer === "over" && previous !== null && "slide-fade",
+          )}
         >
           <FrameScroll
             cover={project.coverTall}
@@ -106,23 +111,43 @@ export function ProjectShowcase({ project, lang }: { project: Project; lang: Loc
       );
     }
 
+    /*
+     * Whole, not cropped. These are screenshots of pages, and filling a 16/9
+     * window with one meant a wide capture lost both its edges and a tall one
+     * was blown up until it read as a zoom.
+     *
+     * What the shot does not cover is filled by the shot itself, blown up and
+     * blurred: a pale card background under a dark screenshot read as two white
+     * bars, and any transparent strip let the outgoing frame show through
+     * during the cross-fade. This layer is opaque, so a frame covers the one it
+     * replaces. The blur is on a still image and never animates, which is the
+     * part Firefox minds.
+     */
     return (
-      <Image
+      <div
         key={`${layer}-${at}`}
-        src={shot}
-        alt={project.title}
-        fill
-        priority={at === 0}
-        sizes="(min-width: 1280px) 1200px, 100vw"
-        /*
-         * Whole, not cropped. These are screenshots of pages, and filling a
-         * 16/9 window with one meant a wide capture lost both its edges and a
-         * tall one was blown up until it read as a zoom. Letterboxing against
-         * the frame's own background costs a strip of card and shows the shot
-         * as it was taken.
-         */
-        className={cn("object-contain", layer === "over" && previous !== null && "slide-fade")}
-      />
+        className={cn(
+          "absolute inset-0 overflow-hidden bg-surface-2",
+          layer === "over" && previous !== null && "slide-fade",
+        )}
+      >
+        <Image
+          src={shot}
+          alt=""
+          aria-hidden
+          fill
+          sizes="(min-width: 1280px) 1200px, 100vw"
+          className="scale-110 object-cover opacity-60 blur-xl"
+        />
+        <Image
+          src={shot}
+          alt={project.title}
+          fill
+          priority={at === 0}
+          sizes="(min-width: 1280px) 1200px, 100vw"
+          className="object-contain"
+        />
+      </div>
     );
   };
 
