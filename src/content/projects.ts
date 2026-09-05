@@ -336,24 +336,48 @@ export const projects: Project[] = [
     cover: "/images/transport/klikbus-home.webp",
     coverTall: { src: "/images/transport/full.webp", width: 1400, height: 2387 },
     gallerySections: [
+      /* klikbus.pl broken up the way the page itself is: fourteen shots under
+         one heading read as a pile, and the headings are what let a reader
+         look up the fleet without scrolling past everything else. */
       {
-        label: { en: "klikbus.pl", pl: "klikbus.pl" },
+        label: { en: "Hero sections", pl: "Sekcje hero" },
         images: [
           "/images/transport/klikbus-home.webp",
           "/images/transport/klikbus-services-hero.webp",
-          "/images/transport/klikbus-offer.webp",
-          "/images/transport/klikbus-offer-2.webp",
           "/images/transport/klikbus-fleet-hero.webp",
-          "/images/transport/klikbus-fleet.webp",
-          "/images/transport/klikbus-fleet-2.webp",
-          "/images/transport/klikbus-fleet-3.webp",
+          "/images/transport/klikbus-footer.webp",
+        ],
+      },
+      {
+        label: { en: "About the company", pl: "O firmie" },
+        images: [
           "/images/transport/klikbus-about.webp",
           "/images/transport/klikbus-about-2.webp",
           "/images/transport/klikbus-about-3.webp",
-          "/images/transport/klikbus-blog.webp",
-          "/images/transport/klikbus-contact.webp",
-          "/images/transport/klikbus-footer.webp",
         ],
+      },
+      {
+        label: { en: "The offer", pl: "Oferta" },
+        images: [
+          "/images/transport/klikbus-offer.webp",
+          "/images/transport/klikbus-offer-2.webp",
+        ],
+      },
+      {
+        label: { en: "The fleet", pl: "Flota" },
+        images: [
+          "/images/transport/klikbus-fleet.webp",
+          "/images/transport/klikbus-fleet-2.webp",
+          "/images/transport/klikbus-fleet-3.webp",
+        ],
+      },
+      {
+        label: { en: "Blog", pl: "Blog" },
+        images: ["/images/transport/klikbus-blog.webp"],
+      },
+      {
+        label: { en: "Contact", pl: "Kontakt" },
+        images: ["/images/transport/klikbus-contact.webp"],
       },
       {
         label: { en: "przewozy-katowice.pl", pl: "przewozy-katowice.pl" },
@@ -465,7 +489,7 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: "/images/prox-hub/projects.webp",
-    coverTall: { src: "/images/prox-hub/projects.webp", width: 1439, height: 1207 },
+    coverTall: { src: "/images/prox-hub/full.webp", width: 1400, height: 1246 },
     gallerySections: [
       {
         label: { en: "The board", pl: "Pulpit" },
@@ -660,27 +684,19 @@ export const projects: Project[] = [
     links: [{ label: "sicily.kkaszuba.eu", href: "https://sicily.kkaszuba.eu/", kind: "site" }],
     cover: "/images/wedding/invitation.webp",
     coverTall: { src: "/images/wedding/full.webp", width: 1400, height: 5406 },
-    gallerySections: [
-      {
-        label: { en: "The invitation", pl: "Zaproszenie" },
-        images: [
-          "/images/wedding/invitation.webp",
-          "/images/wedding/schedule.webp",
-          "/images/wedding/venue.webp",
-          "/images/wedding/food.webp",
-        ],
-      },
-      {
-        label: { en: "What a guest does", pl: "Co robi gość" },
-        images: [
-          "/images/wedding/rsvp.webp",
-          "/images/wedding/travel.webp",
-          "/images/wedding/stay.webp",
-          "/images/wedding/photos.webp",
-          "/images/wedding/music.webp",
-          "/images/wedding/contact.webp",
-        ],
-      },
+    /* One page, read top to bottom, so it gets one strip in the same order
+       rather than headings over parts of a thing that has no parts. */
+    gallery: [
+      "/images/wedding/invitation.webp",
+      "/images/wedding/schedule.webp",
+      "/images/wedding/venue.webp",
+      "/images/wedding/food.webp",
+      "/images/wedding/rsvp.webp",
+      "/images/wedding/travel.webp",
+      "/images/wedding/stay.webp",
+      "/images/wedding/photos.webp",
+      "/images/wedding/music.webp",
+      "/images/wedding/contact.webp",
     ],
     galleryAspect: "wide",
   },

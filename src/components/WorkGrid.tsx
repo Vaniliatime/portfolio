@@ -63,7 +63,17 @@ export function WorkGrid({ lang }: { lang: Locale }) {
 
   return (
     <div>
-      <div role="tablist" aria-label={t(ui.allWork, lang)} className="flex flex-wrap gap-2">
+      {/*
+       * A control rather than a row of words. As plain text on the page
+       * background the filters read as a caption under the heading and most
+       * people scrolled straight past them, so they sit in a raised track of
+       * their own with the counts as chips inside the chips.
+       */}
+      <div
+        role="tablist"
+        aria-label={t(ui.allWork, lang)}
+        className="inline-flex flex-wrap gap-1 rounded-full border border-line bg-surface p-1.5 shadow-card"
+      >
         {chips.map((chip) => {
           const selected = chip.id === active;
           return (
@@ -81,13 +91,23 @@ export function WorkGrid({ lang }: { lang: Locale }) {
               {selected && (
                 <motion.span
                   layoutId="work-filter-pill"
-                  className="absolute inset-0 rounded-full bg-accent"
+                  className="absolute inset-0 rounded-full bg-accent shadow-lift"
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 />
               )}
-              <span className="relative z-10">
+              <span className="relative z-10 flex items-center gap-2">
+                {/* Ties the filter to the tag it selects for, which is the only
+                    blue on the page. */}
+                {chip.id === "client" && (
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+                )}
                 {chip.label}
-                <span className={cn("ml-1.5 text-xs", selected ? "opacity-70" : "text-ink-faint")}>
+                <span
+                  className={cn(
+                    "rounded-full px-1.5 py-0.5 text-[0.7rem] font-semibold tabular-nums",
+                    selected ? "bg-accent-ink/20 text-accent-ink" : "bg-surface-2 text-ink-faint",
+                  )}
+                >
                   {chip.count}
                 </span>
               </span>
