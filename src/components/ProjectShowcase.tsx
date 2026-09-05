@@ -114,10 +114,14 @@ export function ProjectShowcase({ project, lang }: { project: Project; lang: Loc
         fill
         priority={at === 0}
         sizes="(min-width: 1280px) 1200px, 100vw"
-        className={cn(
-          "object-cover object-top",
-          layer === "over" && previous !== null && "slide-fade",
-        )}
+        /*
+         * Whole, not cropped. These are screenshots of pages, and filling a
+         * 16/9 window with one meant a wide capture lost both its edges and a
+         * tall one was blown up until it read as a zoom. Letterboxing against
+         * the frame's own background costs a strip of card and shows the shot
+         * as it was taken.
+         */
+        className={cn("object-contain", layer === "over" && previous !== null && "slide-fade")}
       />
     );
   };
