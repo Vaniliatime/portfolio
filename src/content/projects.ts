@@ -714,6 +714,96 @@ export const projects: Project[] = [
     links: [{ label: "ksztalcenie-sluchu.pl", href: "https://www.ksztalcenie-sluchu.pl", kind: "site" }],
     cover: "/images/ksztalcenie-sluchu.webp",
   },
+  {
+    slug: "old-portfolio",
+    title: "Old Portfolio",
+    year: "2025",
+    category: "product",
+    status: "archived",
+    group: "sites",
+    tagline: {
+      en: "The portfolio this site replaced, left online so the two can be put side by side.",
+      pl: "Portfolio, które ta strona zastąpiła, zostawione online, żeby dało się je zestawić obok siebie.",
+    },
+    summary: {
+      en: "My first portfolio, and the site that taught me what a portfolio has to do rather than what it has to look like. Four screens, a projects list behind a sidebar of categories, dark mode, a contact form. It was English only, every sentence typed into the component that displayed it, and a project was a card that unfolded where it stood rather than a page anybody could send to somebody else. Rewriting it turned out to be less work than retrofitting it, so it stayed up: same person, same projects, and the site you are reading is what a year of practice did to it.",
+      pl: "Moje pierwsze portfolio i strona, która nauczyła mnie, co portfolio ma robić, a nie jak ma wyglądać. Cztery ekrany, lista projektów za paskiem kategorii, tryb ciemny, formularz kontaktowy. Wszystko po angielsku, każde zdanie wpisane w komponent, który je wyświetlał, a projekt był kafelkiem rozwijanym w miejscu, a nie stroną, którą da się komuś wysłać. Napisanie tego od nowa wyszło taniej niż doklejanie brakujących rzeczy, więc została online: ten sam człowiek, te same projekty, a strona, którą czytasz, to jest to, co z tym zrobił rok praktyki.",
+    },
+    role: {
+      en: "Solo: design, front end, deployment.",
+      pl: "Solo: projekt, front end, wdrożenie.",
+    },
+    highlights: {
+      en: [
+        "Four screens and no more: the pitch, the projects, the resume and a way to get in touch.",
+        "Projects filed under websites, games and level design, graphics, and PC builds and mining, picked from a sidebar.",
+        "Each one opened where it stood: a screenshot, a sentence about what it is, the tools behind it and a link out where there was one.",
+        "Light and dark, remembered between visits.",
+        "A contact form of three fields, with GitHub and LinkedIn under it.",
+        "English only, which is half the audience for work done in Poland.",
+      ],
+      pl: [
+        "Cztery ekrany i nic więcej: kim jestem, projekty, CV i sposób na kontakt.",
+        "Projekty poukładane w kategorie: strony, gry i level design, grafika oraz składanie komputerów i koparki, wybierane z bocznego paska.",
+        "Każdy rozwijał się w miejscu: zrzut ekranu, zdanie o co chodzi, użyte narzędzia i link, jeśli był.",
+        "Jasny i ciemny motyw, zapamiętywany między wizytami.",
+        "Formularz kontaktowy na trzy pola, a pod nim GitHub i LinkedIn.",
+        "Tylko po angielsku, czyli bez połowy odbiorców pracy wykonywanej w Polsce.",
+      ],
+    },
+    technical: {
+      en: [
+        "Next.js on the App Router with Tailwind CSS 3 and Framer Motion, TypeScript throughout. The same family of tools as this site, one major version back on each.",
+        "Rendered by a Node process: a container on my own server, behind Traefik and a Cloudflare tunnel, for a site that changes a few times a year. This one is a static export any hosting can serve, which is also what let its contact form move to PHP and start sending real mail.",
+        "The copy lived in the components that showed it, and that is what made Polish expensive: not the translating, but pulling every sentence back out of the markup first. Here each string is an { en, pl } pair in src/content and the language is part of the address.",
+        "Projects were one array feeding cards that expanded in place, so no project had an address of its own. Nothing to paste into an application, nothing for search to index, and nowhere to put the longer version of the story.",
+        "The theme toggle was hand written: a script in the head reading localStorage before the first paint so the page never flashed white. It worked, and it is the part the rewrite handed over to next-themes, which does the same thing and gets the system preference and a second tab right as well.",
+        "Deployed by hand at first: pull, build, restart. Prox Hub grew out of doing that often enough, and it publishes both sites now.",
+      ],
+      pl: [
+        "Next.js na App Routerze, Tailwind CSS 3 i Framer Motion, całość w TypeScripcie. Ta sama rodzina narzędzi co tutaj, o jedną dużą wersję wstecz w każdym z nich.",
+        "Renderowane przez proces Node: kontener na własnym serwerze, za Traefikiem i tunelem Cloudflare, dla strony, która zmienia się kilka razy w roku. Ta jest statycznym eksportem, który postawi dowolny hosting, i to samo pozwoliło przenieść formularz kontaktowy na PHP i zacząć naprawdę wysyłać maile.",
+        "Treść siedziała w komponentach, które ją wyświetlały, i to właśnie robiło polską wersję drogą: nie samo tłumaczenie, tylko wyciągnięcie każdego zdania z JSX. Tutaj każdy tekst to para { en, pl } w src/content, a język jest częścią adresu.",
+        "Projekty to była jedna tablica zasilająca kafelki rozwijane w miejscu, więc żaden projekt nie miał własnego adresu. Nie było czego wkleić do zgłoszenia, nie było czego zaindeksować i nie było gdzie napisać dłuższej wersji.",
+        "Przełącznik motywu był pisany ręcznie: skrypt w head czytający localStorage przed pierwszym renderem, żeby strona nie mrugnęła bielą. Działał, i to jest ten fragment, który przy przepisywaniu oddałem next-themes: robi to samo, a przy okazji ogarnia preferencję systemu i drugą kartę.",
+        "Wdrażane początkowo ręcznie: pobierz, zbuduj, zrestartuj. Prox Hub wyrósł z robienia tego wystarczająco często i dziś publikuje obie strony.",
+      ],
+    },
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Docker",
+      "Cloudflare Tunnel",
+    ],
+    links: [{ label: "purpletw.kkaszuba.eu", href: "https://purpletw.kkaszuba.eu", kind: "site" }],
+    cover: "/images/old-portfolio/home.webp",
+    coverTall: { src: "/images/old-portfolio/full.webp", width: 1400, height: 1276 },
+    gallerySections: [
+      {
+        label: { en: "The home page", pl: "Strona główna" },
+        images: ["/images/old-portfolio/home.webp", "/images/old-portfolio/about.webp"],
+      },
+      {
+        label: { en: "Projects", pl: "Projekty" },
+        images: [
+          "/images/old-portfolio/projects.webp",
+          "/images/old-portfolio/projects-more.webp",
+        ],
+      },
+      {
+        label: { en: "Resume and contact", pl: "CV i kontakt" },
+        images: ["/images/old-portfolio/resume.webp", "/images/old-portfolio/contact.webp"],
+      },
+      {
+        label: { en: "Dark mode", pl: "Ciemny motyw" },
+        images: ["/images/old-portfolio/home-dark.webp"],
+      },
+    ],
+    galleryAspect: "wide",
+  },
 
   /* ----------------------------------------------------------------------
      Games and level design: the Unity background.
