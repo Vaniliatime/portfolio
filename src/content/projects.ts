@@ -1,6 +1,13 @@
 import type { Localized } from "@/lib/i18n";
 
-export type Category = "client" | "product" | "game" | "design" | "hardware";
+/**
+ * What a project is, and nothing else. Who it was built for is a separate
+ * question with a separate answer: see `client` on the project. Mixing the two
+ * meant a site built for a client and an application built for a client were
+ * the same category while a site and an application were not, which is the
+ * wrong way round.
+ */
+export type Category = "app" | "site" | "game" | "design" | "hardware";
 
 export type ProjectStatus = "live" | "wip" | "done" | "archived";
 
@@ -17,6 +24,13 @@ export interface Project {
   /** Shown in the card corner and on the case study header. */
   year: string;
   category: Category;
+  /**
+   * Real work, paid for by somebody who needed it, as opposed to something I
+   * built because I wanted it to exist. It reads as a tag next to the category
+   * rather than as a category of its own, so a card can say "Website" and
+   * "Client work" at once instead of having to choose.
+   */
+  client?: boolean;
   status: ProjectStatus;
   /** Featured projects lead the home page. */
   featured?: boolean;
@@ -46,12 +60,6 @@ export interface Project {
    * so they belong here rather than being measured in the browser.
    */
   coverTall?: TallCover;
-  /**
-   * Which heading it files under on the work page, when the category alone
-   * does not decide it. A site built for a client and an application built for
-   * a client are the same category and belong under different headings.
-   */
-  group?: string;
   gallery?: string[];
   /**
    * Screenshots split into labelled sets, where a flat strip would leave the
@@ -70,11 +78,11 @@ export interface TallCover {
 }
 
 /**
- * How the work page divides itself up.
+ * How the work page divides itself up: one heading per kind of thing.
  *
- * Coarser than the categories on purpose: client work and my own products are
- * the same craft to anyone reading, so they share one heading, and the card's
- * own eyebrow is where the difference between them is still drawn.
+ * The headings are plural and the categories singular, because a heading is
+ * over a set and a category is on one card. Nothing here knows about clients:
+ * that is a tag, and it cuts across every one of these.
  */
 export interface ProjectGroup {
   id: string;
@@ -86,13 +94,12 @@ export const projectGroups: ProjectGroup[] = [
   {
     id: "apps",
     label: { en: "Applications", pl: "Aplikacje" },
-    categories: ["client", "product"],
+    categories: ["app"],
   },
   {
     id: "sites",
     label: { en: "Websites", pl: "Strony internetowe" },
-    // Nothing lands here by category: a site is marked as one on the project.
-    categories: [],
+    categories: ["site"],
   },
   {
     id: "games",
@@ -108,9 +115,9 @@ export const projectGroups: ProjectGroup[] = [
 ];
 
 export const categories: { id: Category; label: Localized }[] = [
-  { id: "client", label: { en: "Client work", pl: "Prace dla klientów" } },
-  { id: "product", label: { en: "Products & apps", pl: "Produkty i aplikacje" } },
-  { id: "game", label: { en: "Games & level design", pl: "Gry i level design" } },
+  { id: "app", label: { en: "Application", pl: "Aplikacja" } },
+  { id: "site", label: { en: "Website", pl: "Strona internetowa" } },
+  { id: "game", label: { en: "Game & level design", pl: "Gra i level design" } },
   { id: "design", label: { en: "Graphics", pl: "Grafika" } },
   { id: "hardware", label: { en: "Hardware & network", pl: "Sprzęt i sieć" } },
 ];
@@ -132,7 +139,7 @@ export const projects: Project[] = [
     slug: "amtracker",
     title: "AM Tracker",
     year: "2026",
-    category: "product",
+    category: "app",
     status: "live",
     featured: true,
     tagline: {
@@ -256,9 +263,9 @@ export const projects: Project[] = [
     slug: "passenger-transport",
     title: "Licensed Passenger Transport",
     year: "2024-2026",
-    category: "client",
+    category: "site",
+    client: true,
     status: "live",
-    group: "sites",
     featured: true,
     tagline: {
       en: "Three connected sites for one passenger transport business.",
@@ -377,7 +384,7 @@ export const projects: Project[] = [
     slug: "prox-hub",
     title: "Prox Hub",
     year: "2026",
-    category: "product",
+    category: "app",
     status: "wip",
     featured: true,
     tagline: {
@@ -491,7 +498,7 @@ export const projects: Project[] = [
     slug: "itil-quiz",
     title: "ITIL 5 Foundation Exam Trainer",
     year: "2026",
-    category: "product",
+    category: "app",
     status: "live",
     featured: true,
     tagline: {
@@ -581,7 +588,7 @@ export const projects: Project[] = [
     slug: "wedding-invitations",
     title: "Interactive Wedding Invitation",
     year: "2026",
-    category: "product",
+    category: "app",
     status: "live",
     featured: true,
     tagline: {
@@ -681,9 +688,9 @@ export const projects: Project[] = [
     slug: "ksztalcenie-sluchu",
     title: "Kształcenie Słuchu eBook Store",
     year: "2023",
-    category: "client",
+    category: "site",
+    client: true,
     status: "live",
-    group: "sites",
     tagline: {
       en: "An online store selling and delivering an educational eBook.",
       pl: "Sklep internetowy sprzedający i dostarczający eBook edukacyjny.",
@@ -718,9 +725,8 @@ export const projects: Project[] = [
     slug: "old-portfolio",
     title: "Old Portfolio",
     year: "2025",
-    category: "product",
+    category: "site",
     status: "archived",
-    group: "sites",
     tagline: {
       en: "The portfolio this site replaced, left online so the two can be put side by side.",
       pl: "Portfolio, które ta strona zastąpiła, zostawione online, żeby dało się je zestawić obok siebie.",
@@ -812,7 +818,7 @@ export const projects: Project[] = [
     slug: "secret-santa",
     title: "Secret Santa",
     year: "2026",
-    category: "product",
+    category: "app",
     status: "live",
     featured: true,
     tagline: {
@@ -1003,6 +1009,7 @@ export const projects: Project[] = [
     title: "Klikbus Business Card",
     year: "2020-2023",
     category: "design",
+    client: true,
     status: "done",
     tagline: {
       en: "A two-sided card for the transport company, in its own colours.",
@@ -1036,6 +1043,7 @@ export const projects: Project[] = [
     title: "Guesthouse Business Card",
     year: "2020-2023",
     category: "design",
+    client: true,
     status: "done",
     tagline: {
       en: "A card for a mountain guesthouse, mark included.",
@@ -1182,10 +1190,8 @@ export const projects: Project[] = [
 
 export const featuredProjects = projects.filter((p) => p.featured);
 
-/** The heading a project files under: its own if it names one, else its category's. */
+/** The heading a project files under, which its category alone decides. */
 export function groupOf(project: Project): string {
-  if (project.group) return project.group;
-
   const byCategory = projectGroups.find((group) => group.categories.includes(project.category));
 
   return byCategory?.id ?? "apps";

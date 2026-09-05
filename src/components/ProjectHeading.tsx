@@ -46,7 +46,14 @@ export function ProjectHeading({ project, lang, compact }: ProjectHeadingProps) 
   return (
     <div className={cn("grid gap-6", compact ? "lg:grid-cols-[1.5fr_1fr]" : "lg:grid-cols-[1.3fr_1fr] lg:items-start")}>
       <div>
-        {category && <SectionEyebrow>{t(category.label, lang)}</SectionEyebrow>}
+        <div className="flex flex-wrap items-center gap-3">
+          {category && <SectionEyebrow>{t(category.label, lang)}</SectionEyebrow>}
+          {project.client && (
+            <span className="rounded-full bg-accent-wash px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-accent">
+              {t(ui.clientWork, lang)}
+            </span>
+          )}
+        </div>
         <Title
           className={cn(
             "mt-3 font-display font-semibold leading-[1.08]",

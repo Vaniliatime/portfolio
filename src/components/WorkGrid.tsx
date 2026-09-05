@@ -16,8 +16,8 @@ type Filter = string;
  * The filters stay, but they are no longer the only way through: one flat grid
  * of ten cards read as a pile, and most people never touch a filter row. Each
  * group now announces itself, so scrolling alone tells you where the web work
- * ends and the games begin. The groups are coarser than the categories: what a
- * given card is, client work or my own product, is said on the card.
+ * ends and the games begin. A heading says what kind of thing this is; whether
+ * it was paid for by somebody else is a tag on the card and a chip of its own.
  */
 export function WorkGrid({ lang }: { lang: Locale }) {
   const [active, setActive] = useState<Filter>("all");
@@ -34,10 +34,22 @@ export function WorkGrid({ lang }: { lang: Locale }) {
     [],
   );
 
-  const groups = useMemo(
-    () => available.filter((group) => active === "all" || group.id === active),
-    [available, active],
-  );
+  /*
+   * "Client work" is not a sixth group, it is a cut across all of them: the
+   * chip keeps the headings and drops everything I built for myself, which is
+   * the one question a paying visitor actually arrives with.
+   */
+  const clientCount = projects.filter((p) => p.client).length;
+
+  const groups = useMemo(() => {
+    if (active === "client") {
+      return available
+        .map((group) => ({ ...group, items: group.items.filter((p) => p.client) }))
+        .filter((group) => group.items.length > 0);
+    }
+
+    return available.filter((group) => active === "all" || group.id === active);
+  }, [available, active]);
 
   const chips: { id: Filter; label: string; count: number }[] = [
     { id: "all", label: t(ui.allWork, lang), count: projects.length },
@@ -46,6 +58,7 @@ export function WorkGrid({ lang }: { lang: Locale }) {
       label: t(group.label, lang),
       count: group.items.length,
     })),
+    { id: "client", label: t(ui.clientWork, lang), count: clientCount },
   ];
 
   return (

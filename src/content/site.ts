@@ -376,6 +376,10 @@ export const ui = {
     pl: "Odpowiedź w ciągu 24 godzin, ze wstępną wyceną i pomysłem na realizację.",
   },
   results: { en: "What it changed", pl: "Co to zmieniło" },
+  /* Says the work was paid for by somebody who needed it. It sits next to the
+     category rather than replacing it, so a card can be a website and client
+     work at the same time. */
+  clientWork: { en: "Client work", pl: "Praca dla klienta" },
   privacyLink: { en: "Privacy", pl: "Prywatność" },
   sentEyebrow: { en: "Sent", pl: "Wysłane" },
   sentHeading: { en: "Your message is on its way", pl: "Wiadomość poszła w drogę" },

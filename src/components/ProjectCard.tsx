@@ -108,12 +108,17 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
           {/* Grows to fill the card, so the link at its foot lines up with the
               neighbours whatever the tags do above it. */}
           <div className="flex flex-1 flex-col p-6">
-            {category && (
-              <span className="mb-2 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent">
-                <span aria-hidden className="h-px w-5 bg-accent/50" />
-                {t(category.label, lang)}
-              </span>
-            )}
+            <span className="mb-2 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent">
+              <span aria-hidden className="h-px w-5 bg-accent/50" />
+              {category && t(category.label, lang)}
+              {/* Real work for somebody else, said next to what the thing is
+                  rather than instead of it. */}
+              {project.client && (
+                <span className="rounded-full bg-accent-wash px-2 py-0.5 text-[0.65rem] tracking-[0.1em]">
+                  {t(ui.clientWork, lang)}
+                </span>
+              )}
+            </span>
 
             <div className="flex items-start justify-between gap-3">
               <h3
