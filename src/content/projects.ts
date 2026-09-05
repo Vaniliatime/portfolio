@@ -206,32 +206,47 @@ export const projects: Project[] = [
       { label: "App Store", href: "", kind: "appstore" },
       { label: "Google Play", href: "", kind: "playstore" },
     ],
-    cover: "/images/amtracker/library.webp",
-    coverTall: { src: "/images/amtracker/full.webp", width: 1100, height: 2628 },
+    cover: "/images/amtracker/app-home.webp",
+    coverTall: { src: "/images/amtracker/full.webp", width: 1400, height: 2992 },
     gallerySections: [
       {
         label: { en: "The app", pl: "Aplikacja" },
         images: [
-          "/images/amtracker/library.webp",
-          "/images/amtracker/dashboard.webp",
-          "/images/amtracker/currently-airing.webp",
+          "/images/amtracker/app-home.webp",
+          "/images/amtracker/airing-now.webp",
           "/images/amtracker/season-browser.webp",
-          "/images/amtracker/latest-releases.webp",
-          "/images/amtracker/notifications-inbox.webp",
-          "/images/amtracker/achievements.webp",
+          "/images/amtracker/calendar.webp",
           "/images/amtracker/add-entry.webp",
-          "/images/amtracker/settings-2fa.webp",
           "/images/amtracker/notifications.webp",
+          "/images/amtracker/dashboard.webp",
+          "/images/amtracker/achievements.webp",
           "/images/amtracker/friends.webp",
+        ],
+      },
+      {
+        label: { en: "Profile and settings", pl: "Profil i ustawienia" },
+        images: [
+          "/images/amtracker/settings-profile.webp",
+          "/images/amtracker/settings-preferences.webp",
+          "/images/amtracker/settings-import.webp",
+          "/images/amtracker/settings-sync.webp",
         ],
       },
       {
         label: { en: "Admin panel", pl: "Panel administratora" },
         images: [
           "/images/amtracker/admin-statistics.webp",
-          "/images/amtracker/admin-crons.webp",
           "/images/amtracker/admin-api-status.webp",
+          "/images/amtracker/admin-crons.webp",
           "/images/amtracker/admin-logs.webp",
+        ],
+      },
+      {
+        label: { en: "Changelog, FAQ and plans", pl: "Changelog, FAQ i plany" },
+        images: [
+          "/images/amtracker/changelog.webp",
+          "/images/amtracker/faq.webp",
+          "/images/amtracker/roadmap.webp",
         ],
       },
     ],
@@ -311,30 +326,49 @@ export const projects: Project[] = [
       { label: "przewozy-katowice.pl", href: "https://przewozy-katowice.pl/", kind: "site" },
       { label: "licencjonowany-przewoz-osob.pl", href: "https://licencjonowany-przewoz-osob.pl/", kind: "site" },
     ],
-    cover: "/images/transport/home.webp",
-    coverTall: { src: "/images/transport/full.webp", width: 1100, height: 1725 },
+    cover: "/images/transport/klikbus-home.webp",
+    coverTall: { src: "/images/transport/full.webp", width: 1400, height: 2387 },
     gallerySections: [
       {
         label: { en: "klikbus.pl", pl: "klikbus.pl" },
         images: [
-          "/images/transport/home.webp",
-          "/images/transport/fleet.webp",
-          "/images/transport/vans.webp",
-          "/images/transport/coaches.webp",
-          "/images/transport/international.webp",
-          "/images/transport/services.webp",
-          "/images/transport/standards.webp",
-          "/images/transport/booking.webp",
-          "/images/transport/news.webp",
+          "/images/transport/klikbus-home.webp",
+          "/images/transport/klikbus-services-hero.webp",
+          "/images/transport/klikbus-offer.webp",
+          "/images/transport/klikbus-offer-2.webp",
+          "/images/transport/klikbus-fleet-hero.webp",
+          "/images/transport/klikbus-fleet.webp",
+          "/images/transport/klikbus-fleet-2.webp",
+          "/images/transport/klikbus-fleet-3.webp",
+          "/images/transport/klikbus-about.webp",
+          "/images/transport/klikbus-about-2.webp",
+          "/images/transport/klikbus-about-3.webp",
+          "/images/transport/klikbus-blog.webp",
+          "/images/transport/klikbus-contact.webp",
+          "/images/transport/klikbus-footer.webp",
         ],
       },
       {
         label: { en: "przewozy-katowice.pl", pl: "przewozy-katowice.pl" },
-        images: ["/images/transport/katowice.webp"],
+        images: [
+          "/images/transport/katowice-home.webp",
+          "/images/transport/katowice-about.webp",
+          "/images/transport/katowice-reviews.webp",
+        ],
       },
       {
         label: { en: "licencjonowany-przewoz-osob.pl", pl: "licencjonowany-przewoz-osob.pl" },
-        images: ["/images/transport/licensed.webp"],
+        images: [
+          "/images/transport/licensed-home.webp",
+          "/images/transport/licensed-services.webp",
+          "/images/transport/licensed-audience.webp",
+        ],
+      },
+      {
+        label: { en: "Dark mode", pl: "Ciemny motyw" },
+        images: [
+          "/images/transport/klikbus-dark.webp",
+        ],
       },
     ],
     galleryAspect: "wide",
@@ -424,23 +458,31 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: "/images/prox-hub/projects.webp",
-    coverTall: { src: "/images/prox-hub/projects.webp", width: 1600, height: 1424 },
+    coverTall: { src: "/images/prox-hub/projects.webp", width: 1439, height: 1207 },
     gallerySections: [
       {
-        label: { en: "Dashboard", pl: "Pulpit" },
-        images: ["/images/prox-hub/projects.webp", "/images/prox-hub/new-project.webp"],
+        label: { en: "The board", pl: "Pulpit" },
+        images: [
+          "/images/prox-hub/projects.webp",
+          "/images/prox-hub/containers.webp",
+          "/images/prox-hub/new-project.webp",
+        ],
       },
       {
         label: { en: "A project", pl: "Projekt" },
         images: [
           "/images/prox-hub/project.webp",
           "/images/prox-hub/settings.webp",
+          "/images/prox-hub/env.webp",
+          "/images/prox-hub/deploy-history.webp",
           "/images/prox-hub/history.webp",
         ],
       },
       {
         label: { en: "Hosts", pl: "Hosty" },
-        images: ["/images/prox-hub/hosts.webp"],
+        images: [
+          "/images/prox-hub/hosts.webp",
+        ],
       },
     ],
     galleryAspect: "wide",
@@ -514,29 +556,27 @@ export const projects: Project[] = [
     },
     tech: ["React 19", "TypeScript", "Vite 8", "Tailwind CSS", "Python", "faster-whisper"],
     links: [{ label: "itil.kkaszuba.eu", href: "https://itil.kkaszuba.eu/", kind: "site" }],
-    cover: "/images/itil/overview.webp",
-    coverTall: { src: "/images/itil/full.webp", width: 1100, height: 680 },
+    cover: "/images/itil/app-home.webp",
+    coverTall: { src: "/images/itil/app-home.webp", width: 871, height: 1250 },
     gallerySections: [
       {
-        label: { en: "Sitting the exam", pl: "Podejście do egzaminu" },
+        label: { en: "Learning and the exam", pl: "Nauka i egzamin" },
         images: [
-          "/images/itil/overview.webp",
+          "/images/itil/app-home.webp",
           "/images/itil/tests.webp",
-          "/images/itil/plans.webp",
+          "/images/itil/profile.webp",
         ],
       },
       {
-        label: { en: "Where you are losing marks", pl: "Gdzie tracisz punkty" },
+        label: { en: "Where the marks went", pl: "Gdzie poszły punkty" },
         images: [
           "/images/itil/progress.webp",
-          "/images/itil/scope.webp",
           "/images/itil/glossary.webp",
         ],
       },
     ],
     galleryAspect: "wide",
   },
-
   {
     slug: "wedding-invitations",
     title: "Interactive Wedding Invitation",
@@ -612,15 +652,15 @@ export const projects: Project[] = [
     ],
     links: [{ label: "sicily.kkaszuba.eu", href: "https://sicily.kkaszuba.eu/", kind: "site" }],
     cover: "/images/wedding/invitation.webp",
-    coverTall: { src: "/images/wedding/full.webp", width: 1100, height: 4630 },
+    coverTall: { src: "/images/wedding/full.webp", width: 1400, height: 5406 },
     gallerySections: [
       {
         label: { en: "The invitation", pl: "Zaproszenie" },
         images: [
           "/images/wedding/invitation.webp",
-          "/images/wedding/venue.webp",
           "/images/wedding/schedule.webp",
-          "/images/wedding/food-music.webp",
+          "/images/wedding/venue.webp",
+          "/images/wedding/food.webp",
         ],
       },
       {
@@ -630,6 +670,8 @@ export const projects: Project[] = [
           "/images/wedding/travel.webp",
           "/images/wedding/stay.webp",
           "/images/wedding/photos.webp",
+          "/images/wedding/music.webp",
+          "/images/wedding/contact.webp",
         ],
       },
     ],
@@ -738,6 +780,7 @@ export const projects: Project[] = [
     ],
     links: [{ label: "santa.kkaszuba.eu", href: "https://santa.kkaszuba.eu/", kind: "site" }],
     cover: "/images/santa/home.webp",
+    coverTall: { src: "/images/santa/home.webp", width: 857, height: 1059 },
     gallerySections: [
       {
         label: { en: "Organiser", pl: "Organizator" },
@@ -747,16 +790,25 @@ export const projects: Project[] = [
           "/images/santa/links.webp",
           "/images/santa/panel.webp",
           "/images/santa/events.webp",
+          "/images/santa/events-empty.webp",
         ],
       },
       {
         label: { en: "Participant", pl: "Uczestnik" },
-        images: ["/images/santa/reveal.webp", "/images/santa/result.webp"],
+        images: [
+          "/images/santa/reveal.webp",
+          "/images/santa/result.webp",
+        ],
+      },
+      {
+        label: { en: "Dark mode", pl: "Ciemny motyw" },
+        images: [
+          "/images/santa/dark.webp",
+        ],
       },
     ],
     galleryAspect: "wide",
   },
-
   {
     slug: "vanilia-runner",
     title: "Vanilia Runner",
