@@ -24,7 +24,10 @@ const spots: Spot[] = [
   { style: { left: "-14%", top: "10%" }, distance: "-11px", duration: "5.4s" },
   { style: { right: "-15%", top: "32%" }, distance: "10px", duration: "6.3s" },
   { style: { left: "-10%", bottom: "26%" }, distance: "-9px", duration: "5.9s" },
-  { style: { right: "-7%", bottom: "9%" }, distance: "12px", duration: "6.8s" },
+  // Up the right edge rather than into the bottom corner, which is where the
+  // caption and its button live. Far enough below the chip above it that the
+  // two never drift into each other.
+  { style: { right: "-13%", top: "63%" }, distance: "12px", duration: "6.8s" },
   { style: { left: "26%", top: "-7%" }, distance: "-8px", duration: "5.1s" },
 ];
 
@@ -49,7 +52,14 @@ export function FloatingChips({ badges }: { badges: string[] }) {
             <span
               // Solid background on purpose: backdrop-blur here forced every
               // chip to re-sample the moving cursor light on each frame.
-              className="chip-float block whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-ink shadow-card"
+              /*
+               * A minimum width, so the chips are all about the same size.
+               * Each spot pins the edge away from the frame, which means the
+               * edge nearest it is set by how long the word is: "SEO" hung in
+               * mid-air a good 70px clear of the corner while "Framer Motion"
+               * sat right on it. Same width, same overlap, whatever the word.
+               */
+              className="chip-float block min-w-[6.5rem] whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1.5 text-center text-xs font-medium text-ink shadow-card"
               style={
                 {
                   "--float-distance": spot.distance,

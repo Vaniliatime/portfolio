@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { categories, galleryOf, statusLabels, type Project } from "@/content/projects";
 import { ui } from "@/content/site";
@@ -33,6 +33,8 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
   const category = categories.find((c) => c.id === project.category);
   const large = size === "lg";
   const status = statusStyles[project.status];
+  // Somewhere public to send people, if the project has one at all.
+  const live = project.links.find((link) => link.kind === "site" && link.href)?.href;
   const coverSizes = large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw";
   // Cover first, then whatever the gallery adds, so the card opens on the
   // shot the project leads with.
@@ -156,12 +158,34 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
               )}
             </ul>
 
-            <span className="mt-auto flex items-center gap-1.5 border-t border-line pt-4 text-sm font-medium text-accent">
-              {t(ui.viewProject, lang)}
-              {/* Nudges on its own every few seconds, and slides further out
-                  under the pointer. */}
-              <ArrowRight className="arrow-nudge h-4 w-4 group-hover:translate-x-1" />
-            </span>
+            <div className="mt-auto flex items-center justify-between gap-3 border-t border-line pt-4">
+              <span className="flex items-center gap-1.5 text-sm font-medium text-accent">
+                {t(ui.viewProject, lang)}
+                {/* Nudges on its own every few seconds, and slides further out
+                    under the pointer. */}
+                <ArrowRight className="arrow-nudge h-4 w-4 group-hover:translate-x-1" />
+              </span>
+
+              {/*
+               * The card opens the case study, which is what somebody reading
+               * wants and not what somebody who just wants to see it working
+               * wants. Above the title's stretched hit area, or the card would
+               * swallow the click; skipped entirely where there is no public
+               * address, so it never becomes a button that goes nowhere.
+               */}
+              {live && (
+                <a
+                  href={live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/live relative z-10 inline-flex shrink-0 items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-lift active:translate-y-0"
+                >
+                  {t(project.category === "site" ? ui.visitSite : ui.visitApp, lang)}
+                  {/* Transform only, so it costs nothing to animate. */}
+                  <ExternalLink className="h-3 w-3 transition-transform duration-300 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5" />
+                </a>
+              )}
+            </div>
           </div>
       </article>
     </div>

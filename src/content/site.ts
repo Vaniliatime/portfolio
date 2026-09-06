@@ -48,7 +48,10 @@ export const hero = {
      * Polish, where nobody hears the promise inside it. This says the same
      * thing outright instead.
      */
-    pl: ["Kod to połowa roboty.", "Druga połowa zaczyna się", "po wdrożeniu."],
+    /* Three lines of roughly one length, like the English: 21, 18 and 13
+       characters against its 20, 18 and 18. "Druga połowa zaczyna się" was 24
+       and wrapped on its own halfway down a laptop screen. */
+    pl: ["Kod to połowa roboty.", "Reszta zaczyna się", "po wdrożeniu."],
   } satisfies Localized<string[]>,
   /** The line inside the headline that gets the accent treatment. */
   accentWord: { en: "on Monday morning.", pl: "po wdrożeniu." } satisfies Localized,
@@ -339,6 +342,9 @@ export const ui = {
   allWork: { en: "All work", pl: "Wszystkie" },
   viewProject: { en: "View project", pl: "Zobacz projekt" },
   visitSite: { en: "Visit site", pl: "Otwórz stronę" },
+  /* Same button, different word for it: "visit site" over an application is
+     the wrong invitation, and half the featured work is applications. */
+  visitApp: { en: "Open the app", pl: "Otwórz aplikację" },
   comingSoon: { en: "Coming soon", pl: "Wkrótce" },
   sourceCode: { en: "Source code", pl: "Kod źródłowy" },
   featured: { en: "Selected work", pl: "Wybrane projekty" },

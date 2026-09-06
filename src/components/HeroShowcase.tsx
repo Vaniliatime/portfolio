@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { statusLabels, type Project } from "@/content/projects";
+import { ui } from "@/content/site";
 import { BrowserFrame } from "./BrowserFrame";
 import { FrameScroll, scrollPlan } from "./FrameScroll";
 import { FloatingChips } from "./FloatingChips";
@@ -65,7 +66,11 @@ export function HeroShowcase({ projects, lang, index, onSelect }: HeroShowcasePr
   const upcoming = projects[(index + 1) % projects.length];
   const upcomingSrc = upcoming?.coverTall?.src ?? upcoming?.cover;
 
-  const host = project.links.find((link) => link.kind === "site")?.label ?? project.title;
+  const site = project.links.find((link) => link.kind === "site" && link.href);
+  const host = site?.label ?? project.title;
+  // Nothing to open for a project that is not on the internet, and an empty
+  // href renders as pending elsewhere, so it never becomes a dead button here.
+  const live = site?.href;
   const chips = project.tech.slice(0, MAX_CHIPS);
 
   return (
@@ -82,10 +87,10 @@ export function HeroShowcase({ projects, lang, index, onSelect }: HeroShowcasePr
         }}
       />
 
-      <div className="relative">
+      <div className="group relative">
         <Link
           href={localePath(lang, `work/${project.slug}`)}
-          className="group relative block [perspective:1400px]"
+          className="relative block [perspective:1400px]"
           aria-label={project.title}
         >
           <div
@@ -138,25 +143,61 @@ export function HeroShowcase({ projects, lang, index, onSelect }: HeroShowcasePr
             </BrowserFrame>
           </div>
 
-          <span className="relative mt-4 flex h-5 items-center gap-2 text-sm text-ink-muted">
-            <AnimatePresence initial={false}>
-              <motion.span
-                key={project.slug}
-                className="absolute inset-y-0 left-0 flex items-center gap-2"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 6 }}
-                animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
-                transition={{ duration: reduced ? 0.2 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+        </Link>
+
+        {/*
+         * Caption row, outside the frame's own link rather than inside it.
+         * "View project" opens the case study, which is the right destination
+         * for somebody reading and the wrong one for somebody who wants to see
+         * the thing running. An anchor cannot sit inside an anchor, so the
+         * title keeps its link to the case study and the live one goes beside
+         * it. Projects with nowhere public to send anyone (the deploy panel)
+         * simply do not get the button.
+         */}
+        {/* Well clear of the frame: at mt-4 the button read as part of the
+            browser chrome rather than as something under it. */}
+        <div className="relative mt-7 flex h-7 items-center gap-3 text-sm text-ink-muted">
+          <AnimatePresence initial={false}>
+            <motion.span
+              key={project.slug}
+              className="absolute inset-y-0 left-0 flex items-center"
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 6 }}
+              animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
+              transition={{ duration: reduced ? 0.2 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Link
+                href={localePath(lang, `work/${project.slug}`)}
+                className="flex items-center gap-2"
               >
                 <span className="whitespace-nowrap font-medium text-ink">{project.title}</span>
                 <span className="whitespace-nowrap text-ink-faint">
                   {t(statusLabels[project.status], lang)}
                 </span>
                 <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </motion.span>
-            </AnimatePresence>
-          </span>
-        </Link>
+              </Link>
+            </motion.span>
+          </AnimatePresence>
+
+          {live && (
+            <a
+              href={live}
+              target="_blank"
+              rel="noopener noreferrer"
+              /*
+               * Outlined here, filled on the cards. A card is a small tile
+               * where a solid button is the only thing loud enough to be seen;
+               * this sits under a screen the size of the hero, where the same
+               * solid button was the loudest thing on the page. It fills in on
+               * hover, so it still ends up in the same place.
+               */
+              className="group/live relative z-10 ml-auto inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-accent/40 bg-accent-wash px-3 py-1.5 text-xs font-semibold text-accent transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:text-accent-ink hover:shadow-lift active:translate-y-0"
+            >
+              {t(project.category === "site" ? ui.visitSite : ui.visitApp, lang)}
+              <ExternalLink className="h-3 w-3 transition-transform duration-300 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5" />
+            </a>
+          )}
+        </div>
 
         {/* Chips carry the stack of whatever is on screen, so they change with
             the slide. One set at a time: two overlapping sets on the same five
