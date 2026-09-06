@@ -42,13 +42,19 @@ export const hero = {
   } satisfies Localized,
   headline: {
     en: ["I build websites and", "web apps that work", "on Monday morning."],
-    pl: ["Buduję strony", "i aplikacje, które działają", "w poniedziałek rano."],
+    /*
+     * Not a translation of the English line, deliberately. "On Monday morning"
+     * carries the whole idea in English and lands as a literal Monday in
+     * Polish, where nobody hears the promise inside it. This says the same
+     * thing outright instead.
+     */
+    pl: ["Kod to połowa roboty.", "Druga połowa zaczyna się", "po wdrożeniu."],
   } satisfies Localized<string[]>,
   /** The line inside the headline that gets the accent treatment. */
-  accentWord: { en: "on Monday morning.", pl: "w poniedziałek rano." } satisfies Localized,
+  accentWord: { en: "on Monday morning.", pl: "po wdrożeniu." } satisfies Localized,
   intro: {
     en: "Most sites get built once, handed over, and left to quietly rot. I come at it from the other end: my day job is keeping enterprise systems alive, so I build the way somebody who takes the support calls builds. Websites, web apps, and the upkeep nobody else wants to do.",
-    pl: "Większość stron powstaje raz, zostaje przekazana i po cichu zarasta. Ja podchodzę do tego z drugiej strony: na etacie pilnuję, żeby systemy korporacyjne żyły, więc buduję tak, jak buduje ktoś, kto odbiera telefony po awarii. Strony, aplikacje webowe i to utrzymanie, którego nikt inny nie chce.",
+    pl: "Większość stron powstaje raz, zostaje oddana klientowi i po cichu się sypie. U mnie jest odwrotnie: na etacie utrzymuję przy życiu systemy korporacyjne, więc buduję tak, jak buduje ktoś, kto potem odbiera telefony po awarii. Strony, aplikacje webowe i utrzymanie, za które nikt inny nie chce się brać.",
   } satisfies Localized,
   ctaPrimary: { en: "See the work", pl: "Zobacz projekty" } satisfies Localized,
   ctaSecondary: { en: "Start a project", pl: "Zacznijmy projekt" } satisfies Localized,
