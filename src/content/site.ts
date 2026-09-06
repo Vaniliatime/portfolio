@@ -345,6 +345,13 @@ export const ui = {
   /* Same button, different word for it: "visit site" over an application is
      the wrong invitation, and half the featured work is applications. */
   visitApp: { en: "Open the app", pl: "Otwórz aplikację" },
+  /*
+   * Said on the card when a project is more than one site, so the scale is
+   * visible from the list rather than only from the case study. Polish takes
+   * this form from two to four; past that it would need "stron", which no
+   * project here is anywhere near.
+   */
+  siteCount: { en: "{n} sites", pl: "{n} strony" },
   comingSoon: { en: "Coming soon", pl: "Wkrótce" },
   sourceCode: { en: "Source code", pl: "Kod źródłowy" },
   featured: { en: "Selected work", pl: "Wybrane projekty" },

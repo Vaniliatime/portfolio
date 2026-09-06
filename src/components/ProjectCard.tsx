@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink, Layers } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { categories, galleryOf, statusLabels, type Project } from "@/content/projects";
 import { ui } from "@/content/site";
@@ -34,7 +34,9 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
   const large = size === "lg";
   const status = statusStyles[project.status];
   // Somewhere public to send people, if the project has one at all.
-  const live = project.links.find((link) => link.kind === "site" && link.href)?.href;
+  const sites = project.links.filter((link) => link.kind === "site" && link.href);
+  const live = sites[0]?.href;
+  const siteCount = sites.length;
   const coverSizes = large ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 400px, 100vw";
   // Cover first, then whatever the gallery adds, so the card opens on the
   // shot the project leads with.
@@ -58,7 +60,20 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
       }
     >
         <article className="card-sheen relative flex h-full flex-col overflow-hidden rounded-[calc(1rem-1px)] bg-surface">
-          <div className={cn("relative overflow-hidden bg-surface-2", large ? "aspect-[16/10]" : "aspect-[4/3]")}>
+          {/*
+           * A hairline where the picture ends. Half these screenshots are of
+           * pages with white backgrounds, and against a white card the shot
+           * simply ran into the text with no edge at all. Violet, and fading
+           * out at both ends, so it reads as the edge of the picture rather
+           * than as a rule drawn across the card.
+           */}
+          <div
+            className={cn(
+              "relative overflow-hidden bg-surface-2",
+              "after:absolute after:inset-x-0 after:bottom-0 after:z-10 after:h-px after:bg-gradient-to-r after:from-accent/0 after:via-accent/55 after:to-accent/0 after:content-['']",
+              large ? "aspect-[16/10]" : "aspect-[4/3]",
+            )}
+          >
             {frames.length > 1 ? (
               <CardSlideshow
                 images={frames}
@@ -76,6 +91,17 @@ export function ProjectCard({ project, lang, size = "md", priority, index = 0 }:
                 className="transition-transform duration-500 group-hover:scale-[1.04]"
                 sizes={coverSizes}
               />
+            )}
+
+            {/* Opposite corner to the status, because it answers a different
+                question: not how the work is doing, but how much of it there
+                is. Only where there is more than one, so it never states the
+                obvious. */}
+            {siteCount > 1 && (
+              <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-accent-ink shadow-lift">
+                <Layers className="h-3 w-3" />
+                {t(ui.siteCount, lang).replace("{n}", String(siteCount))}
+              </span>
             )}
 
             {/* The dot keeps beating on anything still alive, which is what makes
