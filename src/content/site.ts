@@ -288,19 +288,41 @@ export const about = {
 export const skillGroups: { title: Localized; items: string[] }[] = [
   {
     title: { en: "Front end", pl: "Front end" },
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Motion", "HTML & CSS", "Bootstrap"],
+    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Motion", "HTML & CSS", "Vite"],
   },
   {
     title: { en: "Back end & data", pl: "Back end i dane" },
-    items: ["Node.js", "Express", "Prisma", "SQLite", "Oracle SQL", "REST APIs", "NextAuth"],
+    items: [
+      "Node.js",
+      "Express",
+      "Prisma",
+      "PostgreSQL",
+      "MySQL",
+      "SQLite",
+      "Python",
+      "Flask",
+      "REST APIs",
+      "NextAuth",
+      "Oracle SQL",
+    ],
   },
   {
-    title: { en: "Platforms & ops", pl: "Platformy i ops" },
-    items: ["WordPress", "WooCommerce", "Linux server", "Hosting & DNS", "Git", "Vite"],
+    title: { en: "Infrastructure & ops", pl: "Infrastruktura i ops" },
+    items: [
+      "Docker",
+      "Proxmox",
+      "LXC",
+      "Traefik",
+      "Cloudflare Tunnel",
+      "Linux server",
+      "PM2",
+      "Hosting & DNS",
+      "Git",
+    ],
   },
   {
     title: { en: "Support & process", pl: "Support i procesy" },
-    items: ["Jira", "ServiceNow", "Incident triage", "ITIL", "Documentation"],
+    items: ["Jira", "ServiceNow", "Incident triage", "ITIL", "Documentation", "WordPress"],
   },
 ];
 
@@ -364,6 +386,12 @@ export const ui = {
     pl: "Kilka przykładów z dłuższej listy: prace dla klientów, własne produkty i rzeczy wciąż w budowie. Resztę znajdziesz w Projektach.",
   },
   readMore: { en: "Read more", pl: "Czytaj więcej" },
+  moreHeading: { en: "The rest of the work", pl: "Reszta projektów" },
+  moreLead: {
+    en: "Client sites, an exam trainer, a wedding invitation, games, graphics, and the machines all of it runs on.",
+    pl: "Strony dla klientów, trener egzaminacyjny, zaproszenie ślubne, gry, grafika i maszyny, na których to wszystko stoi.",
+  },
+  moreCount: { en: "more projects", pl: "projektów" },
   viewResume: { en: "View my résumé", pl: "Zobacz moje CV" },
   servicesCta: { en: "See what each one includes", pl: "Zobacz, co obejmuje każda z nich" },
   aboutCta: { en: "More about me", pl: "Więcej o mnie" },

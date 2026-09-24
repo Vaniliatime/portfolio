@@ -11,6 +11,7 @@ import { ProjectBrief } from "@/components/ProjectBrief";
 import { ProjectHeading } from "@/components/ProjectHeading";
 import { Gallery } from "@/components/Gallery";
 import { ContactCta } from "@/components/ContactCta";
+import { NextProject } from "@/components/NextProject";
 import { Reveal } from "@/components/Reveal";
 
 export function generateStaticParams() {
@@ -99,21 +100,7 @@ export default async function ProjectPage({
           )}
         </div>
 
-        <div className="border-t border-line">
-          <div className="shell py-12">
-            <Link href={localePath(lang, `work/${next.slug}`)} className="group flex items-center justify-between gap-6">
-              <span>
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-faint">
-                  {t(ui.nextProject, lang)}
-                </span>
-                <span className="mt-1.5 block font-display text-2xl font-semibold transition-colors group-hover:text-accent md:text-3xl">
-                  {next.title}
-                </span>
-              </span>
-              <ArrowRight className="h-6 w-6 shrink-0 text-ink-faint transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent" />
-            </Link>
-          </div>
-        </div>
+        <NextProject project={next} lang={lang} />
       </article>
 
       <ContactCta lang={lang} />

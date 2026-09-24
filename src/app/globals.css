@@ -462,6 +462,72 @@
     }
   }
 
+  /*
+   * A ring leaving the button every few seconds, on the way to the next case
+   * study. Long pause, short travel: at the foot of a long page the eye is
+   * looking for somewhere to go, and this is the only thing still moving.
+   * Transform and opacity only, and it sits on a pseudo-element so the button's
+   * own hover scale is not fighting it for the same transform.
+   */
+  .cta-pulse::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    border: 2px solid var(--accent);
+    animation: cta-pulse 3.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-pulse::before {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  /*
+   * A highlight travelling along the border of a wide box.
+   *
+   * The beam above spins a cone around the centre, which suits a frame roughly
+   * as tall as it is wide and turns into a lighthouse on a banner: the cone is
+   * then far larger than the box is tall, and the sweep reads as coming out of
+   * the middle. This one slides a horizontal gradient instead, so the light
+   * runs along the edge the way the shape suggests. Transform only.
+   *
+   * Whatever sits inside has to be opaque AND positioned (relative z-10), or
+   * this pseudo-element, being positioned itself, paints straight over it and
+   * the card becomes one solid gradient.
+   */
+  .edge-sweep {
+    position: relative;
+    padding: 1px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .edge-sweep::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 300%;
+    background: linear-gradient(
+      90deg,
+      var(--line) 0 20%,
+      var(--accent) 32%,
+      var(--accent-soft) 38%,
+      var(--line) 50% 100%
+    );
+    animation: edge-sweep 7s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .edge-sweep::before {
+      animation: none;
+    }
+  }
+
   /* Incoming slideshow frame, rising over the one it replaces. */
   .slide-fade {
     animation: slide-fade 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -677,6 +743,20 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes cta-pulse {
+  0%,
+  55% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  85%,
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
   }
 }
 
@@ -909,6 +989,16 @@
   100% {
     transform: scaleX(1);
     opacity: 0;
+  }
+}
+
+@keyframes edge-sweep {
+  from {
+    transform: translateX(-66.667%);
+  }
+
+  to {
+    transform: translateX(0);
   }
 }
 
