@@ -1346,6 +1346,33 @@ export const projects: Project[] = [
 
 export const featuredProjects = projects.filter((p) => p.featured);
 
+/** The project the hero always opens on, whatever the rotation does after it. */
+export const leadSlug = "amtracker";
+
+/**
+ * Everything the hero carousel may show, in its resting order.
+ *
+ * The home page cards are four on purpose; the carousel is not, because it
+ * costs a reader nothing to sit there and it is the only place the older work
+ * gets seen at all.
+ *
+ * Applications and sites only, and only with a screenshot. The frame around
+ * the slide is a browser with an address bar in it, which describes a web
+ * application and says nothing true about a game, a business card or a rack of
+ * hardware. Those live on the work page, in their own sections.
+ *
+ * The lead comes first here and the hero keeps it there. The rest are shuffled
+ * once per visit, so the second slide is a different project each time.
+ */
+const showcaseCategories: Category[] = ["app", "site"];
+
+const inShowcase = (p: Project) => Boolean(p.cover) && showcaseCategories.includes(p.category);
+
+export const showcaseProjects = [
+  ...projects.filter((p) => p.slug === leadSlug && inShowcase(p)),
+  ...projects.filter((p) => p.slug !== leadSlug && inShowcase(p)),
+];
+
 /** The heading a project files under, which its category alone decides. */
 export function groupOf(project: Project): string {
   const byCategory = projectGroups.find((group) => group.categories.includes(project.category));

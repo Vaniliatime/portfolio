@@ -1,24 +1,86 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Github, Linkedin } from "lucide-react";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { hero, profile, stats } from "@/content/site";
-import { featuredProjects } from "@/content/projects";
+import { showcaseProjects, type Project } from "@/content/projects";
 import { ButtonLink } from "./Button";
 import { CountUp } from "./CountUp";
 import { HeroShowcase } from "./HeroShowcase";
 import { ScrollCue } from "./ScrollCue";
 import { cn } from "@/lib/utils";
 
+/** Where the visit's running order is kept, so it survives a click away. */
+const ORDER_KEY = "hero-order";
+
+/**
+ * The rotation after the first slide, shuffled.
+ *
+ * Fisher-Yates over the tail only: the lead project is the one thing on the
+ * page a stranger sees first, so it is not left to chance. Everything behind
+ * it is, which is the point: the second slide differs from visit to visit, and
+ * the older work stops living permanently at the back of the queue.
+ */
+function shuffleTail(list: Project[]) {
+  const [lead, ...rest] = list;
+
+  for (let i = rest.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rest[i], rest[j]] = [rest[j], rest[i]];
+  }
+
+  return lead ? [lead, ...rest] : rest;
+}
+
 export function Hero({ lang }: { lang: Locale }) {
   const reduced = useReducedMotion();
   const lines = t(hero.headline, lang);
   const accentLine = t(hero.accentWord, lang);
-  // Only the ones with a real screenshot; a generated gradient would read as
-  // a blank slide in the rotation.
-  const showcase = featuredProjects.filter((project) => project.cover);
+  /*
+   * The server and the first client render have to agree, so the order shipped
+   * in the HTML is the resting one and the shuffle happens on mount. Nothing
+   * moves on screen when it lands: the lead slide is the same either way, and
+   * the reader is still on it.
+   *
+   * Per session rather than per page view, or the order would change under
+   * somebody who opens a case study and comes back.
+   */
+  const [showcase, setShowcase] = useState(showcaseProjects);
+
+  useEffect(() => {
+    const bySlug = new Map(showcaseProjects.map((project) => [project.slug, project]));
+    let slugs: string[] | null = null;
+
+    try {
+      const saved = sessionStorage.getItem(ORDER_KEY);
+      const parsed: unknown = saved ? JSON.parse(saved) : null;
+      // Only reused while it still describes the same set of projects: a
+      // deploy that adds or drops one leaves a stale list behind.
+      if (
+        Array.isArray(parsed) &&
+        parsed.length === showcaseProjects.length &&
+        parsed.every((slug) => typeof slug === "string" && bySlug.has(slug))
+      ) {
+        slugs = parsed as string[];
+      }
+    } catch {
+      // Private browsing can throw on read. An unshuffled order is fine.
+    }
+
+    const order = slugs
+      ? slugs.map((slug) => bySlug.get(slug) as Project)
+      : shuffleTail(showcaseProjects);
+
+    try {
+      sessionStorage.setItem(ORDER_KEY, JSON.stringify(order.map((project) => project.slug)));
+    } catch {
+      // Same again: the order simply is not remembered.
+    }
+
+    setShowcase(order);
+  }, []);
 
   const rise = (i: number) =>
     reduced
