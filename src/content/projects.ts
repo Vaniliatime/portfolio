@@ -729,7 +729,7 @@ export const projects: Project[] = [
     tech: ["React 19", "TypeScript", "Vite 8", "Tailwind CSS", "Python", "faster-whisper"],
     links: [{ label: "itil.kkaszuba.eu", href: "https://itil.kkaszuba.eu/", kind: "site" }],
     cover: "/images/itil/app-home.webp",
-    coverTall: { src: "/images/itil/app-home.webp", width: 871, height: 1250 },
+    coverTall: { src: "/images/itil/full.webp", width: 2800, height: 2844 },
     gallerySections: [
       {
         label: { en: "Learning and the exam", pl: "Nauka i egzamin" },
