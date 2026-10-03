@@ -510,7 +510,7 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: "/images/prox-hub/projects.webp",
-    coverTall: { src: "/images/prox-hub/full.webp", width: 1400, height: 1246 },
+    coverTall: { src: "/images/prox-hub/full.webp", width: 1400, height: 4192 },
     gallerySections: [
       {
         label: { en: "The board", pl: "Pulpit" },
@@ -540,12 +540,26 @@ export const projects: Project[] = [
       },
       {
         label: { en: "The machine", pl: "Maszyna" },
-        images: ["/images/prox-hub/server.webp"],
+        images: [
+          "/images/prox-hub/server.webp",
+        ],
       },
       {
         label: { en: "Hosts", pl: "Hosty" },
         images: [
           "/images/prox-hub/hosts.webp",
+        ],
+      },
+      {
+        label: { en: "Jobs", pl: "Jobs" },
+        images: [
+          "/images/prox-hub/jobs.webp",
+        ],
+      },
+      {
+        label: { en: "console", pl: "console" },
+        images: [
+          "/images/prox-hub/consolex.webp",
         ],
       },
     ],
