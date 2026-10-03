@@ -930,20 +930,25 @@ export const projects: Project[] = [
     ],
     links: [{ label: "sicily.kkaszuba.eu", href: "https://sicily.kkaszuba.eu/", kind: "site" }],
     cover: "/images/wedding/invitation.webp",
-    coverTall: { src: "/images/wedding/full.webp", width: 1400, height: 5406 },
+    coverTall: { src: "/images/wedding/full.webp", width: 2800, height: 16123 },
     /* One page, read top to bottom, so it gets one strip in the same order
        rather than headings over parts of a thing that has no parts. */
-    gallery: [
-      "/images/wedding/invitation.webp",
-      "/images/wedding/schedule.webp",
-      "/images/wedding/venue.webp",
-      "/images/wedding/food.webp",
-      "/images/wedding/rsvp.webp",
-      "/images/wedding/travel.webp",
-      "/images/wedding/stay.webp",
-      "/images/wedding/photos.webp",
-      "/images/wedding/music.webp",
-      "/images/wedding/contact.webp",
+    gallerySections: [
+      {
+        label: { en: "Gallery", pl: "Gallery" },
+        images: [
+          "/images/wedding/invitation.webp",
+          "/images/wedding/venue.webp",
+          "/images/wedding/travel.webp",
+          "/images/wedding/schedule.webp",
+          "/images/wedding/stay.webp",
+          "/images/wedding/food.webp",
+          "/images/wedding/music.webp",
+          "/images/wedding/photos.webp",
+          "/images/wedding/rsvp.webp",
+          "/images/wedding/contact.webp",
+        ],
+      },
     ],
     galleryAspect: "wide",
   },
@@ -1049,26 +1054,42 @@ export const projects: Project[] = [
     ],
     links: [{ label: "purpletw.kkaszuba.eu", href: "https://purpletw.kkaszuba.eu", kind: "site" }],
     cover: "/images/old-portfolio/home.webp",
-    coverTall: { src: "/images/old-portfolio/full.webp", width: 1400, height: 1276 },
+    coverTall: { src: "/images/old-portfolio/full.webp", width: 2800, height: 3970 },
     gallerySections: [
       {
         label: { en: "The home page", pl: "Strona główna" },
-        images: ["/images/old-portfolio/home.webp", "/images/old-portfolio/about.webp"],
-      },
-      {
-        label: { en: "Projects", pl: "Projekty" },
         images: [
-          "/images/old-portfolio/projects.webp",
-          "/images/old-portfolio/projects-more.webp",
+          "/images/old-portfolio/home.webp",
+          "/images/old-portfolio/about.webp",
         ],
       },
       {
-        label: { en: "Resume and contact", pl: "CV i kontakt" },
-        images: ["/images/old-portfolio/resume.webp", "/images/old-portfolio/contact.webp"],
+        label: { en: "projects", pl: "projects" },
+        images: [
+          "/images/old-portfolio/projects-2.webp",
+          "/images/old-portfolio/projects-3-games-level-design.webp",
+          "/images/old-portfolio/projects-3-graphics.webp",
+          "/images/old-portfolio/projects-3-pc-builds-mining.webp",
+          "/images/old-portfolio/projects-3-websites.webp",
+        ],
+      },
+      {
+        label: { en: "resume", pl: "resume" },
+        images: [
+          "/images/old-portfolio/resume-2.webp",
+        ],
+      },
+      {
+        label: { en: "contact", pl: "contact" },
+        images: [
+          "/images/old-portfolio/contact-2.webp",
+        ],
       },
       {
         label: { en: "Dark mode", pl: "Ciemny motyw" },
-        images: ["/images/old-portfolio/home-dark.webp"],
+        images: [
+          "/images/old-portfolio/home-dark.webp",
+        ],
       },
     ],
     galleryAspect: "wide",
