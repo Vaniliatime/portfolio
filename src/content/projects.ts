@@ -221,8 +221,10 @@ export const projects: Project[] = [
         images: [
           "/images/amtracker/app-home.webp",
           "/images/amtracker/add-entry.webp",
+          "/images/amtracker/edit-entry.webp",
           "/images/amtracker/airing-now.webp",
           "/images/amtracker/season-browser.webp",
+          "/images/amtracker/user-menu.webp",
           "/images/amtracker/dashboard.webp",
           "/images/amtracker/achievements.webp",
           "/images/amtracker/calendar.webp",
