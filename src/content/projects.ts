@@ -763,9 +763,40 @@ export const projects: Project[] = [
       "Proxmox",
     ],
     links: [{ label: "numbers.kkaszuba.eu", href: "https://numbers.kkaszuba.eu", kind: "site" }],
-    // No screenshots yet: the card falls back to a generated cover until there
-    // are some. Setting `cover` is also what puts it in the hero carousel, and
-    // a `coverTall` full-page capture makes it scroll there like the others.
+    cover: "/images/numbers/home.webp",
+    coverTall: { src: "/images/numbers/full.webp", width: 2800, height: 3150 },
+    gallerySections: [
+      {
+        label: { en: "Gallery", pl: "Gallery" },
+        images: [
+          "/images/numbers/home.webp",
+          "/images/numbers/kolorowanka-szkic.webp",
+          "/images/numbers/filters-adv.webp",
+          "/images/numbers/kolorowanka-kolor.webp",
+          "/images/numbers/kolorowanka-orginal.webp",
+        ],
+      },
+      {
+        label: { en: "projekty", pl: "projekty" },
+        images: [
+          "/images/numbers/projekty.webp",
+        ],
+      },
+      {
+        label: { en: "Account", pl: "Account" },
+        images: [
+          "/images/numbers/login.webp",
+          "/images/numbers/register.webp",
+        ],
+      },
+      {
+        label: { en: "Dark Mode", pl: "Dark Mode" },
+        images: [
+          "/images/numbers/darkmode.webp",
+          "/images/numbers/darkmode-projects.webp",
+        ],
+      },
+    ],
   },
   {
     slug: "itil-quiz",
