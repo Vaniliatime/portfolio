@@ -65,6 +65,9 @@ export const resumeSections: ResumeSection[] = [
   { id: "languages", label: { en: "Languages", pl: "Języki" } },
 ];
 
+/** Accessible name of the section list. */
+export const resumeNavLabel: Localized = { en: "Sections", pl: "Sekcje" };
+
 export const sectionLeads: Record<string, Localized> = {
   employment: {
     en: "Permanent roles, in reverse order.",

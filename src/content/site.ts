@@ -97,8 +97,8 @@ export const services: Service[] = [
     },
     from: { en: "from €500", pl: "od 2200 zł" },
     bullets: {
-      en: ["Landing pages and multi-page sites", "Local SEO groundwork", "Contact and booking flows", "WordPress or hand-built"],
-      pl: ["Landing page i strony wielopodstronowe", "Fundament pod lokalne SEO", "Ścieżki kontaktu i rezerwacji", "WordPress lub kodowane ręcznie"],
+      en: ["Landing pages and multi-page sites", "Local SEO groundwork", "Contact and booking flows", "Hand-built, no page builder"],
+      pl: ["Landing page i strony wielopodstronowe", "Fundament pod lokalne SEO", "Ścieżki kontaktu i rezerwacji", "Kodowane ręcznie, bez kreatora stron"],
     },
   },
   {

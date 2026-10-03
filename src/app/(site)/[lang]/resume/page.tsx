@@ -41,6 +41,7 @@ import {
   ownProjects,
   languages,
   resumeMeta,
+  resumeNavLabel,
   resumeSections,
   sectionLeads,
   type CertificateIcon,
@@ -51,6 +52,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ProjectCover } from "@/components/ProjectCover";
 import { BrowserFrame } from "@/components/BrowserFrame";
 import { EditorPanel } from "@/components/EditorPanel";
+import { ResumeNav } from "@/components/ResumeNav";
 import { ContactCta } from "@/components/ContactCta";
 import { FlagGB, FlagPL } from "@/components/icons/Flags";
 import { cn } from "@/lib/utils";
@@ -338,102 +340,103 @@ export default async function ResumePage({ params }: { params: Promise<{ lang: s
         </div>
       </PageHeader>
 
-      <div className="shell py-10">
-        <Reveal>
-          <nav aria-label="Sections" className="flex flex-wrap gap-2">
-            {resumeSections.map((section) => (
-              <a
-                key={section.id}
-                href={`#${section.id}`}
-                className="rounded-full border border-line bg-surface px-4 py-1.5 text-sm font-medium text-ink-muted transition-colors hover:border-accent/50 hover:bg-accent-wash hover:text-accent"
-              >
-                {t(section.label, lang)}
-              </a>
-            ))}
-          </nav>
-        </Reveal>
-      </div>
+      {/*
+       * The section list sits in a column of its own from lg up and stays in
+       * view while the page scrolls past it. Below that there is no room beside
+       * the content, so it stays a row of pills above it.
+       */}
+      <div className="shell pb-16 pt-10 lg:grid lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+        <aside className="mb-10 lg:mb-0">
+          <ResumeNav
+            label={t(resumeNavLabel, lang)}
+            sections={resumeSections.map((section) => ({
+              id: section.id,
+              label: t(section.label, lang),
+            }))}
+          />
+        </aside>
 
-      <div className="shell space-y-16 pb-16 md:space-y-20">
-        <section id="employment">
-          <SectionHeading index={0} lang={lang} />
-          <Timeline entries={employment} lang={lang} />
-        </section>
+        <div className="space-y-16 md:space-y-20">
+          <section id="employment">
+            <SectionHeading index={0} lang={lang} />
+            <Timeline entries={employment} lang={lang} />
+          </section>
 
-        <section id="freelance">
-          <SectionHeading index={1} lang={lang} />
-          <Timeline entries={freelance} lang={lang} />
-        </section>
+          <section id="freelance">
+            <SectionHeading index={1} lang={lang} />
+            <Timeline entries={freelance} lang={lang} />
+          </section>
 
-        <section id="projects">
-          <SectionHeading index={2} lang={lang} />
-          <Timeline entries={ownProjects} lang={lang} />
-        </section>
+          <section id="projects">
+            <SectionHeading index={2} lang={lang} />
+            <Timeline entries={ownProjects} lang={lang} />
+          </section>
 
-        <section id="education">
-          <SectionHeading index={3} lang={lang} />
-          <Timeline entries={education} lang={lang} />
-        </section>
+          <section id="education">
+            <SectionHeading index={3} lang={lang} />
+            <Timeline entries={education} lang={lang} />
+          </section>
 
-        <section id="certificates">
-          <SectionHeading index={4} lang={lang} />
-          <div className="space-y-8">
-            {certificateGroups.map((group) => (
-              <div key={group.items.map((c) => c.name).join()}>
-                <Reveal>
-                  <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-faint">
-                    {t(group.title, lang)}
-                  </h3>
-                  {group.note && <p className="mt-1.5 text-sm text-ink-muted">{t(group.note, lang)}</p>}
-                </Reveal>
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {group.items.map((cert, i) => {
-                    const Icon = certificateIcons[cert.icon ?? "microsoft"];
+          <section id="certificates">
+            <SectionHeading index={4} lang={lang} />
+            <div className="space-y-8">
+              {certificateGroups.map((group) => (
+                <div key={group.items.map((c) => c.name).join()}>
+                  <Reveal>
+                    <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-faint">
+                      {t(group.title, lang)}
+                    </h3>
+                    {group.note && <p className="mt-1.5 text-sm text-ink-muted">{t(group.note, lang)}</p>}
+                  </Reveal>
+                  <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {group.items.map((cert, i) => {
+                      const Icon = certificateIcons[cert.icon ?? "microsoft"];
 
-                    return (
-                      <Reveal key={cert.name} delay={i} as="li">
-                        <div className="flex h-full items-start gap-3 rounded-xl border border-line bg-surface px-5 py-4 transition-colors hover:border-accent/40">
-                          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent-wash">
-                            <Icon className="h-4 w-4 text-accent" />
-                          </span>
-                          <span className="text-[0.9375rem] leading-snug">
-                            {cert.name}
-                            {(cert.issuer || cert.period || cert.hours) && (
-                              <span className="mt-1 block text-xs text-ink-faint">
-                                {[cert.issuer, cert.period, cert.hours].filter(Boolean).join(" · ")}
-                              </span>
-                            )}
-                          </span>
-                        </div>
-                      </Reveal>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+                      return (
+                        <Reveal key={cert.name} delay={i} as="li">
+                          <div className="flex h-full items-start gap-3 rounded-xl border border-line bg-surface px-5 py-4 transition-colors hover:border-accent/40">
+                            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent-wash">
+                              <Icon className="h-4 w-4 text-accent" />
+                            </span>
+                            <span className="text-[0.9375rem] leading-snug">
+                              {cert.name}
+                              {(cert.issuer || cert.period || cert.hours) && (
+                                <span className="mt-1 block text-xs text-ink-faint">
+                                  {[cert.issuer, cert.period, cert.hours].filter(Boolean).join(" · ")}
+                                </span>
+                              )}
+                            </span>
+                          </div>
+                        </Reveal>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
 
-        <section id="languages">
-          <SectionHeading index={5} lang={lang} />
-          <ul className="flex flex-wrap gap-3">
-            {languages.map((language, i) => {
-              const Flag = flags[language.code];
+          <section id="languages">
+            <SectionHeading index={5} lang={lang} />
+            <ul className="flex flex-wrap gap-3">
+              {languages.map((language, i) => {
+                const Flag = flags[language.code];
 
-              return (
-                <Reveal key={language.code} delay={i} as="li">
-                  <div className="flex items-center gap-3 rounded-xl border border-line bg-surface px-5 py-4">
-                    {Flag && <Flag className="h-5 w-auto rounded-[3px] shadow-sm" />}
-                    <span className="text-[0.9375rem]">
-                      {t(language.name, lang)}
-                      <span className="ml-2 text-ink-faint">{t(language.level, lang)}</span>
-                    </span>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </ul>
-        </section>
+                return (
+                  <Reveal key={language.code} delay={i} as="li">
+                    <div className="flex items-center gap-3 rounded-xl border border-line bg-surface px-5 py-4">
+                      {Flag && <Flag className="h-5 w-auto rounded-[3px] shadow-sm" />}
+                      <span className="text-[0.9375rem]">
+                        {t(language.name, lang)}
+                        <span className="ml-2 text-ink-faint">{t(language.level, lang)}</span>
+                      </span>
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </ul>
+          </section>
+        </div>
       </div>
 
       <ContactCta lang={lang} />

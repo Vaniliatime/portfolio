@@ -39,8 +39,14 @@ export function TypedHost({ host }: { host: string }) {
     return () => clearInterval(timer);
   }, [host, reduced]);
 
+  /*
+   * A block, not a flex row. A flex row with no text in it is only as tall as
+   * the caret, so for the first beat of every address the bar lost a few
+   * pixels and the frame, caption and dashes all hopped up and back down. A
+   * block keeps a full line's height whether there is text in it or not.
+   */
   return (
-    <span className="flex min-w-0 items-center truncate">
+    <span className="block min-w-0 truncate">
       {shown}
       {typing && <span aria-hidden className="type-caret" />}
     </span>
