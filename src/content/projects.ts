@@ -630,6 +630,7 @@ export const projects: Project[] = [
         label: { en: "Planner", pl: "Planer" },
         images: [
           "/images/planner/today.webp",
+          "/images/planner/zadania.webp",
           "/images/planner/calendar.webp",
           "/images/planner/week.webp",
           "/images/planner/add-task.webp",
@@ -643,6 +644,7 @@ export const projects: Project[] = [
         images: [
           "/images/planner/board.webp",
           "/images/planner/boards.webp",
+          "/images/planner/code-new-group.webp",
           "/images/planner/code-categories.webp",
           "/images/planner/add-code-category.webp",
         ],
