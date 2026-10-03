@@ -639,6 +639,7 @@ export const projects: Project[] = [
     ],
     links: [{ label: "planner.kkaszuba.eu", href: "https://planner.kkaszuba.eu", kind: "site" }],
     cover: "/images/planner/today.webp",
+    coverTall: { src: "/images/planner/full.webp", width: 2800, height: 2640 },
     gallerySections: [
       {
         label: { en: "Planner", pl: "Planer" },
