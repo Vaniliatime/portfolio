@@ -1010,7 +1010,67 @@
       "Git",
       "Cloudflare Tunnel"
     ],
-    "links": []
+    "links": [],
+    "gallerySections": [
+      {
+        "label": {
+          "en": "Projects",
+          "pl": "Projekty"
+        },
+        "images": [
+          "/images/screenshooter/dashboard.webp",
+          "/images/screenshooter/new-project.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "A project",
+          "pl": "Projekt"
+        },
+        "images": [
+          "/images/screenshooter/project.webp",
+          "/images/screenshooter/viewer.webp",
+          "/images/screenshooter/recipe.webp",
+          "/images/screenshooter/steps-for-every-shot.webp",
+          "/images/screenshooter/explore.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Publishing",
+          "pl": "Publikowanie"
+        },
+        "images": [
+          "/images/screenshooter/commit-and-push.webp",
+          "/images/screenshooter/history.webp",
+          "/images/screenshooter/settings.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Live",
+          "pl": "Na żywo"
+        },
+        "images": [
+          "/images/screenshooter/live.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Sign in",
+          "pl": "Zaloguj się"
+        },
+        "images": [
+          "/images/screenshooter/login.webp"
+        ]
+      }
+    ],
+    "cover": "/images/screenshooter/dashboard.webp",
+    "coverTall": {
+      "src": "/images/screenshooter/full.webp",
+      "width": 2800,
+      "height": 2640
+    }
   },
   {
     "slug": "wedding-invitations",
