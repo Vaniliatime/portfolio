@@ -336,16 +336,14 @@ export const projects: Project[] = [
       { label: "licencjonowany-przewoz-osob.pl", href: "https://licencjonowany-przewoz-osob.pl/", kind: "site" },
     ],
     cover: "/images/transport/klikbus-home.webp",
-    coverTall: { src: "/images/transport/full.webp", width: 1400, height: 2387 },
+    coverTall: { src: "/images/transport/full.webp", width: 2800, height: 6935 },
     gallerySections: [
-      /* klikbus.pl broken up the way the page itself is: fourteen shots under
-         one heading read as a pile, and the headings are what let a reader
-         look up the fleet without scrolling past everything else. */
       {
         label: { en: "Hero sections", pl: "Sekcje hero" },
         images: [
           "/images/transport/klikbus-home.webp",
           "/images/transport/klikbus-services-hero.webp",
+          "/images/transport/klikbus-services2-hero.webp",
           "/images/transport/klikbus-fleet-hero.webp",
           "/images/transport/klikbus-footer.webp",
         ],
@@ -356,6 +354,7 @@ export const projects: Project[] = [
           "/images/transport/klikbus-about.webp",
           "/images/transport/klikbus-about-2.webp",
           "/images/transport/klikbus-about-3.webp",
+          "/images/transport/klikbus-about-4.webp",
         ],
       },
       {
@@ -363,6 +362,8 @@ export const projects: Project[] = [
         images: [
           "/images/transport/klikbus-offer.webp",
           "/images/transport/klikbus-offer-2.webp",
+          "/images/transport/klikbus-offer-3.webp",
+          "/images/transport/klikbus-offer-4.webp",
         ],
       },
       {
@@ -375,26 +376,36 @@ export const projects: Project[] = [
       },
       {
         label: { en: "Blog", pl: "Blog" },
-        images: ["/images/transport/klikbus-blog.webp"],
+        images: [
+          "/images/transport/klikbus-blog.webp",
+        ],
       },
       {
         label: { en: "Contact", pl: "Kontakt" },
-        images: ["/images/transport/klikbus-contact.webp"],
+        images: [
+          "/images/transport/klikbus-contact.webp",
+        ],
       },
       {
         label: { en: "przewozy-katowice.pl", pl: "przewozy-katowice.pl" },
         images: [
+          "/images/transport/katowice-full.webp",
           "/images/transport/katowice-home.webp",
           "/images/transport/katowice-about.webp",
+          "/images/transport/katowice-about2.webp",
           "/images/transport/katowice-reviews.webp",
+          "/images/transport/katowice-about3.webp",
         ],
       },
       {
         label: { en: "licencjonowany-przewoz-osob.pl", pl: "licencjonowany-przewoz-osob.pl" },
         images: [
+          "/images/transport/licensed-home-full.webp",
           "/images/transport/licensed-home.webp",
           "/images/transport/licensed-services.webp",
-          "/images/transport/licensed-audience.webp",
+          "/images/transport/licensed-services2.webp",
+          "/images/transport/licensed-services3.webp",
+          "/images/transport/licensed-services4.webp",
         ],
       },
       {
