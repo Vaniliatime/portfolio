@@ -1,5 +1,88 @@
 [
   {
+    "slug": "screenshooter",
+    "title": "ScreenShooter",
+    "year": "2026",
+    "category": "app",
+    "status": "live",
+    "tagline": {
+      "en": "Retakes every screenshot of my projects for this portfolio, so the pictures never fall behind.",
+      "pl": "Robi od nowa wszystkie zrzuty moich projektów do tego portfolio, żeby nie zostawały w tyle."
+    },
+    "summary": {
+      "en": "Screenshots of an app go stale the moment the app changes, and refreshing them by hand meant an evening of opening, cropping and copying files for a single project. So I built a tool that takes them for me. It logs in, walks through each page, tab and menu, and shows me the new picture beside the old one, and nothing reaches the site until I accept it. Every screenshot on this site was retaken by it.",
+      "pl": "Zrzuty aplikacji się starzeją w chwili, gdy aplikacja się zmienia, a odświeżanie ich ręcznie oznaczało wieczór otwierania, przycinania i kopiowania plików dla jednego projektu. Zbudowałem więc narzędzie, które robi to za mnie. Loguje się, przechodzi przez każdą stronę, zakładkę i menu, a nowe zdjęcie pokazuje obok starego, i nic nie trafia na stronę, dopóki go nie zaakceptuję. Wszystkie zrzuty na tej stronie zostały zrobione od nowa przez nie."
+    },
+    "role": {
+      "en": "Solo: design, front end, back end, deployment.",
+      "pl": "Solo: projekt, front end, back end, wdrożenie."
+    },
+    "highlights": {
+      "en": [
+        "One tile per project and one button that retakes every picture of it: each page, tab, menu and modal the portfolio shows. It signs in the way each app needs: as a guest, by filling in the form, by pressing a demo button, or with a session recorded once for an account behind 2FA.",
+        "A recipe is written the way you would say it: \"click the settings tab\", \"scroll to the containers section\", \"click button akceptuje\". Typos, swapped letters and missing Polish characters are forgiven.",
+        "Every new picture sits beside the one on the site, with a wipe, a side-by-side view and the change in per cent. Nothing goes anywhere until it is accepted.",
+        "A shot that names an element is taken three ways at once: the whole window, the element alone, and the element framed in the gallery's 16:11. The choice is made afterwards, on the card. Private details are blurred by drawing rectangles on the picture, and the blur is applied again on every later retake.",
+        "Live mode is for views too fiddly to write down: a real browser on the server, already signed in, driven with my own mouse and keyboard, with a button that saves what it shows at full quality.",
+        "Claude can walk an app and propose recipes. Every proposal is replayed from a fresh page before it is added, so a recipe that only worked halfway through a session never gets in.",
+        "Groups and their order are dragged on the board and written into the site's project list, with headings in English and Polish (the missing language is translated by Claude). Pictures nothing uses any more are offered for removal, and one project can span several sites, so a shot on a sister domain lands in the same gallery.",
+        "Commit and push are separate buttons from taking pictures, and are signed as ScreenShooter, so the history shows at a glance that a commit changed only screenshots. On shared hosting that rations requests it learns the right pace from the first 429 and remembers it, and a picture hit by one is retaken rather than kept half-drawn."
+      ],
+      "pl": [
+        "Jeden kafelek na projekt i jeden przycisk, który robi od nowa wszystkie jego zdjęcia: każdą stronę, zakładkę, menu i okno, które pokazuje portfolio. Loguje się tak, jak wymaga dana aplikacja: jako gość, wypełniając formularz, klikając przycisk konta demo albo sesją nagraną raz dla konta z 2FA.",
+        "Przepis pisze się tak, jak by się to powiedziało: „click the settings tab”, „scroll to the containers section”, „click button akceptuje”. Literówki, przestawione litery i brak polskich znaków są wybaczane.",
+        "Każde nowe zdjęcie stoi obok tego ze strony, z widokiem z przesuwaną granicą, widokiem obok siebie i zmianą w procentach. Nic nigdzie nie trafia bez akceptacji.",
+        "Zrzut ze wskazanym elementem powstaje od razu w trzech wersjach: całe okno, sam element i element w ramce 16:11 galerii. Wybór robi się potem, na karcie. Prywatne dane zamazuję, rysując prostokąty na zdjęciu, a zamazanie jest nakładane przy każdym kolejnym ujęciu.",
+        "Tryb Live jest dla widoków zbyt zawiłych, żeby je opisać: prawdziwa przeglądarka na serwerze, już zalogowana, sterowana moją myszką i klawiaturą, z przyciskiem, który zapisuje to, co pokazuje, w pełnej jakości.",
+        "Claude potrafi przejść aplikację i zaproponować przepisy. Każda propozycja jest odtwarzana od świeżej strony, zanim zostanie dodana, więc nie wejdzie przepis, który działał tylko w środku sesji.",
+        "Grupy i ich kolejność przeciąga się na tablicy i zapisuje do listy projektów strony, z nagłówkami po angielsku i po polsku (brakujący język tłumaczy Claude). Zdjęcia, których już nic nie używa, można od razu usunąć, a jeden projekt może obejmować kilka stron, więc zrzut z siostrzanej domeny trafia do tej samej galerii.",
+        "Commit i push to osobne przyciski, niezależne od robienia zdjęć, podpisane jako ScreenShooter, więc historia od razu pokazuje, że commit zmienił tylko zrzuty ekranu. Na hostingu współdzielonym, który racjonuje żądania, uczy się właściwego tempa od pierwszego 429 i je pamięta, a zdjęcie trafione takim błędem robi od nowa, zamiast zostawić je narysowane w połowie."
+      ]
+    },
+    "technical": {
+      "en": [
+        "Next.js 15 on the App Router, React 19, TypeScript and Tailwind 4, over SQLite through better-sqlite3, in one container built on Microsoft's Playwright image, so Chromium arrives with its fonts and libraries.",
+        "Pictures are taken at twice the pixel density, scaled down with Lanczos and saved as WebP at quality 95 with smart subsampling, which keeps coloured text on dark cards from smearing. Changes are measured with pixelmatch at a shared size.",
+        "Recipe steps go through a small parser rather than a fixed syntax: synonyms for verbs, edit distance with transpositions for typos, Polish letters folded both ways, the element's kind read before or after its name, and headings searched first for \"the X section\".",
+        "Explore runs Claude Code headless against a zero-dependency MCP server of my own, which offers only look, click, scroll and propose. Clicks whose label reads like save, delete or sign out are refused before they happen.",
+        "Live streams the server's browser as JPEG frames and sends clicks, wheel and keys back as coordinates in its own pixels. A file picker the page opens is answered from the visitor's own computer, since the server has no desktop to show it on.",
+        "Embedded maps draw only while on screen, so in a full-page picture each one is photographed in view and pasted into place. Lazy frames load early, and the capture CSS stays out of iframes, where it froze the map's tiles.",
+        "Request pacing goes through the Fetch domain of Chrome DevTools rather than Playwright's routing: routing turns the browser cache off, and every page would fetch all its scripts again, which is exactly the burst the hosting counts.",
+        "The site's project list is JSON shared with an admin panel. ScreenShooter pulls before every write, edits only its own project's object and writes the file back byte for byte as the panel does, so a change is a one-line diff.",
+        "Git gets its token as a one-off header, never in a remote URL that would end up in config, and error messages never repeat the command line. A rejected push replays the screenshot commits on top and keeps the fresh pictures.",
+        "Long jobs run in the background and are polled, because the Cloudflare Tunnel cuts any request at a hundred seconds. Stored passwords are encrypted with AES-256-GCM and never leave the server, not even in a project export."
+      ],
+      "pl": [
+        "Next.js 15 na App Routerze, React 19, TypeScript i Tailwind 4, na SQLite przez better-sqlite3, w jednym kontenerze zbudowanym na obrazie Playwright od Microsoftu, więc Chromium przychodzi razem ze swoimi czcionkami i bibliotekami.",
+        "Zdjęcia robione są w podwójnej gęstości pikseli, zmniejszane filtrem Lanczos i zapisywane jako WebP w jakości 95 z inteligentnym podpróbkowaniem, dzięki czemu kolorowy tekst na ciemnych kartach się nie rozmywa. Zmiany mierzy pixelmatch na wspólnym rozmiarze.",
+        "Kroki przepisu przechodzą przez mały parser zamiast sztywnej składni: synonimy czasowników, odległość edycyjna z przestawieniami dla literówek, polskie znaki porównywane w obie strony, rodzaj elementu czytany przed nazwą albo po niej, a przy „sekcji X” najpierw szukane nagłówki.",
+        "Explore uruchamia Claude Code bez interfejsu z moim własnym serwerem MCP bez zależności, który daje tylko patrzenie, klikanie, przewijanie i propozycję. Kliknięcia w elementy brzmiące jak zapisz, usuń czy wyloguj są odrzucane, zanim się wydarzą.",
+        "Live przesyła obraz przeglądarki z serwera jako klatki JPEG i odsyła kliknięcia, kółko i klawisze jako współrzędne w jej własnych pikselach. Okno wyboru pliku otwarte przez stronę obsługuje się z własnego komputera, bo serwer nie ma pulpitu, na którym mógłby je pokazać.",
+        "Osadzone mapy rysują się tylko wtedy, gdy są na ekranie, więc przy zdjęciu całej strony każda jest fotografowana w widoku i wklejana na swoje miejsce. Leniwe ramki ładują się wcześniej, a CSS zrzutu nie trafia do ramek, gdzie zamrażał kafelki mapy.",
+        "Tempo żądań idzie przez domenę Fetch w Chrome DevTools, a nie przez routing Playwrighta: routing wyłącza pamięć podręczną przeglądarki i każda strona pobierałaby wszystkie skrypty od nowa, czyli dokładnie tę serię, którą liczy hosting.",
+        "Lista projektów strony to JSON współdzielony z panelem administracyjnym. ScreenShooter pobiera go przed każdym zapisem, edytuje tylko obiekt swojego projektu i zapisuje plik bajt w bajt tak jak panel, więc zmiana to różnica w jednej linii.",
+        "Git dostaje token jako jednorazowy nagłówek, nigdy w adresie zdalnym, który trafiłby do konfiguracji, a komunikaty błędów nigdy nie powtarzają linii polecenia. Odrzucony push przenosi commity ze zrzutami na wierzch i zostawia świeże zdjęcia.",
+        "Długie zadania działają w tle i są odpytywane, bo Cloudflare Tunnel ucina każde żądanie po stu sekundach. Zapisane hasła są szyfrowane AES-256-GCM i nigdy nie opuszczają serwera, nawet w eksporcie projektu."
+      ]
+    },
+    "tech": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "SQLite",
+      "Playwright",
+      "sharp",
+      "pixelmatch",
+      "Docker",
+      "Claude Code",
+      "MCP",
+      "Git",
+      "Cloudflare Tunnel"
+    ],
+    "links": []
+  },
+  {
     "slug": "amtracker",
     "title": "AM Tracker",
     "year": "2026",
