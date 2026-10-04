@@ -1,88 +1,5 @@
 [
   {
-    "slug": "screenshooter",
-    "title": "ScreenShooter",
-    "year": "2026",
-    "category": "app",
-    "status": "live",
-    "tagline": {
-      "en": "Retakes every screenshot of my projects for this portfolio, so the pictures never fall behind.",
-      "pl": "Robi od nowa wszystkie zrzuty moich projektów do tego portfolio, żeby nie zostawały w tyle."
-    },
-    "summary": {
-      "en": "Screenshots of an app go stale the moment the app changes, and refreshing them by hand meant an evening of opening, cropping and copying files for a single project. So I built a tool that takes them for me. It logs in, walks through each page, tab and menu, and shows me the new picture beside the old one, and nothing reaches the site until I accept it. Every screenshot on this site was retaken by it.",
-      "pl": "Zrzuty aplikacji się starzeją w chwili, gdy aplikacja się zmienia, a odświeżanie ich ręcznie oznaczało wieczór otwierania, przycinania i kopiowania plików dla jednego projektu. Zbudowałem więc narzędzie, które robi to za mnie. Loguje się, przechodzi przez każdą stronę, zakładkę i menu, a nowe zdjęcie pokazuje obok starego, i nic nie trafia na stronę, dopóki go nie zaakceptuję. Wszystkie zrzuty na tej stronie zostały zrobione od nowa przez nie."
-    },
-    "role": {
-      "en": "Solo: design, front end, back end, deployment.",
-      "pl": "Solo: projekt, front end, back end, wdrożenie."
-    },
-    "highlights": {
-      "en": [
-        "One tile per project and one button that retakes every picture of it: each page, tab, menu and modal the portfolio shows. It signs in the way each app needs: as a guest, by filling in the form, by pressing a demo button, or with a session recorded once for an account behind 2FA.",
-        "A recipe is written the way you would say it: \"click the settings tab\", \"scroll to the containers section\", \"click button akceptuje\". Typos, swapped letters and missing Polish characters are forgiven.",
-        "Every new picture sits beside the one on the site, with a wipe, a side-by-side view and the change in per cent. Nothing goes anywhere until it is accepted.",
-        "A shot that names an element is taken three ways at once: the whole window, the element alone, and the element framed in the gallery's 16:11. The choice is made afterwards, on the card. Private details are blurred by drawing rectangles on the picture, and the blur is applied again on every later retake.",
-        "Live mode is for views too fiddly to write down: a real browser on the server, already signed in, driven with my own mouse and keyboard, with a button that saves what it shows at full quality.",
-        "Claude can walk an app and propose recipes. Every proposal is replayed from a fresh page before it is added, so a recipe that only worked halfway through a session never gets in.",
-        "Groups and their order are dragged on the board and written into the site's project list, with headings in English and Polish (the missing language is translated by Claude). Pictures nothing uses any more are offered for removal, and one project can span several sites, so a shot on a sister domain lands in the same gallery.",
-        "Commit and push are separate buttons from taking pictures, and are signed as ScreenShooter, so the history shows at a glance that a commit changed only screenshots. On shared hosting that rations requests it learns the right pace from the first 429 and remembers it, and a picture hit by one is retaken rather than kept half-drawn."
-      ],
-      "pl": [
-        "Jeden kafelek na projekt i jeden przycisk, który robi od nowa wszystkie jego zdjęcia: każdą stronę, zakładkę, menu i okno, które pokazuje portfolio. Loguje się tak, jak wymaga dana aplikacja: jako gość, wypełniając formularz, klikając przycisk konta demo albo sesją nagraną raz dla konta z 2FA.",
-        "Przepis pisze się tak, jak by się to powiedziało: „click the settings tab”, „scroll to the containers section”, „click button akceptuje”. Literówki, przestawione litery i brak polskich znaków są wybaczane.",
-        "Każde nowe zdjęcie stoi obok tego ze strony, z widokiem z przesuwaną granicą, widokiem obok siebie i zmianą w procentach. Nic nigdzie nie trafia bez akceptacji.",
-        "Zrzut ze wskazanym elementem powstaje od razu w trzech wersjach: całe okno, sam element i element w ramce 16:11 galerii. Wybór robi się potem, na karcie. Prywatne dane zamazuję, rysując prostokąty na zdjęciu, a zamazanie jest nakładane przy każdym kolejnym ujęciu.",
-        "Tryb Live jest dla widoków zbyt zawiłych, żeby je opisać: prawdziwa przeglądarka na serwerze, już zalogowana, sterowana moją myszką i klawiaturą, z przyciskiem, który zapisuje to, co pokazuje, w pełnej jakości.",
-        "Claude potrafi przejść aplikację i zaproponować przepisy. Każda propozycja jest odtwarzana od świeżej strony, zanim zostanie dodana, więc nie wejdzie przepis, który działał tylko w środku sesji.",
-        "Grupy i ich kolejność przeciąga się na tablicy i zapisuje do listy projektów strony, z nagłówkami po angielsku i po polsku (brakujący język tłumaczy Claude). Zdjęcia, których już nic nie używa, można od razu usunąć, a jeden projekt może obejmować kilka stron, więc zrzut z siostrzanej domeny trafia do tej samej galerii.",
-        "Commit i push to osobne przyciski, niezależne od robienia zdjęć, podpisane jako ScreenShooter, więc historia od razu pokazuje, że commit zmienił tylko zrzuty ekranu. Na hostingu współdzielonym, który racjonuje żądania, uczy się właściwego tempa od pierwszego 429 i je pamięta, a zdjęcie trafione takim błędem robi od nowa, zamiast zostawić je narysowane w połowie."
-      ]
-    },
-    "technical": {
-      "en": [
-        "Next.js 15 on the App Router, React 19, TypeScript and Tailwind 4, over SQLite through better-sqlite3, in one container built on Microsoft's Playwright image, so Chromium arrives with its fonts and libraries.",
-        "Pictures are taken at twice the pixel density, scaled down with Lanczos and saved as WebP at quality 95 with smart subsampling, which keeps coloured text on dark cards from smearing. Changes are measured with pixelmatch at a shared size.",
-        "Recipe steps go through a small parser rather than a fixed syntax: synonyms for verbs, edit distance with transpositions for typos, Polish letters folded both ways, the element's kind read before or after its name, and headings searched first for \"the X section\".",
-        "Explore runs Claude Code headless against a zero-dependency MCP server of my own, which offers only look, click, scroll and propose. Clicks whose label reads like save, delete or sign out are refused before they happen.",
-        "Live streams the server's browser as JPEG frames and sends clicks, wheel and keys back as coordinates in its own pixels. A file picker the page opens is answered from the visitor's own computer, since the server has no desktop to show it on.",
-        "Embedded maps draw only while on screen, so in a full-page picture each one is photographed in view and pasted into place. Lazy frames load early, and the capture CSS stays out of iframes, where it froze the map's tiles.",
-        "Request pacing goes through the Fetch domain of Chrome DevTools rather than Playwright's routing: routing turns the browser cache off, and every page would fetch all its scripts again, which is exactly the burst the hosting counts.",
-        "The site's project list is JSON shared with an admin panel. ScreenShooter pulls before every write, edits only its own project's object and writes the file back byte for byte as the panel does, so a change is a one-line diff.",
-        "Git gets its token as a one-off header, never in a remote URL that would end up in config, and error messages never repeat the command line. A rejected push replays the screenshot commits on top and keeps the fresh pictures.",
-        "Long jobs run in the background and are polled, because the Cloudflare Tunnel cuts any request at a hundred seconds. Stored passwords are encrypted with AES-256-GCM and never leave the server, not even in a project export."
-      ],
-      "pl": [
-        "Next.js 15 na App Routerze, React 19, TypeScript i Tailwind 4, na SQLite przez better-sqlite3, w jednym kontenerze zbudowanym na obrazie Playwright od Microsoftu, więc Chromium przychodzi razem ze swoimi czcionkami i bibliotekami.",
-        "Zdjęcia robione są w podwójnej gęstości pikseli, zmniejszane filtrem Lanczos i zapisywane jako WebP w jakości 95 z inteligentnym podpróbkowaniem, dzięki czemu kolorowy tekst na ciemnych kartach się nie rozmywa. Zmiany mierzy pixelmatch na wspólnym rozmiarze.",
-        "Kroki przepisu przechodzą przez mały parser zamiast sztywnej składni: synonimy czasowników, odległość edycyjna z przestawieniami dla literówek, polskie znaki porównywane w obie strony, rodzaj elementu czytany przed nazwą albo po niej, a przy „sekcji X” najpierw szukane nagłówki.",
-        "Explore uruchamia Claude Code bez interfejsu z moim własnym serwerem MCP bez zależności, który daje tylko patrzenie, klikanie, przewijanie i propozycję. Kliknięcia w elementy brzmiące jak zapisz, usuń czy wyloguj są odrzucane, zanim się wydarzą.",
-        "Live przesyła obraz przeglądarki z serwera jako klatki JPEG i odsyła kliknięcia, kółko i klawisze jako współrzędne w jej własnych pikselach. Okno wyboru pliku otwarte przez stronę obsługuje się z własnego komputera, bo serwer nie ma pulpitu, na którym mógłby je pokazać.",
-        "Osadzone mapy rysują się tylko wtedy, gdy są na ekranie, więc przy zdjęciu całej strony każda jest fotografowana w widoku i wklejana na swoje miejsce. Leniwe ramki ładują się wcześniej, a CSS zrzutu nie trafia do ramek, gdzie zamrażał kafelki mapy.",
-        "Tempo żądań idzie przez domenę Fetch w Chrome DevTools, a nie przez routing Playwrighta: routing wyłącza pamięć podręczną przeglądarki i każda strona pobierałaby wszystkie skrypty od nowa, czyli dokładnie tę serię, którą liczy hosting.",
-        "Lista projektów strony to JSON współdzielony z panelem administracyjnym. ScreenShooter pobiera go przed każdym zapisem, edytuje tylko obiekt swojego projektu i zapisuje plik bajt w bajt tak jak panel, więc zmiana to różnica w jednej linii.",
-        "Git dostaje token jako jednorazowy nagłówek, nigdy w adresie zdalnym, który trafiłby do konfiguracji, a komunikaty błędów nigdy nie powtarzają linii polecenia. Odrzucony push przenosi commity ze zrzutami na wierzch i zostawia świeże zdjęcia.",
-        "Długie zadania działają w tle i są odpytywane, bo Cloudflare Tunnel ucina każde żądanie po stu sekundach. Zapisane hasła są szyfrowane AES-256-GCM i nigdy nie opuszczają serwera, nawet w eksporcie projektu."
-      ]
-    },
-    "tech": [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "SQLite",
-      "Playwright",
-      "sharp",
-      "pixelmatch",
-      "Docker",
-      "Claude Code",
-      "MCP",
-      "Git",
-      "Cloudflare Tunnel"
-    ],
-    "links": []
-  },
-  {
     "slug": "amtracker",
     "title": "AM Tracker",
     "year": "2026",
@@ -230,6 +147,190 @@
           "/images/amtracker/changelog.webp",
           "/images/amtracker/faq.webp",
           "/images/amtracker/roadmap.webp"
+        ]
+      }
+    ],
+    "galleryAspect": "wide"
+  },
+  {
+    "slug": "prox-hub",
+    "title": "Prox Hub",
+    "year": "2026",
+    "category": "app",
+    "status": "wip",
+    "featured": true,
+    "tagline": {
+      "en": "A deploy panel for my own homelab, so shipping is a button rather than an SSH session.",
+      "pl": "Panel wdrożeniowy do własnego homelabu, żeby wypuszczenie zmiany było przyciskiem, a nie sesją SSH."
+    },
+    "summary": {
+      "en": "Ten things of mine run on my own server, and every update used to mean logging in, pulling, building and restarting the right one by hand. This is the panel that does it instead: every project on one screen, the version actually deployed, whether that matches the repository, and the button that fixes it when it does not. The site you are reading was published from it.",
+      "pl": "Dziesięć moich rzeczy stoi na własnym serwerze, a każda aktualizacja oznaczała zalogowanie się, pobranie zmian, zbudowanie i zrestartowanie właściwej ręcznie. To jest panel, który robi to za mnie: wszystkie projekty na jednym ekranie, wersja faktycznie wdrożona, informacja, czy zgadza się z repozytorium, i przycisk, gdy się nie zgadza. Strona, którą właśnie czytasz, została opublikowana właśnie z niego."
+    },
+    "role": {
+      "en": "Solo: design, front end, back end, deployment.",
+      "pl": "Solo: projekt, front end, back end, wdrożenie."
+    },
+    "highlights": {
+      "en": [
+        "Every project on one screen: whether it answers, what it costs in processor and memory, when it last went out, and the commit message of the version actually running.",
+        "It says out loud when the repository has moved ahead of what is deployed, so nothing sits quietly a fortnight out of date.",
+        "Deploy, restart and stop from the card, and any commit in the history can be deployed, which turns a rollback into a click on the previous line rather than a rescue operation.",
+        "Adding a project is pasting a repository address in whatever form it comes in. The panel reads the repository, works out how it is built, writes the container definition, claims a subdomain and puts it on the internet.",
+        "Projects that belong together sit in a row of their own, and the board sorts by name or holds whatever order you dragged the cards into.",
+        "It also publishes to hosting I do not run: it builds here and mirrors the result over FTPS, showing exactly what a deploy would delete before it deletes anything.",
+        "Sites it must not touch are watched instead: whether the address answers, how long it took, and the newest commit in its repository. No buttons, because a button that cannot work is worse than none.",
+        "The containers underneath in the same place: processor, memory and disk against their limits, uptime, and start, reboot or shut down where it is needed.",
+        "A project asks for a database and gets one: its own database and its own role on the shared engine, a generated password, and the connection string already in its environment.",
+        "A browser for those databases, with the tables and their sizes, the rows themselves and a SQL console that runs as the application's own role, so a query that would fail in production fails here too.",
+        "A real terminal in the browser on any host the panel holds a key for: job control, colours and Ctrl+C all work, so the panel is not a reason to keep an SSH client open beside it.",
+        "A container that has outgrown its limits gets more processor, memory or disk from the same screen, instead of a trip to the hypervisor.",
+        "A database that was running before the panel existed can be adopted: it reads it and shows it, but has no delete button for it, because it did not create it.",
+        "The machine as a whole on its own tab, not the containers on it: processor, load, memory, swap, network and pressure, from an hour to a month, with how full the disk pools are.",
+        "Behind a login, and removing a project removes only the panel's own entry. Anything running keeps running, because a deploy tool that can delete what it deploys is one bad click from a bad evening."
+      ],
+      "pl": [
+        "Wszystkie projekty na jednym ekranie: czy odpowiadają, ile biorą procesora i pamięci, kiedy ostatnio wyjechały i z jakim opisem commita chodzi aktualna wersja.",
+        "Mówi wprost, gdy repozytorium wyprzedziło to, co wdrożone, więc nic nie stoi po cichu dwa tygodnie nieaktualne.",
+        "Wdrożenie, restart i zatrzymanie prosto z kafelka, a każdy commit z historii da się wdrożyć: cofnięcie się to kliknięcie w poprzedni wiersz, a nie akcja ratunkowa.",
+        "Dodanie projektu to wklejenie adresu repozytorium w dowolnej postaci. Panel czyta repozytorium, ustala jak się je buduje, pisze definicję kontenera, bierze subdomenę i wystawia całość do internetu.",
+        "Projekty, które należą do siebie, stoją we własnym rzędzie, a tablica sortuje się po nazwie albo trzyma kolejność, w którą przeciągnęło się kafelki.",
+        "Publikuje też na hosting, którego nie prowadzę: buduje u siebie i wysyła wynik przez FTPS, pokazując dokładnie co wdrożenie skasuje, zanim cokolwiek skasuje.",
+        "Strony, których ruszać mu nie wolno, są tylko obserwowane: czy adres odpowiada, jak szybko i jaki jest najnowszy commit w repozytorium. Bez przycisków, bo przycisk, który nie może zadziałać, jest gorszy niż jego brak.",
+        "Kontenery pod spodem w tym samym miejscu: procesor, pamięć i dysk względem limitów, czas działania oraz start, restart albo wyłączenie.",
+        "Projekt prosi o bazę i ją dostaje: własną bazę i własną rolę na współdzielonym silniku, wygenerowane hasło i gotowy adres połączenia już w swoich zmiennych środowiskowych.",
+        "Przeglądarka tych baz: tabele z rozmiarami, podgląd wierszy i konsola SQL działająca z uprawnieniami roli danej aplikacji, więc zapytanie, które nie zadziałałoby na produkcji, nie zadziała i tutaj.",
+        "Prawdziwy terminal w przeglądarce na każdym hoście, do którego panel ma klucz: działa sterowanie zadaniami, kolory i Ctrl+C, więc panel nie jest powodem, żeby trzymać obok otwartego klienta SSH.",
+        "Kontener, któremu zrobiło się ciasno, dostaje więcej procesora, pamięci albo dysku z tego samego ekranu, zamiast wycieczki do hipernadzorcy.",
+        "Bazę, która działała przed panelem, da się zaadoptować: czyta ją i pokazuje, ale nie ma dla niej przycisku usuwania, bo jej nie tworzył.",
+        "Cała maszyna na osobnej zakładce, a nie kontenery na niej: procesor, obciążenie, pamięć, swap, sieć i ciśnienie, w zakresie od godziny do miesiąca, razem z zajętością pul dyskowych.",
+        "Całość za logowaniem, a usunięcie projektu kasuje wyłącznie wpis w panelu. To, co działa, działa dalej, bo narzędzie do wdrożeń, które potrafi skasować to, co wdraża, jest o jedno kliknięcie od zepsutego wieczoru."
+      ]
+    },
+    "technical": {
+      "en": [
+        "Next.js 15 on the App Router, React 19, TypeScript and Tailwind 4, over SQLite through better-sqlite3. One container, no external services, no database to run beside it.",
+        "Two abstractions that know nothing about each other. An executor answers where a command runs: in this container, or over SSH on another host. A runtime answers how a project is built and swapped: compose, a PM2 process, an FTPS mirror, or nothing at all. Adding a fourth kind of project meant one new file.",
+        "A probe reads the repository and writes the Dockerfile and compose file to match, including finding the application when it lives in a subdirectory. The build has to succeed before anything running is touched, so a broken commit fails the deploy instead of taking the site down with it.",
+        "Logs stream over server-sent events with replay, so opening the drawer late still shows the run from its first line, and a keep-alive note distinguishes a slow step from a hung one.",
+        "Environment variables are encrypted at rest with AES-256-GCM. Upload credentials are lifted out before the build runs, so they never reach a .env sitting in the checkout where every npm script could read them.",
+        "One account, and the check lives in middleware rather than in each route, because a guard that has to be remembered is only as good as the memory of whoever adds the next route. Middleware runs on the edge, where SQLite cannot, so the cookie carries a signed claim; server code re-checks it against the database, which is what makes a password change end other sessions at once.",
+        "Publishing a subdomain is two Cloudflare calls (an ingress rule on the tunnel and a DNS record pointing at it), with the zone looked up from the hostname rather than configured, so a second domain works without a second deployment of the panel.",
+        "Migrations run at boot and are idempotent. A rebuild that would drop a column the canonical schema does not define refuses and says which one, because a migration that cannot be done without losing something has to stop rather than proceed quietly.",
+        "Databases are provisioned rather than administered: one shared Postgres, a database and a least-privilege role per project, and the credentials injected as environment variables instead of being written down anywhere a person would read them. An adopted database is registered read-only, so the panel can never destroy something it did not create.",
+        "The shell is a pty allocated through script and ssh -tt rather than a native module, which keeps the image free of a compiled dependency. The cost is visible and documented in the panel itself: resizing the window re-runs stty, which echoes once in the session.",
+        "The server graphs come from Proxmox's own RRD rather than a metrics stack of my own. No second copy of the truth to drift out of agreement with the first, nothing to retain, and nothing to back up. They are inline SVG, drawn without a charting library.",
+        "Traefik routes by host label on a shared network; the containers are LXC on Proxmox, which is also where the resource figures and the power controls come from, through a token scoped to exactly those two rights."
+      ],
+      "pl": [
+        "Next.js 15 na App Routerze, React 19, TypeScript i Tailwind 4, na SQLite przez better-sqlite3. Jeden kontener, żadnych zewnętrznych usług, żadnej bazy do postawienia obok.",
+        "Dwie abstrakcje, które nic o sobie nie wiedzą. Executor odpowiada, gdzie polecenie się wykonuje: w tym kontenerze czy przez SSH na innym hoście. Runtime odpowiada, jak projekt się buduje i podmienia: compose, proces PM2, lustro FTPS albo wcale. Dodanie czwartego rodzaju projektu to był jeden nowy plik.",
+        "Sonda czyta repozytorium i pisze pod nie Dockerfile oraz compose, łącznie ze znalezieniem aplikacji, gdy ta siedzi w podkatalogu. Build musi się udać, zanim cokolwiek działającego zostanie ruszone, więc zepsuty commit wywala wdrożenie, a nie stronę razem z nim.",
+        "Logi lecą przez server-sent events z odtworzeniem od początku, więc otwarcie szuflady w połowie i tak pokazuje przebieg od pierwszej linijki, a linia podtrzymująca odróżnia krok wolny od zawieszonego.",
+        "Zmienne środowiskowe szyfrowane w spoczynku AES-256-GCM. Dane do wysyłki wyjmowane przed buildem, żeby nigdy nie trafiły do .env w katalogu roboczym, gdzie przeczytałby je każdy skrypt npm.",
+        "Jedno konto, a sprawdzenie siedzi w middleware, nie w każdej trasie osobno, bo strażnik, o którym trzeba pamiętać, jest wart tyle, ile pamięć tego, kto dodaje kolejną trasę. Middleware chodzi na edge, gdzie SQLite nie wejdzie, więc ciasteczko niesie podpisaną deklarację, a kod serwerowy sprawdza ją jeszcze w bazie i to sprawia, że zmiana hasła natychmiast kończy pozostałe sesje.",
+        "Opublikowanie subdomeny to dwa wywołania Cloudflare (reguła wejściowa na tunelu i rekord DNS na nią wskazujący), przy czym strefa jest wyszukiwana z nazwy hosta, a nie skonfigurowana na sztywno, więc druga domena działa bez drugiego wdrożenia panelu.",
+        "Migracje wykonują się przy starcie i są idempotentne. Przebudowa, która skasowałaby kolumnę nieopisaną w kanonicznym schemacie, odmawia i mówi którą, bo migracja, której nie da się zrobić bez straty, ma się zatrzymać, a nie przejść po cichu.",
+        "Bazy są zakładane, a nie administrowane: jeden współdzielony Postgres, osobna baza i rola o minimalnych uprawnieniach na projekt, a dane dostępowe wstrzykiwane jako zmienne środowiskowe, zamiast lądować gdziekolwiek, gdzie przeczytałby je człowiek. Zaadoptowana baza jest rejestrowana tylko do odczytu, więc panel nie zniszczy czegoś, czego nie stworzył.",
+        "Powłoka to pty przydzielane przez script i ssh -tt, a nie natywny moduł, dzięki czemu obraz nie ciągnie za sobą kompilowanej zależności. Koszt jest widoczny i opisany w samym panelu: zmiana rozmiaru okna uruchamia stty ponownie, co raz odbija się echem w sesji.",
+        "Wykresy serwera pochodzą z RRD samego Proxmoksa, a nie z własnego stosu metryk. Nie ma drugiej kopii prawdy, która mogłaby rozjechać się z pierwszą, nie ma czego przechowywać ani czego backupować. Rysowane jako inline SVG, bez biblioteki do wykresów.",
+        "Traefik trasuje po etykiecie hosta we wspólnej sieci, a kontenery to LXC na Proxmoksie i stamtąd biorą się odczyty zasobów oraz sterowanie zasilaniem, przez token o uprawnieniach dokładnie do tych dwóch rzeczy."
+      ]
+    },
+    "tech": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "SQLite",
+      "Docker",
+      "Proxmox",
+      "LXC",
+      "Traefik",
+      "Cloudflare Tunnel",
+      "PostgreSQL",
+      "PM2",
+      "SSH",
+      "FTPS",
+      "SSE"
+    ],
+    "links": [],
+    "cover": "/images/prox-hub/projects.webp",
+    "coverTall": {
+      "src": "/images/prox-hub/full.webp",
+      "width": 1400,
+      "height": 4192
+    },
+    "gallerySections": [
+      {
+        "label": {
+          "en": "The board",
+          "pl": "Pulpit"
+        },
+        "images": [
+          "/images/prox-hub/projects.webp",
+          "/images/prox-hub/containers.webp",
+          "/images/prox-hub/new-project.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "A project",
+          "pl": "Projekt"
+        },
+        "images": [
+          "/images/prox-hub/project.webp",
+          "/images/prox-hub/settings.webp",
+          "/images/prox-hub/env.webp",
+          "/images/prox-hub/deploy-history.webp",
+          "/images/prox-hub/history.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Databases",
+          "pl": "Bazy danych"
+        },
+        "images": [
+          "/images/prox-hub/databases.webp",
+          "/images/prox-hub/database.webp",
+          "/images/prox-hub/console.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "The machine",
+          "pl": "Maszyna"
+        },
+        "images": [
+          "/images/prox-hub/server.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Hosts",
+          "pl": "Hosty"
+        },
+        "images": [
+          "/images/prox-hub/hosts.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Jobs",
+          "pl": "Jobs"
+        },
+        "images": [
+          "/images/prox-hub/jobs.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "console",
+          "pl": "console"
+        },
+        "images": [
+          "/images/prox-hub/consolex.webp"
         ]
       }
     ],
@@ -436,190 +537,6 @@
         },
         "images": [
           "/images/transport/klikbus-dark.webp"
-        ]
-      }
-    ],
-    "galleryAspect": "wide"
-  },
-  {
-    "slug": "prox-hub",
-    "title": "Prox Hub",
-    "year": "2026",
-    "category": "app",
-    "status": "wip",
-    "featured": true,
-    "tagline": {
-      "en": "A deploy panel for my own homelab, so shipping is a button rather than an SSH session.",
-      "pl": "Panel wdrożeniowy do własnego homelabu, żeby wypuszczenie zmiany było przyciskiem, a nie sesją SSH."
-    },
-    "summary": {
-      "en": "Ten things of mine run on my own server, and every update used to mean logging in, pulling, building and restarting the right one by hand. This is the panel that does it instead: every project on one screen, the version actually deployed, whether that matches the repository, and the button that fixes it when it does not. The site you are reading was published from it.",
-      "pl": "Dziesięć moich rzeczy stoi na własnym serwerze, a każda aktualizacja oznaczała zalogowanie się, pobranie zmian, zbudowanie i zrestartowanie właściwej ręcznie. To jest panel, który robi to za mnie: wszystkie projekty na jednym ekranie, wersja faktycznie wdrożona, informacja, czy zgadza się z repozytorium, i przycisk, gdy się nie zgadza. Strona, którą właśnie czytasz, została opublikowana właśnie z niego."
-    },
-    "role": {
-      "en": "Solo: design, front end, back end, deployment.",
-      "pl": "Solo: projekt, front end, back end, wdrożenie."
-    },
-    "highlights": {
-      "en": [
-        "Every project on one screen: whether it answers, what it costs in processor and memory, when it last went out, and the commit message of the version actually running.",
-        "It says out loud when the repository has moved ahead of what is deployed, so nothing sits quietly a fortnight out of date.",
-        "Deploy, restart and stop from the card, and any commit in the history can be deployed, which turns a rollback into a click on the previous line rather than a rescue operation.",
-        "Adding a project is pasting a repository address in whatever form it comes in. The panel reads the repository, works out how it is built, writes the container definition, claims a subdomain and puts it on the internet.",
-        "Projects that belong together sit in a row of their own, and the board sorts by name or holds whatever order you dragged the cards into.",
-        "It also publishes to hosting I do not run: it builds here and mirrors the result over FTPS, showing exactly what a deploy would delete before it deletes anything.",
-        "Sites it must not touch are watched instead: whether the address answers, how long it took, and the newest commit in its repository. No buttons, because a button that cannot work is worse than none.",
-        "The containers underneath in the same place: processor, memory and disk against their limits, uptime, and start, reboot or shut down where it is needed.",
-        "A project asks for a database and gets one: its own database and its own role on the shared engine, a generated password, and the connection string already in its environment.",
-        "A browser for those databases, with the tables and their sizes, the rows themselves and a SQL console that runs as the application's own role, so a query that would fail in production fails here too.",
-        "A real terminal in the browser on any host the panel holds a key for: job control, colours and Ctrl+C all work, so the panel is not a reason to keep an SSH client open beside it.",
-        "A container that has outgrown its limits gets more processor, memory or disk from the same screen, instead of a trip to the hypervisor.",
-        "A database that was running before the panel existed can be adopted: it reads it and shows it, but has no delete button for it, because it did not create it.",
-        "The machine as a whole on its own tab, not the containers on it: processor, load, memory, swap, network and pressure, from an hour to a month, with how full the disk pools are.",
-        "Behind a login, and removing a project removes only the panel's own entry. Anything running keeps running, because a deploy tool that can delete what it deploys is one bad click from a bad evening."
-      ],
-      "pl": [
-        "Wszystkie projekty na jednym ekranie: czy odpowiadają, ile biorą procesora i pamięci, kiedy ostatnio wyjechały i z jakim opisem commita chodzi aktualna wersja.",
-        "Mówi wprost, gdy repozytorium wyprzedziło to, co wdrożone, więc nic nie stoi po cichu dwa tygodnie nieaktualne.",
-        "Wdrożenie, restart i zatrzymanie prosto z kafelka, a każdy commit z historii da się wdrożyć: cofnięcie się to kliknięcie w poprzedni wiersz, a nie akcja ratunkowa.",
-        "Dodanie projektu to wklejenie adresu repozytorium w dowolnej postaci. Panel czyta repozytorium, ustala jak się je buduje, pisze definicję kontenera, bierze subdomenę i wystawia całość do internetu.",
-        "Projekty, które należą do siebie, stoją we własnym rzędzie, a tablica sortuje się po nazwie albo trzyma kolejność, w którą przeciągnęło się kafelki.",
-        "Publikuje też na hosting, którego nie prowadzę: buduje u siebie i wysyła wynik przez FTPS, pokazując dokładnie co wdrożenie skasuje, zanim cokolwiek skasuje.",
-        "Strony, których ruszać mu nie wolno, są tylko obserwowane: czy adres odpowiada, jak szybko i jaki jest najnowszy commit w repozytorium. Bez przycisków, bo przycisk, który nie może zadziałać, jest gorszy niż jego brak.",
-        "Kontenery pod spodem w tym samym miejscu: procesor, pamięć i dysk względem limitów, czas działania oraz start, restart albo wyłączenie.",
-        "Projekt prosi o bazę i ją dostaje: własną bazę i własną rolę na współdzielonym silniku, wygenerowane hasło i gotowy adres połączenia już w swoich zmiennych środowiskowych.",
-        "Przeglądarka tych baz: tabele z rozmiarami, podgląd wierszy i konsola SQL działająca z uprawnieniami roli danej aplikacji, więc zapytanie, które nie zadziałałoby na produkcji, nie zadziała i tutaj.",
-        "Prawdziwy terminal w przeglądarce na każdym hoście, do którego panel ma klucz: działa sterowanie zadaniami, kolory i Ctrl+C, więc panel nie jest powodem, żeby trzymać obok otwartego klienta SSH.",
-        "Kontener, któremu zrobiło się ciasno, dostaje więcej procesora, pamięci albo dysku z tego samego ekranu, zamiast wycieczki do hipernadzorcy.",
-        "Bazę, która działała przed panelem, da się zaadoptować: czyta ją i pokazuje, ale nie ma dla niej przycisku usuwania, bo jej nie tworzył.",
-        "Cała maszyna na osobnej zakładce, a nie kontenery na niej: procesor, obciążenie, pamięć, swap, sieć i ciśnienie, w zakresie od godziny do miesiąca, razem z zajętością pul dyskowych.",
-        "Całość za logowaniem, a usunięcie projektu kasuje wyłącznie wpis w panelu. To, co działa, działa dalej, bo narzędzie do wdrożeń, które potrafi skasować to, co wdraża, jest o jedno kliknięcie od zepsutego wieczoru."
-      ]
-    },
-    "technical": {
-      "en": [
-        "Next.js 15 on the App Router, React 19, TypeScript and Tailwind 4, over SQLite through better-sqlite3. One container, no external services, no database to run beside it.",
-        "Two abstractions that know nothing about each other. An executor answers where a command runs: in this container, or over SSH on another host. A runtime answers how a project is built and swapped: compose, a PM2 process, an FTPS mirror, or nothing at all. Adding a fourth kind of project meant one new file.",
-        "A probe reads the repository and writes the Dockerfile and compose file to match, including finding the application when it lives in a subdirectory. The build has to succeed before anything running is touched, so a broken commit fails the deploy instead of taking the site down with it.",
-        "Logs stream over server-sent events with replay, so opening the drawer late still shows the run from its first line, and a keep-alive note distinguishes a slow step from a hung one.",
-        "Environment variables are encrypted at rest with AES-256-GCM. Upload credentials are lifted out before the build runs, so they never reach a .env sitting in the checkout where every npm script could read them.",
-        "One account, and the check lives in middleware rather than in each route, because a guard that has to be remembered is only as good as the memory of whoever adds the next route. Middleware runs on the edge, where SQLite cannot, so the cookie carries a signed claim; server code re-checks it against the database, which is what makes a password change end other sessions at once.",
-        "Publishing a subdomain is two Cloudflare calls (an ingress rule on the tunnel and a DNS record pointing at it), with the zone looked up from the hostname rather than configured, so a second domain works without a second deployment of the panel.",
-        "Migrations run at boot and are idempotent. A rebuild that would drop a column the canonical schema does not define refuses and says which one, because a migration that cannot be done without losing something has to stop rather than proceed quietly.",
-        "Databases are provisioned rather than administered: one shared Postgres, a database and a least-privilege role per project, and the credentials injected as environment variables instead of being written down anywhere a person would read them. An adopted database is registered read-only, so the panel can never destroy something it did not create.",
-        "The shell is a pty allocated through script and ssh -tt rather than a native module, which keeps the image free of a compiled dependency. The cost is visible and documented in the panel itself: resizing the window re-runs stty, which echoes once in the session.",
-        "The server graphs come from Proxmox's own RRD rather than a metrics stack of my own. No second copy of the truth to drift out of agreement with the first, nothing to retain, and nothing to back up. They are inline SVG, drawn without a charting library.",
-        "Traefik routes by host label on a shared network; the containers are LXC on Proxmox, which is also where the resource figures and the power controls come from, through a token scoped to exactly those two rights."
-      ],
-      "pl": [
-        "Next.js 15 na App Routerze, React 19, TypeScript i Tailwind 4, na SQLite przez better-sqlite3. Jeden kontener, żadnych zewnętrznych usług, żadnej bazy do postawienia obok.",
-        "Dwie abstrakcje, które nic o sobie nie wiedzą. Executor odpowiada, gdzie polecenie się wykonuje: w tym kontenerze czy przez SSH na innym hoście. Runtime odpowiada, jak projekt się buduje i podmienia: compose, proces PM2, lustro FTPS albo wcale. Dodanie czwartego rodzaju projektu to był jeden nowy plik.",
-        "Sonda czyta repozytorium i pisze pod nie Dockerfile oraz compose, łącznie ze znalezieniem aplikacji, gdy ta siedzi w podkatalogu. Build musi się udać, zanim cokolwiek działającego zostanie ruszone, więc zepsuty commit wywala wdrożenie, a nie stronę razem z nim.",
-        "Logi lecą przez server-sent events z odtworzeniem od początku, więc otwarcie szuflady w połowie i tak pokazuje przebieg od pierwszej linijki, a linia podtrzymująca odróżnia krok wolny od zawieszonego.",
-        "Zmienne środowiskowe szyfrowane w spoczynku AES-256-GCM. Dane do wysyłki wyjmowane przed buildem, żeby nigdy nie trafiły do .env w katalogu roboczym, gdzie przeczytałby je każdy skrypt npm.",
-        "Jedno konto, a sprawdzenie siedzi w middleware, nie w każdej trasie osobno, bo strażnik, o którym trzeba pamiętać, jest wart tyle, ile pamięć tego, kto dodaje kolejną trasę. Middleware chodzi na edge, gdzie SQLite nie wejdzie, więc ciasteczko niesie podpisaną deklarację, a kod serwerowy sprawdza ją jeszcze w bazie i to sprawia, że zmiana hasła natychmiast kończy pozostałe sesje.",
-        "Opublikowanie subdomeny to dwa wywołania Cloudflare (reguła wejściowa na tunelu i rekord DNS na nią wskazujący), przy czym strefa jest wyszukiwana z nazwy hosta, a nie skonfigurowana na sztywno, więc druga domena działa bez drugiego wdrożenia panelu.",
-        "Migracje wykonują się przy starcie i są idempotentne. Przebudowa, która skasowałaby kolumnę nieopisaną w kanonicznym schemacie, odmawia i mówi którą, bo migracja, której nie da się zrobić bez straty, ma się zatrzymać, a nie przejść po cichu.",
-        "Bazy są zakładane, a nie administrowane: jeden współdzielony Postgres, osobna baza i rola o minimalnych uprawnieniach na projekt, a dane dostępowe wstrzykiwane jako zmienne środowiskowe, zamiast lądować gdziekolwiek, gdzie przeczytałby je człowiek. Zaadoptowana baza jest rejestrowana tylko do odczytu, więc panel nie zniszczy czegoś, czego nie stworzył.",
-        "Powłoka to pty przydzielane przez script i ssh -tt, a nie natywny moduł, dzięki czemu obraz nie ciągnie za sobą kompilowanej zależności. Koszt jest widoczny i opisany w samym panelu: zmiana rozmiaru okna uruchamia stty ponownie, co raz odbija się echem w sesji.",
-        "Wykresy serwera pochodzą z RRD samego Proxmoksa, a nie z własnego stosu metryk. Nie ma drugiej kopii prawdy, która mogłaby rozjechać się z pierwszą, nie ma czego przechowywać ani czego backupować. Rysowane jako inline SVG, bez biblioteki do wykresów.",
-        "Traefik trasuje po etykiecie hosta we wspólnej sieci, a kontenery to LXC na Proxmoksie i stamtąd biorą się odczyty zasobów oraz sterowanie zasilaniem, przez token o uprawnieniach dokładnie do tych dwóch rzeczy."
-      ]
-    },
-    "tech": [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "SQLite",
-      "Docker",
-      "Proxmox",
-      "LXC",
-      "Traefik",
-      "Cloudflare Tunnel",
-      "PostgreSQL",
-      "PM2",
-      "SSH",
-      "FTPS",
-      "SSE"
-    ],
-    "links": [],
-    "cover": "/images/prox-hub/projects.webp",
-    "coverTall": {
-      "src": "/images/prox-hub/full.webp",
-      "width": 1400,
-      "height": 4192
-    },
-    "gallerySections": [
-      {
-        "label": {
-          "en": "The board",
-          "pl": "Pulpit"
-        },
-        "images": [
-          "/images/prox-hub/projects.webp",
-          "/images/prox-hub/containers.webp",
-          "/images/prox-hub/new-project.webp"
-        ]
-      },
-      {
-        "label": {
-          "en": "A project",
-          "pl": "Projekt"
-        },
-        "images": [
-          "/images/prox-hub/project.webp",
-          "/images/prox-hub/settings.webp",
-          "/images/prox-hub/env.webp",
-          "/images/prox-hub/deploy-history.webp",
-          "/images/prox-hub/history.webp"
-        ]
-      },
-      {
-        "label": {
-          "en": "Databases",
-          "pl": "Bazy danych"
-        },
-        "images": [
-          "/images/prox-hub/databases.webp",
-          "/images/prox-hub/database.webp",
-          "/images/prox-hub/console.webp"
-        ]
-      },
-      {
-        "label": {
-          "en": "The machine",
-          "pl": "Maszyna"
-        },
-        "images": [
-          "/images/prox-hub/server.webp"
-        ]
-      },
-      {
-        "label": {
-          "en": "Hosts",
-          "pl": "Hosty"
-        },
-        "images": [
-          "/images/prox-hub/hosts.webp"
-        ]
-      },
-      {
-        "label": {
-          "en": "Jobs",
-          "pl": "Jobs"
-        },
-        "images": [
-          "/images/prox-hub/jobs.webp"
-        ]
-      },
-      {
-        "label": {
-          "en": "console",
-          "pl": "console"
-        },
-        "images": [
-          "/images/prox-hub/consolex.webp"
         ]
       }
     ],
@@ -1011,6 +928,89 @@
       }
     ],
     "galleryAspect": "wide"
+  },
+  {
+    "slug": "screenshooter",
+    "title": "ScreenShooter",
+    "year": "2026",
+    "category": "app",
+    "status": "live",
+    "tagline": {
+      "en": "Retakes every screenshot of my projects for this portfolio, so the pictures never fall behind.",
+      "pl": "Robi od nowa wszystkie zrzuty moich projektów do tego portfolio, żeby nie zostawały w tyle."
+    },
+    "summary": {
+      "en": "Screenshots of an app go stale the moment the app changes, and refreshing them by hand meant an evening of opening, cropping and copying files for a single project. So I built a tool that takes them for me. It logs in, walks through each page, tab and menu, and shows me the new picture beside the old one, and nothing reaches the site until I accept it. Every screenshot on this site was retaken by it.",
+      "pl": "Zrzuty aplikacji się starzeją w chwili, gdy aplikacja się zmienia, a odświeżanie ich ręcznie oznaczało wieczór otwierania, przycinania i kopiowania plików dla jednego projektu. Zbudowałem więc narzędzie, które robi to za mnie. Loguje się, przechodzi przez każdą stronę, zakładkę i menu, a nowe zdjęcie pokazuje obok starego, i nic nie trafia na stronę, dopóki go nie zaakceptuję. Wszystkie zrzuty na tej stronie zostały zrobione od nowa przez nie."
+    },
+    "role": {
+      "en": "Solo: design, front end, back end, deployment.",
+      "pl": "Solo: projekt, front end, back end, wdrożenie."
+    },
+    "highlights": {
+      "en": [
+        "One tile per project and one button that retakes every picture of it: each page, tab, menu and modal the portfolio shows. It signs in the way each app needs: as a guest, by filling in the form, by pressing a demo button, or with a session recorded once for an account behind 2FA.",
+        "A recipe is written the way you would say it: \"click the settings tab\", \"scroll to the containers section\", \"click button akceptuje\". Typos, swapped letters and missing Polish characters are forgiven.",
+        "Every new picture sits beside the one on the site, with a wipe, a side-by-side view and the change in per cent. Nothing goes anywhere until it is accepted.",
+        "A shot that names an element is taken three ways at once: the whole window, the element alone, and the element framed in the gallery's 16:11. The choice is made afterwards, on the card. Private details are blurred by drawing rectangles on the picture, and the blur is applied again on every later retake.",
+        "Live mode is for views too fiddly to write down: a real browser on the server, already signed in, driven with my own mouse and keyboard, with a button that saves what it shows at full quality.",
+        "Claude can walk an app and propose recipes. Every proposal is replayed from a fresh page before it is added, so a recipe that only worked halfway through a session never gets in.",
+        "Groups and their order are dragged on the board and written into the site's project list, with headings in English and Polish (the missing language is translated by Claude). Pictures nothing uses any more are offered for removal, and one project can span several sites, so a shot on a sister domain lands in the same gallery.",
+        "Commit and push are separate buttons from taking pictures, and are signed as ScreenShooter, so the history shows at a glance that a commit changed only screenshots. On shared hosting that rations requests it learns the right pace from the first 429 and remembers it, and a picture hit by one is retaken rather than kept half-drawn."
+      ],
+      "pl": [
+        "Jeden kafelek na projekt i jeden przycisk, który robi od nowa wszystkie jego zdjęcia: każdą stronę, zakładkę, menu i okno, które pokazuje portfolio. Loguje się tak, jak wymaga dana aplikacja: jako gość, wypełniając formularz, klikając przycisk konta demo albo sesją nagraną raz dla konta z 2FA.",
+        "Przepis pisze się tak, jak by się to powiedziało: „click the settings tab”, „scroll to the containers section”, „click button akceptuje”. Literówki, przestawione litery i brak polskich znaków są wybaczane.",
+        "Każde nowe zdjęcie stoi obok tego ze strony, z widokiem z przesuwaną granicą, widokiem obok siebie i zmianą w procentach. Nic nigdzie nie trafia bez akceptacji.",
+        "Zrzut ze wskazanym elementem powstaje od razu w trzech wersjach: całe okno, sam element i element w ramce 16:11 galerii. Wybór robi się potem, na karcie. Prywatne dane zamazuję, rysując prostokąty na zdjęciu, a zamazanie jest nakładane przy każdym kolejnym ujęciu.",
+        "Tryb Live jest dla widoków zbyt zawiłych, żeby je opisać: prawdziwa przeglądarka na serwerze, już zalogowana, sterowana moją myszką i klawiaturą, z przyciskiem, który zapisuje to, co pokazuje, w pełnej jakości.",
+        "Claude potrafi przejść aplikację i zaproponować przepisy. Każda propozycja jest odtwarzana od świeżej strony, zanim zostanie dodana, więc nie wejdzie przepis, który działał tylko w środku sesji.",
+        "Grupy i ich kolejność przeciąga się na tablicy i zapisuje do listy projektów strony, z nagłówkami po angielsku i po polsku (brakujący język tłumaczy Claude). Zdjęcia, których już nic nie używa, można od razu usunąć, a jeden projekt może obejmować kilka stron, więc zrzut z siostrzanej domeny trafia do tej samej galerii.",
+        "Commit i push to osobne przyciski, niezależne od robienia zdjęć, podpisane jako ScreenShooter, więc historia od razu pokazuje, że commit zmienił tylko zrzuty ekranu. Na hostingu współdzielonym, który racjonuje żądania, uczy się właściwego tempa od pierwszego 429 i je pamięta, a zdjęcie trafione takim błędem robi od nowa, zamiast zostawić je narysowane w połowie."
+      ]
+    },
+    "technical": {
+      "en": [
+        "Next.js 15 on the App Router, React 19, TypeScript and Tailwind 4, over SQLite through better-sqlite3, in one container built on Microsoft's Playwright image, so Chromium arrives with its fonts and libraries.",
+        "Pictures are taken at twice the pixel density, scaled down with Lanczos and saved as WebP at quality 95 with smart subsampling, which keeps coloured text on dark cards from smearing. Changes are measured with pixelmatch at a shared size.",
+        "Recipe steps go through a small parser rather than a fixed syntax: synonyms for verbs, edit distance with transpositions for typos, Polish letters folded both ways, the element's kind read before or after its name, and headings searched first for \"the X section\".",
+        "Explore runs Claude Code headless against a zero-dependency MCP server of my own, which offers only look, click, scroll and propose. Clicks whose label reads like save, delete or sign out are refused before they happen.",
+        "Live streams the server's browser as JPEG frames and sends clicks, wheel and keys back as coordinates in its own pixels. A file picker the page opens is answered from the visitor's own computer, since the server has no desktop to show it on.",
+        "Embedded maps draw only while on screen, so in a full-page picture each one is photographed in view and pasted into place. Lazy frames load early, and the capture CSS stays out of iframes, where it froze the map's tiles.",
+        "Request pacing goes through the Fetch domain of Chrome DevTools rather than Playwright's routing: routing turns the browser cache off, and every page would fetch all its scripts again, which is exactly the burst the hosting counts.",
+        "The site's project list is JSON shared with an admin panel. ScreenShooter pulls before every write, edits only its own project's object and writes the file back byte for byte as the panel does, so a change is a one-line diff.",
+        "Git gets its token as a one-off header, never in a remote URL that would end up in config, and error messages never repeat the command line. A rejected push replays the screenshot commits on top and keeps the fresh pictures.",
+        "Long jobs run in the background and are polled, because the Cloudflare Tunnel cuts any request at a hundred seconds. Stored passwords are encrypted with AES-256-GCM and never leave the server, not even in a project export."
+      ],
+      "pl": [
+        "Next.js 15 na App Routerze, React 19, TypeScript i Tailwind 4, na SQLite przez better-sqlite3, w jednym kontenerze zbudowanym na obrazie Playwright od Microsoftu, więc Chromium przychodzi razem ze swoimi czcionkami i bibliotekami.",
+        "Zdjęcia robione są w podwójnej gęstości pikseli, zmniejszane filtrem Lanczos i zapisywane jako WebP w jakości 95 z inteligentnym podpróbkowaniem, dzięki czemu kolorowy tekst na ciemnych kartach się nie rozmywa. Zmiany mierzy pixelmatch na wspólnym rozmiarze.",
+        "Kroki przepisu przechodzą przez mały parser zamiast sztywnej składni: synonimy czasowników, odległość edycyjna z przestawieniami dla literówek, polskie znaki porównywane w obie strony, rodzaj elementu czytany przed nazwą albo po niej, a przy „sekcji X” najpierw szukane nagłówki.",
+        "Explore uruchamia Claude Code bez interfejsu z moim własnym serwerem MCP bez zależności, który daje tylko patrzenie, klikanie, przewijanie i propozycję. Kliknięcia w elementy brzmiące jak zapisz, usuń czy wyloguj są odrzucane, zanim się wydarzą.",
+        "Live przesyła obraz przeglądarki z serwera jako klatki JPEG i odsyła kliknięcia, kółko i klawisze jako współrzędne w jej własnych pikselach. Okno wyboru pliku otwarte przez stronę obsługuje się z własnego komputera, bo serwer nie ma pulpitu, na którym mógłby je pokazać.",
+        "Osadzone mapy rysują się tylko wtedy, gdy są na ekranie, więc przy zdjęciu całej strony każda jest fotografowana w widoku i wklejana na swoje miejsce. Leniwe ramki ładują się wcześniej, a CSS zrzutu nie trafia do ramek, gdzie zamrażał kafelki mapy.",
+        "Tempo żądań idzie przez domenę Fetch w Chrome DevTools, a nie przez routing Playwrighta: routing wyłącza pamięć podręczną przeglądarki i każda strona pobierałaby wszystkie skrypty od nowa, czyli dokładnie tę serię, którą liczy hosting.",
+        "Lista projektów strony to JSON współdzielony z panelem administracyjnym. ScreenShooter pobiera go przed każdym zapisem, edytuje tylko obiekt swojego projektu i zapisuje plik bajt w bajt tak jak panel, więc zmiana to różnica w jednej linii.",
+        "Git dostaje token jako jednorazowy nagłówek, nigdy w adresie zdalnym, który trafiłby do konfiguracji, a komunikaty błędów nigdy nie powtarzają linii polecenia. Odrzucony push przenosi commity ze zrzutami na wierzch i zostawia świeże zdjęcia.",
+        "Długie zadania działają w tle i są odpytywane, bo Cloudflare Tunnel ucina każde żądanie po stu sekundach. Zapisane hasła są szyfrowane AES-256-GCM i nigdy nie opuszczają serwera, nawet w eksporcie projektu."
+      ]
+    },
+    "tech": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "SQLite",
+      "Playwright",
+      "sharp",
+      "pixelmatch",
+      "Docker",
+      "Claude Code",
+      "MCP",
+      "Git",
+      "Cloudflare Tunnel"
+    ],
+    "links": []
   },
   {
     "slug": "wedding-invitations",
