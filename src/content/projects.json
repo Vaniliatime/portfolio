@@ -1213,15 +1213,14 @@
       ]
     },
     "tech": [
-      "WordPress",
-      "WooCommerce",
-      "PHP",
-      "Bootstrap"
+      "Next.js",
+      "React",
+      "Tailwind CSS"
     ],
     "links": [
       {
         "label": "ksztalcenie-sluchu.pl",
-        "href": "https://www.ksztalcenie-sluchu.pl",
+        "href": "https://kształceniesłuchu.kkaszuba.eu",
         "kind": "site"
       }
     ],
