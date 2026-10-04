@@ -1165,7 +1165,29 @@
         "kind": "site"
       }
     ],
-    "cover": "/images/ksztalcenie-sluchu.webp"
+    "cover": "/images/ksztalcenie-sluchu.webp",
+    "coverTall": {
+      "src": "/images/ksztalcenie-sluchu/full.webp",
+      "width": 2800,
+      "height": 12345
+    },
+    "gallerySections": [
+      {
+        "label": {
+          "en": "Hero",
+          "pl": "Sekcja hero"
+        },
+        "images": [
+          "/images/ksztalcenie-sluchu/hero.webp",
+          "/images/ksztalcenie-sluchu/hero1.webp",
+          "/images/ksztalcenie-sluchu/hero2.webp",
+          "/images/ksztalcenie-sluchu/hero3.webp",
+          "/images/ksztalcenie-sluchu/about.webp",
+          "/images/ksztalcenie-sluchu/price.webp",
+          "/images/ksztalcenie-sluchu/footer.webp"
+        ]
+      }
+    ]
   },
   {
     "slug": "old-portfolio",
