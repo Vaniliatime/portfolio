@@ -282,6 +282,41 @@
   ],
   "ownProjects": [
     {
+      "org": "Numbers",
+      "location": {
+        "en": "Own product",
+        "pl": "Produkt własny"
+      },
+      "period": "2026 to present",
+      "icon": "design",
+      "projectSlug": "numbers",
+      "roles": [
+        {
+          "title": {
+            "en": "Solo build",
+            "pl": "Wykonanie solo"
+          },
+          "period": "2026 to present",
+          "points": {
+            "en": [
+              "Built an image engine in about 3,300 lines of TypeScript, no graphics library, running in Web Workers in the browser.",
+              "Set every threshold in millimetres on paper, so prints of any size stay colourable.",
+              "Added palette extraction from the picture, or from the user's own saved pens, with export to vector PDF split into sheets.",
+              "Added AI upscaling of small images with Real-ESRGAN in a separate Python service.",
+              "Run it on my own Proxmox server (Next.js 16, PostgreSQL, Docker), with a colour regression test before each deploy."
+            ],
+            "pl": [
+              "Napisanie silnika obróbki obrazu w około 3300 liniach TypeScriptu, bez biblioteki graficznej, działającego w Web Workerach w przeglądarce.",
+              "Wszystkie progi liczone w milimetrach na papierze, więc wydruk w każdym rozmiarze da się pokolorować.",
+              "Paleta wyciągana z obrazka albo z zapisanych własnych flamastrów, eksport do wektorowego PDF dzielonego na arkusze.",
+              "Powiększanie małych obrazków przez AI (Real-ESRGAN) w osobnej usłudze w Pythonie.",
+              "Utrzymanie na własnym serwerze Proxmox (Next.js 16, PostgreSQL, Docker), z testem regresji kolorów przed każdym wdrożeniem."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "org": "AM Tracker",
       "location": {
         "en": "Own product",
