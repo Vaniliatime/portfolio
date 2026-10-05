@@ -1242,8 +1242,63 @@
           "/images/ksztalcenie-sluchu/hero2.webp",
           "/images/ksztalcenie-sluchu/hero3.webp",
           "/images/ksztalcenie-sluchu/about.webp",
-          "/images/ksztalcenie-sluchu/price.webp",
-          "/images/ksztalcenie-sluchu/footer.webp"
+          "/images/ksztalcenie-sluchu/price.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Subpages",
+          "pl": "Podstrony"
+        },
+        "images": [
+          "/images/ksztalcenie-sluchu/autorka.webp",
+          "/images/ksztalcenie-sluchu/podrecznik.webp",
+          "/images/ksztalcenie-sluchu/kontakt.webp",
+          "/images/ksztalcenie-sluchu/zajrzyj-do-srodka.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Account",
+          "pl": "Konto"
+        },
+        "images": [
+          "/images/ksztalcenie-sluchu/login.webp",
+          "/images/ksztalcenie-sluchu/rejestracja.webp",
+          "/images/ksztalcenie-sluchu/ustawienia.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Order",
+          "pl": "Zamówienie"
+        },
+        "images": [
+          "/images/ksztalcenie-sluchu/kup-koszyk.webp",
+          "/images/ksztalcenie-sluchu/zamowienie-gosc.webp",
+          "/images/ksztalcenie-sluchu/konto.webp",
+          "/images/ksztalcenie-sluchu/zakup-konto.webp",
+          "/images/ksztalcenie-sluchu/zakup-potwierdzenie.webp",
+          "/images/ksztalcenie-sluchu/zakup-moje-zamowienie.webp",
+          "/images/ksztalcenie-sluchu/konto-pobierz-ebook.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Admin dashboard",
+          "pl": "Panel administratora"
+        },
+        "images": [
+          "/images/ksztalcenie-sluchu/zamowienia.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Dark mode",
+          "pl": "Tryb ciemny"
+        },
+        "images": [
+          "/images/ksztalcenie-sluchu/dark-mode.webp"
         ]
       }
     ]
