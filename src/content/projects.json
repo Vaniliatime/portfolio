@@ -1182,44 +1182,82 @@
   {
     "slug": "ksztalcenie-sluchu",
     "title": "Kształcenie Słuchu eBook Store",
-    "year": "2023",
+    "year": "2026",
     "category": "site",
     "client": true,
     "status": "live",
     "tagline": {
-      "en": "An online store selling and delivering an educational eBook.",
-      "pl": "Sklep internetowy sprzedający i dostarczający eBook edukacyjny."
+      "en": "A shop that sells and delivers a music theory e-book directly, with no marketplace in between.",
+      "pl": "Sklep, który sprzedaje i dostarcza e-book o teorii muzyki bezpośrednio, bez żadnego pośrednika."
     },
     "summary": {
-      "en": "A small commerce site for a music education eBook: product page, checkout, payment handling and automatic delivery of the file after purchase.",
-      "pl": "Niewielki sklep dla eBooka o kształceniu słuchu: strona produktu, koszyk, obsługa płatności i automatyczne dostarczenie pliku po zakupie."
+      "en": "Danuta Kaszuba wrote a 404-page book, Kształcenie słuchu z elementami teorii muzyki, and wanted to sell it herself instead of through a marketplace. Visitors can look inside, buy it and download the PDF. Orders are handled from a private admin panel, so the whole process stays in one place.",
+      "pl": "Danuta Kaszuba napisała liczącą 404 strony książkę „Kształcenie słuchu z elementami teorii muzyki” i chciała sprzedawać ją sama, a nie przez platformę sprzedażową. Można do niej zajrzeć, kupić ją i pobrać PDF. Zamówienia obsługuje się z prywatnego panelu, więc cały proces jest w jednym miejscu."
     },
     "role": {
-      "en": "Build, store setup, hosting and payment integration.",
-      "pl": "Wykonanie, konfiguracja sklepu, hosting i integracja płatności."
+      "en": "Solo: design, front end, back end, deployment.",
+      "pl": "Solo: projekt, front end, back end, wdrożenie."
     },
     "highlights": {
       "en": [
-        "WooCommerce store configured for a single digital product.",
-        "Secure payment processing and automated file delivery.",
-        "Responsive Bootstrap layout with a focused purchase path.",
-        "Hosting, performance and ongoing upkeep handled by me."
+        "An interactive piano you can play with the mouse or the computer keyboard, and a reader with 20 sample pages and the full table of contents, so the book can be judged before it is bought.",
+        "Checkout as a guest or with an account, paying by bank transfer or BLIK to a phone number, with the payment instructions sent by email automatically.",
+        "A private admin panel to confirm payments and send the e-book. The send button stays locked until the legally required waiting period has passed.",
+        "The PDF reaches the buyer through a single-use download link valid for 7 days, and it stays available in a library in their account.",
+        "Customer accounts with email verification, password reset, data export and account deletion.",
+        "Terms of sale and a privacy policy built into the checkout. The site records which version each customer accepted and whether they agreed to early delivery.",
+        "The author sells directly, with no payment-provider fees and no marketplace commission. The site uses no analytics and no third-party cookies, so there is no cookie consent banner.",
+        "Light and dark theme, a contact form, and a layout that works on phones."
       ],
       "pl": [
-        "Sklep WooCommerce skonfigurowany pod jeden produkt cyfrowy.",
-        "Bezpieczna obsługa płatności i automatyczne dostarczanie pliku.",
-        "Responsywny layout na Bootstrapie ze skróconą ścieżką zakupu.",
-        "Hosting, wydajność i bieżące utrzymanie po mojej stronie."
+        "Interaktywne pianino, na którym można grać myszką albo klawiaturą komputera, oraz czytnik z 20 stronami próbnymi i pełnym spisem treści, żeby dało się ocenić książkę przed zakupem.",
+        "Zamówienie jako gość albo z kontem, płatność przelewem lub BLIKIEM na numer telefonu, a instrukcja płatności wysyłana automatycznie mailem.",
+        "Prywatny panel administracyjny do potwierdzania wpłat i wysyłania e-booka. Przycisk wysyłki pozostaje zablokowany, dopóki nie minie wymagany prawem czas oczekiwania.",
+        "PDF trafia do kupującego przez jednorazowy link do pobrania ważny 7 dni i zostaje dostępny w bibliotece na jego koncie.",
+        "Konta klientów z weryfikacją adresu e-mail, resetem hasła, eksportem danych i usuwaniem konta.",
+        "Regulamin i polityka prywatności wbudowane w zamówienie. Strona zapisuje, którą wersję zaakceptował każdy klient i czy zgodził się na wcześniejsze dostarczenie.",
+        "Książka sprzedawana jest bezpośrednio, bez prowizji operatora płatności i bez marży platformy. Strona nie używa analityki ani cookies firm trzecich, więc nie ma banera ze zgodą na cookies.",
+        "Jasny i ciemny motyw, formularz kontaktowy i układ, który działa na telefonie."
+      ]
+    },
+    "technical": {
+      "en": [
+        "Next.js 16 on the App Router with React 19 and TypeScript, styled with Tailwind 4.",
+        "Orders, accounts and delivery records live in SQLite (the built-in node:sqlite) on a persistent Docker volume. For one book and a modest number of orders a single file is enough, and there is no database server to look after.",
+        "The PDF is kept outside the public folder, so it can only be reached through a download link the app has issued. Those tokens are single-use and expire after 7 days.",
+        "Download tokens and passwords are stored only as hashes. A leaked database therefore contains no working links and no passwords.",
+        "Payment is a bank transfer or BLIK to a phone number, not a card gateway. That is what removes the provider fees, and it is also why confirmation is a manual step in the admin panel, with the email sent by Nodemailer.",
+        "Polish consumer law on digital content shaped the order flow. The right of withdrawal is handled in code: the send button stays locked for the waiting period, and each order stores the accepted version of the terms and whether early delivery was agreed to.",
+        "The app runs as a standalone Docker image on a self-hosted Proxmox server, behind Traefik and a Cloudflare Tunnel, and is deployed with Prox Hub, the deployment panel I built myself.",
+        "Playwright browser tests cover the account, order and delivery flows, which are the parts where a regression would mean a customer who paid and received nothing."
+      ],
+      "pl": [
+        "Next.js 16 na App Routerze z React 19 i TypeScript, ostylowany w Tailwind 4.",
+        "Zamówienia, konta i zapisy o dostawach siedzą w SQLite (wbudowany node:sqlite) na trwałym wolumenie Dockera. Przy jednej książce i niewielkiej liczbie zamówień pojedynczy plik wystarcza i nie trzeba pilnować serwera bazy danych.",
+        "PDF leży poza folderem publicznym, więc da się do niego dotrzeć tylko przez link do pobrania wydany przez aplikację. Takie tokeny są jednorazowe i wygasają po 7 dniach.",
+        "Tokeny pobierania i hasła są zapisywane wyłącznie jako skróty. Wyciek bazy nie ujawnia więc ani działających linków, ani haseł.",
+        "Płatność to przelew lub BLIK na numer telefonu, a nie bramka kartowa. To właśnie znosi prowizje operatora, i dlatego potwierdzenie wpłaty jest krokiem ręcznym w panelu, a mail wysyła Nodemailer.",
+        "Polskie prawo konsumenckie dotyczące treści cyfrowych ukształtowało proces zamówienia. Prawo odstąpienia jest obsłużone w kodzie: przycisk wysyłki jest zablokowany na czas oczekiwania, a każde zamówienie zapisuje zaakceptowaną wersję regulaminu i informację, czy klient zgodził się na wcześniejsze dostarczenie.",
+        "Aplikacja działa jako samodzielny obraz Dockera na własnym serwerze Proxmox, za Traefikiem i tunelem Cloudflare, a wdrażam ją przez Prox Hub, panel wdrożeniowy, który sam zbudowałem.",
+        "Testy przeglądarkowe w Playwright obejmują konta, zamówienia i dostawę, czyli miejsca, w których regresja oznaczałaby klienta, który zapłacił i nic nie dostał."
       ]
     },
     "tech": [
-      "Next.js",
-      "React",
-      "Tailwind CSS"
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS 4",
+      "SQLite",
+      "Nodemailer",
+      "Playwright",
+      "Docker",
+      "Traefik",
+      "Cloudflare Tunnel",
+      "Proxmox"
     ],
     "links": [
       {
-        "label": "ksztalcenie-sluchu.pl",
+        "label": "kształceniesłuchu.kkaszuba.eu",
         "href": "https://kształceniesłuchu.kkaszuba.eu",
         "kind": "site"
       }
