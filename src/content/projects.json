@@ -1185,6 +1185,7 @@
     "category": "site",
     "client": true,
     "status": "live",
+    "featured": true,
     "tagline": {
       "en": "A shop that sells and delivers a music theory e-book directly, with no marketplace in between.",
       "pl": "Sklep, który sprzedaje i dostarcza e-book o teorii muzyki bezpośrednio, bez żadnego pośrednika."
