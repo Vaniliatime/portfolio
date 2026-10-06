@@ -548,7 +548,6 @@
     "year": "2026",
     "category": "app",
     "status": "live",
-    "featured": true,
     "tagline": {
       "en": "A planner, a calendar and a kanban board, self-hosted, in one place.",
       "pl": "Planer, kalendarz i tablica kanban, self-hostowane, w jednym miejscu."
