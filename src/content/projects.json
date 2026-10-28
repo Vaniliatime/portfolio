@@ -1936,6 +1936,18 @@
       "Linux",
       "Networking"
     ],
-    "links": []
+    "links": [],
+    "gallerySections": [
+      {
+        "label": {
+          "en": "Gallery",
+          "pl": "Gallery"
+        },
+        "images": [
+          "/images/home-lab/homelab.webp"
+        ]
+      }
+    ],
+    "cover": "/images/home-lab/homelab.webp"
   }
 ]
