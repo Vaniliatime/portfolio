@@ -1803,6 +1803,61 @@
     "cover": "/images/2d-art/02.webp"
   },
   {
+    "slug": "home-lab",
+    "title": "Home Server & Network",
+    "year": "2026",
+    "category": "hardware",
+    "status": "live",
+    "tagline": {
+      "en": "The network and server my own projects actually run on.",
+      "pl": "Sieć i serwer, na których naprawdę stoją moje projekty."
+    },
+    "summary": {
+      "en": "AM Tracker and the rest are not hosted on somebody's platform: they run here, on hardware I own, behind a router running firmware I chose. It doubles as the place where I get to be the administrator again rather than the person raising the ticket.",
+      "pl": "AM Tracker i reszta nie stoją na cudzej platformie: działają tutaj, na sprzęcie, który jest mój, za routerem z firmware'em, który sam wybrałem. Przy okazji to miejsce, gdzie znowu jestem administratorem, a nie osobą zgłaszającą problem."
+    },
+    "role": {
+      "en": "Hardware, network, virtualisation and backups.",
+      "pl": "Sprzęt, sieć, wirtualizacja i backupy."
+    },
+    "highlights": {
+      "en": [
+        "Proxmox on an ACEMAGIC mini PC (Ryzen 7 7730U, 32 GB RAM, 512 GB), with each project in its own virtual machine.",
+        "Dynalink DL-WRX36 running OpenWrt instead of stock firmware, so routing, DNS and firewall rules are mine.",
+        "Synology DS923+ with 12 TB of WD Red Plus for storage and scheduled backups.",
+        "TP-Link TL-SG108 switch tying the rack together on wired links.",
+        "Updates, backups and uptime handled the way I handle them at work."
+      ],
+      "pl": [
+        "Proxmox na mini PC ACEMAGIC (Ryzen 7 7730U, 32 GB RAM, 512 GB), każdy projekt w osobnej maszynie wirtualnej.",
+        "Dynalink DL-WRX36 z OpenWrt zamiast fabrycznego firmware'u, więc routing, DNS i reguły zapory są moje.",
+        "Synology DS923+ z 12 TB WD Red Plus na dane i zaplanowane kopie zapasowe.",
+        "Switch TP-Link TL-SG108 spinający całość po kablu.",
+        "Aktualizacje, backupy i dostępność prowadzone tak, jak prowadzę je w pracy."
+      ]
+    },
+    "tech": [
+      "Proxmox",
+      "OpenWrt",
+      "Synology DSM",
+      "Linux",
+      "Networking"
+    ],
+    "links": [],
+    "gallerySections": [
+      {
+        "label": {
+          "en": "Gallery",
+          "pl": "Gallery"
+        },
+        "images": [
+          "/images/home-lab/homelab.webp"
+        ]
+      }
+    ],
+    "cover": "/images/home-lab/homelab.webp"
+  },
+  {
     "slug": "pc-builds",
     "title": "PC Builds",
     "year": "2018-2024",
@@ -1894,60 +1949,5 @@
       "/images/rigs/rig02.webp",
       "/images/rigs/rig03.webp"
     ]
-  },
-  {
-    "slug": "home-lab",
-    "title": "Home Server & Network",
-    "year": "2026",
-    "category": "hardware",
-    "status": "live",
-    "tagline": {
-      "en": "The network and server my own projects actually run on.",
-      "pl": "Sieć i serwer, na których naprawdę stoją moje projekty."
-    },
-    "summary": {
-      "en": "AM Tracker and the rest are not hosted on somebody's platform: they run here, on hardware I own, behind a router running firmware I chose. It doubles as the place where I get to be the administrator again rather than the person raising the ticket.",
-      "pl": "AM Tracker i reszta nie stoją na cudzej platformie: działają tutaj, na sprzęcie, który jest mój, za routerem z firmware'em, który sam wybrałem. Przy okazji to miejsce, gdzie znowu jestem administratorem, a nie osobą zgłaszającą problem."
-    },
-    "role": {
-      "en": "Hardware, network, virtualisation and backups.",
-      "pl": "Sprzęt, sieć, wirtualizacja i backupy."
-    },
-    "highlights": {
-      "en": [
-        "Proxmox on an ACEMAGIC mini PC (Ryzen 7 7730U, 32 GB RAM, 512 GB), with each project in its own virtual machine.",
-        "Dynalink DL-WRX36 running OpenWrt instead of stock firmware, so routing, DNS and firewall rules are mine.",
-        "Synology DS923+ with 12 TB of WD Red Plus for storage and scheduled backups.",
-        "TP-Link TL-SG108 switch tying the rack together on wired links.",
-        "Updates, backups and uptime handled the way I handle them at work."
-      ],
-      "pl": [
-        "Proxmox na mini PC ACEMAGIC (Ryzen 7 7730U, 32 GB RAM, 512 GB), każdy projekt w osobnej maszynie wirtualnej.",
-        "Dynalink DL-WRX36 z OpenWrt zamiast fabrycznego firmware'u, więc routing, DNS i reguły zapory są moje.",
-        "Synology DS923+ z 12 TB WD Red Plus na dane i zaplanowane kopie zapasowe.",
-        "Switch TP-Link TL-SG108 spinający całość po kablu.",
-        "Aktualizacje, backupy i dostępność prowadzone tak, jak prowadzę je w pracy."
-      ]
-    },
-    "tech": [
-      "Proxmox",
-      "OpenWrt",
-      "Synology DSM",
-      "Linux",
-      "Networking"
-    ],
-    "links": [],
-    "gallerySections": [
-      {
-        "label": {
-          "en": "Gallery",
-          "pl": "Gallery"
-        },
-        "images": [
-          "/images/home-lab/homelab.webp"
-        ]
-      }
-    ],
-    "cover": "/images/home-lab/homelab.webp"
   }
 ]
