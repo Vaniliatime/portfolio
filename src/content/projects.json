@@ -1011,7 +1011,7 @@
     "coverTall": {
       "src": "/images/wedding/full.webp",
       "width": 2800,
-      "height": 16123
+      "height": 15607
     },
     "gallerySections": [
       {
@@ -1020,7 +1020,7 @@
           "pl": "Gallery"
         },
         "images": [
-          "/images/wedding/invitation.webp",
+          "/images/wedding/hero.webp",
           "/images/wedding/venue.webp",
           "/images/wedding/travel.webp",
           "/images/wedding/schedule.webp",
@@ -1030,6 +1030,25 @@
           "/images/wedding/photos.webp",
           "/images/wedding/rsvp.webp",
           "/images/wedding/contact.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Game",
+          "pl": "Game"
+        },
+        "images": [
+          "/images/wedding/game1.webp",
+          "/images/wedding/game.webp"
+        ]
+      },
+      {
+        "label": {
+          "en": "Invitation",
+          "pl": "Invitation"
+        },
+        "images": [
+          "/images/wedding/invitation.webp"
         ]
       }
     ],
