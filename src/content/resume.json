@@ -218,6 +218,10 @@
       "logo": "/images/logos/ksztalcenie-sluchu.svg",
       "logoFill": true,
       "projectSlug": "ksztalcenie-sluchu",
+      "link": {
+        "label": "https://kształceniesłuchu.kkaszuba.eu",
+        "href": "https://kształceniesłuchu.kkaszuba.eu"
+      },
       "roles": [
         {
           "title": {
